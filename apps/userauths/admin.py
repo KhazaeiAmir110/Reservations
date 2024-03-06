@@ -1,3 +1,16 @@
 from django.contrib import admin
+from .models import User, Profile
 
-# Register your models here.
+
+class UserAdmin(admin.ModelAdmin):
+    search_fields = ['full_name', 'email']
+    list_display = ('username', 'email', 'full_name', 'phone')
+
+
+class ProfileAdmin(admin.ModelAdmin):
+    search_fields = ['full_name', 'phone']
+    list_display = ('user', 'eitaa', 'phone')
+
+
+admin.site.register(User, UserAdmin)
+admin.site.register(Profile, ProfileAdmin)
