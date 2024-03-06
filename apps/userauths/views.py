@@ -28,7 +28,7 @@ def RegisterView(request):
         user = authenticate(username=username, password=password)
         login(request, user)
 
-        messages.success(request,"ثبت نام شما با موفقیت انجام شد.")
+        messages.success(request, "ثبت نام شما با موفقیت انجام شد.")
 
         profile = Profile.objects.get(user=request.user)
         profile.full_name = full_name
@@ -43,3 +43,34 @@ def RegisterView(request):
     }
     return render(request, 'userauths/sing-up.html', context)
 
+
+def LoginView(request):
+    if request.user.is_authenticated:
+        messages.warning(request, 'شما قبلا وارد شده اید.')
+        return redirect('company:index')
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        try:
+            user_query = User.objects.get(username=username)
+            user_auth = authenticate(request, username=user_query, password=password)
+
+            if user_auth is not None:
+                login(request, user_auth)
+                messages.success(request, 'شما وارد شدید!!')
+                next_url = request.GET.get('next', 'company:index')
+                return redirect(next_url)
+            else:
+                messages.error(request, 'اشتباه است!!!!')
+                return redirect('userauths:login')
+        except:
+            messages.error(request, 'ورود صورت نگرفت!!!!')
+            return redirect('userauths:login')
+    return render(request, 'userauths/login.html')
+
+
+def LogoutView(request):
+    logout(request)
+    messages.success(request, 'شما خارج شدید!!')
