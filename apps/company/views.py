@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.views import View
+from datetime import date, timedelta
 
-from .models import Company, Category
+from .models import Company, Category, WorkTime, WorkDate
 
 
 class HomeView(View):
@@ -18,3 +19,21 @@ class HomeView(View):
             'golden_companies': golden_companies
         }
         return render(request, 'company/index.html', context_data)
+
+
+class WorkDateView(View):
+    def get(self, request, company_slug):
+        start_time = date.today()
+        end_time = start_time + timedelta(days=30)
+
+        company = Company.objects.get(slug=company_slug)
+        work_dates = WorkDate.objects.filter(company=company, date__range=[start_time, end_time])
+        return render(request, 'company/calender.html', {'work_dates': work_dates, 'company': company})
+
+
+# Page 3
+class WorkTimeView(View):
+    def get(self, request, company_slug, date):
+        work_date = WorkDate.objects.get(company__slug=company_slug, date=date)
+        work_time = WorkTime.objects.filter(work_date=work_date)
+        return render(request, 'company/work_hours.html', {'work_time': work_time})

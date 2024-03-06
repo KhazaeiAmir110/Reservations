@@ -42,14 +42,14 @@ class Company(models.Model):
         constraints = []
 
 
-# class WorkDate(models.Model):
-#     date = models.DateField()
-#     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-#     active = models.BooleanField(default=True)
-#
-#
-# class WorkTime(models.Model):
-#     start_time = models.TimeField()
-#     end_time = models.TimeField()
-#     work_date = models.ForeignKey(WorkDate, on_delete=models.CASCADE)
-#     active = models.BooleanField(default=True)
+class WorkDate(models.Model):
+    date = models.DateField()
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    active = models.BooleanField(default=True)
+
+
+class WorkTime(models.Model):
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    work_date = models.ForeignKey(WorkDate, on_delete=models.CASCADE)
+    active = models.BooleanField(default=True)
