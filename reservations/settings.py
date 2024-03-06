@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # Third Part Apps
     # 'crispy_forms',
     # 'import_export',
+    'shortuuid',
     'mathfilters',
     'taggit',
 
