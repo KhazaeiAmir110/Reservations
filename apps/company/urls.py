@@ -1,10 +1,10 @@
 from django.urls import path
 
-from .views import index
+from .views import HomeView
 
 app_name = 'company'
 
 urlpatterns = [
-    path('', index, name='index'),
+    path('', HomeView.as_view(), name='index'),
     # path('login/', )
 ]
