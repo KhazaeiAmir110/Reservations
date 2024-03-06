@@ -118,14 +118,14 @@ class UserLoginView(View):
     def get(self, request):
         if request.user.is_authenticated:
             messages.warning(request, 'شما قبلا وارد شده اید.')
-            return redirect('company:index')
+            return redirect('user_dashboard:profile')
 
         return render(request, 'userauths/login.html')
 
     def post(self, request):
         if request.user.is_authenticated:
             messages.warning(request, 'شما قبلا وارد شده اید.')
-            return redirect('company:index')
+            return redirect('user_dashboard:profile')
 
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -137,7 +137,7 @@ class UserLoginView(View):
             if user_auth is not None:
                 login(request, user_auth)
                 messages.success(request, 'شما وارد شدید!!')
-                next_url = request.GET.get('next', 'company:index')
+                next_url = request.GET.get('next', 'user_dashboard:profile')
                 return redirect(next_url)
             else:
                 messages.error(request, 'اشتباه است!!!!')
