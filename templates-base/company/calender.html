@@ -1,0 +1,39 @@
+
+    <div class="row g-0 bg-body-secondary position-relative">
+        <div class="col-md-6 mb-md-0 p-md-4">
+            <img src="{{ company.image.url }}" class="w-50" alt="...">
+        </div>
+        <div class="col-md-3 p-2 ps-md-10">
+            <h2 class="mt-0">name : {{ company.name }}</h2>
+            <h3>address : {{ company.address }}</h3>
+            <h3>user : {{ company.user }}</h3>
+            <h3>active : {{ company.status }}</h3>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">روز</th>
+            <th scope="col">ماه</th>
+            <th scope="col">سال</th>
+            <th scope="col">Company</th>
+            <th scope="col">Handle</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for date in work_dates %}
+            <tr>
+                <th scope="row">{{ date.id }}</th>
+                <td><a href="{% url 'company:work_hours' company.slug date.date %}">{{ date.date.day }}</a></td>
+                <td>{{ date.date.month }}</td>
+                <td>{{ date.date.year }}</td>
+                <td>{{ date.company }}</td>
+                <td>{{ date.date }}</td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
