@@ -13,7 +13,7 @@ class User(AbstractUser):
     otp = models.CharField(max_length=100, blank=True, null=True)
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['phone', 'email']
+    REQUIRED_FIELDS = ['email']
 
     def __str__(self):
         return self.username
@@ -24,7 +24,6 @@ class Profile(models.Model):
     image = models.FileField(upload_to='images/profiles', blank=True, null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=100)
-    phone = models.CharField(max_length=11, unique=True)
     eitaa = models.URLField(null=True, blank=True)
 
     wallet = models.DecimalField(max_digits=12,decimal_places=3, default=0)

@@ -8,8 +8,8 @@ class UserAdmin(admin.ModelAdmin):
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    search_fields = ['full_name', 'phone']
-    list_display = ('user', 'eitaa', 'phone')
+    search_fields = ['full_name']
+    list_display = ('user', 'eitaa')
 
 
 admin.site.register(User, UserAdmin)
