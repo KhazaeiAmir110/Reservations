@@ -131,13 +131,13 @@ class UserLoginView(View):
         password = request.POST.get('password')
 
         try:
-            user_query = User.objects.get(username=username)
+            user_query = User.objects.get()
             user_auth = authenticate(request, username=user_query, password=password)
 
             if user_auth is not None:
                 login(request, user_auth)
                 messages.success(request, 'شما وارد شدید!!')
-                next_url = request.GET.get('next', 'user_dashboard:profile')
+                next_url = request.GET.get('next')
                 return redirect(next_url)
             else:
                 messages.error(request, 'اشتباه است!!!!')
