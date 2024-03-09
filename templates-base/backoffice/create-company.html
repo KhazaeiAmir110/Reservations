@@ -1,0 +1,32 @@
+{% load static %}
+<header class="masthead" style="background-image: url({% static 'backoffice/dist/img/default-150x150.png' %})">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+{#                        <h1>مطالبه گری</h1>#}
+                        <span class="subheading"><a>شرکت خود را ایجاد کنید :</a> </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Create Demand Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title text-center">jh</h3>
+                            <form method="POST">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <button type="submit" class="btn btn-primary">ایجاد شرکت</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
