@@ -21,14 +21,15 @@ class HomeView(View):
         return render(request, 'company/index.html', context_data)
 
 
-class WorkDateView(View):
+class CompanyDetailView(View):
     def get(self, request, company_slug):
+        WorkDate.delete_past_dates()
         start_time = date.today()
         end_time = start_time + timedelta(days=30)
 
         company = Company.objects.get(slug=company_slug)
         work_dates = WorkDate.objects.filter(company=company, date__range=[start_time, end_time])
-        return render(request, 'company/calender.html', {'work_dates': work_dates, 'company': company})
+        return render(request, 'company/detail-company.html', {'work_dates': work_dates, 'company': company})
 
 
 # Page 3

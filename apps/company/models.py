@@ -3,6 +3,7 @@ from django.utils.text import slugify
 from apps.userauths.models import User
 from django.db import models
 from django.urls import reverse
+from datetime import date
 
 
 class Category(models.Model):
@@ -66,6 +67,11 @@ class WorkDate(models.Model):
     date = models.DateField()
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     active = models.BooleanField(default=True)
+
+    @staticmethod
+    def delete_past_dates():
+        today = date.today()
+        WorkDate.objects.filter(date__lt=today).delete()
 
     def count_date(self):
         return WorkDate.objects.filter(company=self.company, active=True).count()
