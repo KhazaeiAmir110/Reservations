@@ -1,11 +1,11 @@
 from django.urls import path
 
-from .views import ProfileView, CreateCompanyView
+from .views import ProfileView, CreateCompanyView, ProfileDetailView
 
 app_name = 'user_dashboard'
 
 urlpatterns = [
     path('', ProfileView.as_view(), name='profile'),
     path('create/', CreateCompanyView.as_view(), name='create'),
-    # path('logout/', UserLogoutView.as_view(), name='logout'),
+    path('detail/', ProfileDetailView.as_view(), name='profile-detail'),
 ]

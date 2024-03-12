@@ -5,6 +5,7 @@ from django.views.generic import TemplateView, CreateView, View
 from django.urls import reverse_lazy
 
 from apps.company.models import Company
+from apps.userauths.models import User, Profile
 from .forms import CompanyForm
 
 
@@ -27,26 +28,6 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         return self.get(request, *args, **kwargs)
 
 
-# class CreateCompanyView(View):
-#     def get(self, request, **kwargs):
-#         form = CreateCompanyForm()
-#         context = {'form': form}
-#         return render(request, 'backoffice/create-company.html', context)
-#
-#     def post(self, request):
-#         form = CreateCompanyForm(request.POST, request.FILES)
-#         try:
-#             if form.is_valid():
-#                 demand = form.save(commit=False)
-#                 demand.user = request.user
-#                 demand.save()
-#                 return redirect('user_dashboard:profile')
-#         except Exception as e:
-#             print(e)
-#
-#         context = {'form': form}
-#         return render(request, 'backoffice/create-company.html', context)
-
 class CreateCompanyView(LoginRequiredMixin, CreateView):
     model = Company
     form_class = CompanyForm
@@ -57,3 +38,15 @@ class CreateCompanyView(LoginRequiredMixin, CreateView):
         form.instance.user = self.request
         messages.success(self.request, 'The Create Company Successfully')
         return super().form_valid(form)
+
+
+class ProfileDetailView(LoginRequiredMixin, TemplateView):
+    template_name = 'backoffice/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['profile'] = Profile.objects.get(user=self.request.user)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        pass
