@@ -93,7 +93,7 @@
               </a>
             </li>
             <li class="nav-header">دیگر</li>
-            <a href="#" class="nav-link">
+            <a href="{% url 'user_dashboard:profile-detail' %}" class="nav-link">
                 <i class="nav-icon fa fa-circle-o text-info"></i>
                 <p>اطلاعات شخصی</p>
               </a>
@@ -140,8 +140,7 @@
     <div class="content">
       <div class="contaisection ner-fluid">
         <div class="row">
-          </section>
-          <!-- right col -->
+
         </div>
 
         	<div class="row">
@@ -172,18 +171,20 @@
                     <th>توضیحات</th>
                   </tr>
                   {% for company in companies %}
-                  <tr>
-                    <td>{{ company.id }}</td>
-                    <td>{{ company.category.name }}</td>
-                    <td>{{ company.name }}</td>
-                    <td>{{ company.address }}</td>
-                      {% if company.status %}
-                      	<td><span class="badge badge-success">تایید شده</span></td>
-                          {% else %}
-                          <td><span class="badge bg-danger">در حال بررسی</span></td>
-                      {% endif %}
-                    <td>{{ company.description }}</td>
-                  </tr>
+                      <tr class="clickable-row" data-href="{% url 'company:detail-company' company.slug %}">
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ company.category.get }}</td>
+                        <td>{{ company.name }}</td>
+                        <td>{{ company.address }}</td>
+                          {% if company.status == 'pending' %}
+                            <td><span class="badge badge-success">تایید شده</span></td>
+                              {% elif company.status == 'approved' %}
+                              <td><span class="badge badge-primary">در حال بررسی</span></td>
+                              {% else %}
+                              <td><span class="badge bg-danger">رد شده</span></td>
+                          {% endif %}
+                        <td>{{ company.description }}</td>
+                      </tr>
                   {% endfor %}
                 </table>
               </div>
@@ -194,10 +195,9 @@
         </div>
 
 
-      </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-  </div>
+      </div>
+
+    </div>
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -244,6 +244,14 @@
 <script src="{% static 'backoffice/dist/js/pages/dashboard.js' %}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{% static 'backoffice/dist/js/demo.js' %}"></script>
+<!--  -->
+<script>
+$(document).ready(function() {
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+});
+</script>
 </div>
 </body>
 </html>

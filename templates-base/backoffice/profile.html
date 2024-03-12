@@ -86,7 +86,7 @@
             <!-- Add icons to the links using the .nav-icon class
                  with font-awesome or any other icon font library -->
             <li class="nav-item has-treeview menu-open">
-              <a href="#" class="nav-link active">
+              <a href="{% url 'user_dashboard:profile' %}" class="nav-link">
                 <p>
                   داشبورد
                 </p>
@@ -133,6 +133,73 @@
     </div>
     <!-- /.sidebar -->
   </aside>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>اطلاعات شخصی</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-left">
+              <li class="breadcrumb-item"><a href="{% url 'user_dashboard:profile' %}">خانه</a></li>
+              <li class="breadcrumb-item active">پروفایل کاربری</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-6">
+
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+                <div class="text-center">
+                  <img class="profile-user-img img-fluid img-circle"
+                       src="{{ profile.image.url }}"
+                       alt="User profile picture">
+                </div>
+
+                <h3 class="profile-username text-center">{{ profile.full_name}}</h3>
+
+{#                <p class="text-muted text-center">{{ profile.user.username}}</p>#}
+
+                <ul class="list-group list-group-unbordered mb-6" style="font-size: 25px">
+                  <li class="list-group-item">
+                    <b>نام کابری : </b> <a class="float-left">{{ profile.user.username }}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>شماره تلفن  : </b> <a class="float-left">{{ profile.user.phone }}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>ایمیل  : </b> <a class="float-left">{{ profile.user.email}}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>ایتا  : </b> <a class="float-left">{{ profile.eitaa}}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>تاریخ عضویت  : </b> <a class="float-left">{{ profile.date}}</a>
+                  </li>
+                </ul>
+
+{#                <a href="#" class="btn btn-primary btn-block"><b>دنبال کردن</b></a>#}
+              </div>
+              <!-- /.card-body -->
+            </div>
+          </div>
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
 
 
 
