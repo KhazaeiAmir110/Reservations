@@ -18,11 +18,13 @@
     </content>
     <orderEntry type="jdk" jdkName="Python 3.10 (reservations-Ig-iQ-8L)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="ionicons" level="application" />
-    <orderEntry type="library" name="moment.js" level="application" />
     <orderEntry type="library" name="raphael" level="application" />
+    <orderEntry type="library" name="ionicons" level="application" />
     <orderEntry type="library" name="jquery-ui" level="application" />
+    <orderEntry type="library" name="fullcalendar" level="application" />
     <orderEntry type="library" name="font-awesome" level="application" />
+    <orderEntry type="library" name="moment.js" level="application" />
+    <orderEntry type="library" name="moment.js" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
