@@ -39,14 +39,7 @@ class CompanyDetailView(View):
             work_date = WorkDate.objects.get(company__slug=company_slug, date=date_time)
             work_time = WorkTime.objects.filter(work_date=work_date)
             # work_time = work_time.order_by('start_time')
-            context_data = {'work_time': work_time, 'company': company, 'work_dates': work_dates,'work_date':work_date}
+            context_data = {'work_time': work_time, 'company': company, 'work_dates': work_dates,
+                            'work_date': work_date}
 
         return render(request, 'company/detail-company.html', context=context_data)
-
-
-# Page 3
-# class WorkTimeView(View):
-#     def get(self, request, company_slug, date):
-#         work_date = WorkDate.objects.get(company__slug=company_slug, date=date)
-#         work_time = WorkTime.objects.filter(work_date=work_date)
-#         return render(request, 'company/work_hours.html', {'work_time': work_time})
