@@ -145,13 +145,12 @@ https://www.tooplate.com/view/2125-artxibition
                         </table>
                     </div>
 
-                    {% if work_time %}
+                {% if work_time %}
                     	<div class="card card-success">
                           <div class="card-header">
                             <h3 class="card-title">{{ work_date.date }}</h3>
                           </div>
                         </div>
-                    {% endif %}
                     <div>
                         {% for foo in work_time %}
                             <div class="form-check">
@@ -164,6 +163,7 @@ https://www.tooplate.com/view/2125-artxibition
                         <br>
                         <button type="button" class="btn btn-outline-primary">reserve</button>
                     </div>
+                {% endif %}
                 </div>
             </div>
         </div>
