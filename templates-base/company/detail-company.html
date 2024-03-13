@@ -120,29 +120,49 @@ https://www.tooplate.com/view/2125-artxibition
 {#                            <p>*You Can Only Buy 10 Tickets For This Show</p>#}
 {#                        </div>#}
                         <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">روز</th>
-            <th scope="col">ماه</th>
-            <th scope="col">سال</th>
-            <th scope="col">Handle</th>
-        </tr>
-        </thead>
-        <tbody>
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">روز</th>
+                                <th scope="col">ماه</th>
+                                <th scope="col">سال</th>
+                                <th scope="col">Handle</th>
+                            </tr>
+                            </thead>
+                            <tbody>
 
-        {% for date in work_dates %}
-            <tr>
-                <th scope="row">{{ forloop.counter }}</th>
-                <td><a href="{% url 'company:work_hours' company.slug date.date %}">{{ date.date.day }}</a></td>
-                <td>{{ date.date.month }}</td>
-                <td>{{ date.date.year }}</td>
-                <td>{{ date.date }}</td>
-            </tr>
-        {% endfor %}
+                            {% for date in work_dates %}
+                                <tr>
+                                    <th scope="row">{{ forloop.counter }}</th>
+                                    <td><a href="{% url 'company:work_hours' company.slug date.date %}">{{ date.date.day }}</a></td>
+                                    <td>{{ date.date.month }}</td>
+                                    <td>{{ date.date.year }}</td>
+                                    <td>{{ date.date }}</td>
+                                </tr>
+                            {% endfor %}
 
-        </tbody>
-    </table>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {% if work_time %}
+                    	<div class="card card-success">
+                          <div class="card-header">
+                            <h3 class="card-title">{{ work_date.date }}</h3>
+                          </div>
+                        </div>
+                    {% endif %}
+                    <div>
+                        {% for foo in work_time %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    {{ foo.start_time }} -- {{ foo.end_time }}
+                                </label>
+                            </div>
+                        {% endfor %}
+                        <br>
+                        <button type="button" class="btn btn-outline-primary">reserve</button>
                     </div>
                 </div>
             </div>

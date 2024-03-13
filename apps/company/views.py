@@ -22,19 +22,31 @@ class HomeView(View):
 
 
 class CompanyDetailView(View):
-    def get(self, request, company_slug):
+    def get(self, request, company_slug, date_time=None):
         WorkDate.delete_past_dates()
         start_time = date.today()
         end_time = start_time + timedelta(days=30)
 
         company = Company.objects.get(slug=company_slug)
         work_dates = WorkDate.objects.filter(company=company, date__range=[start_time, end_time])
-        return render(request, 'company/detail-company.html', {'work_dates': work_dates, 'company': company})
+
+        context_data = {
+            'company': company,
+            'work_dates': work_dates,
+        }
+
+        if date_time:
+            work_date = WorkDate.objects.get(company__slug=company_slug, date=date_time)
+            work_time = WorkTime.objects.filter(work_date=work_date)
+            # work_time = work_time.order_by('start_time')
+            context_data = {'work_time': work_time, 'company': company, 'work_dates': work_dates,'work_date':work_date}
+
+        return render(request, 'company/detail-company.html', context=context_data)
 
 
 # Page 3
-class WorkTimeView(View):
-    def get(self, request, company_slug, date):
-        work_date = WorkDate.objects.get(company__slug=company_slug, date=date)
-        work_time = WorkTime.objects.filter(work_date=work_date)
-        return render(request, 'company/work_hours.html', {'work_time': work_time})
+# class WorkTimeView(View):
+#     def get(self, request, company_slug, date):
+#         work_date = WorkDate.objects.get(company__slug=company_slug, date=date)
+#         work_time = WorkTime.objects.filter(work_date=work_date)
+#         return render(request, 'company/work_hours.html', {'work_time': work_time})
