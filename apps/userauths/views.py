@@ -86,7 +86,7 @@ from .models import User, Profile
 from .forms import UserRegisterForm
 
 
-class UserRegisterView(LoginRequiredMixin, generic.CreateView):
+class UserRegisterView(generic.CreateView):
     form_class = UserRegisterForm
     template_name = 'userauths/sing-up.html'
     success_url = reverse_lazy('userauths:login')
