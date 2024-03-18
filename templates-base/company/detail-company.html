@@ -152,16 +152,16 @@ https://www.tooplate.com/view/2125-artxibition
                           </div>
                         </div>
                     <div>
+                    <form method="POST">
                         {% for foo in work_time %}
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                                <label class="form-check-label" for="flexRadioDefault1">
-                                    {{ foo.start_time }} -- {{ foo.end_time }}
-                                </label>
-                            </div>
+                            <input type="checkbox" name="choices" value="{{ foo.start_time }}" id="{{ foo.id }}">
+                            <label for="option1">{{foo.start_time}} -- {{ foo.end_time }}</label>
+                            <br>
                         {% endfor %}
+
                         <br>
                         <button type="button" class="btn btn-outline-primary">reserve</button>
+                    </form>
                     </div>
                 {% endif %}
                 </div>
