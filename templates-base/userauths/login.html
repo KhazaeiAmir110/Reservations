@@ -35,6 +35,7 @@
       <p class="login-box-msg">فرم زیر را تکمیل کنید و ورود بزنید</p>
 
       <form method="POST">
+          {% csrf_token %}
         <div class="input-group mb-3">
           <input type="username" class="form-control" placeholder="ایمیل">
           <div class="input-group-append">
