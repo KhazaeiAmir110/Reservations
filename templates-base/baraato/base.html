@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>Page 1</title>
+    <link rel="stylesheet" href="{% static 'baraato/css/style.css' %}">
+</head>
+<body>
+    <!-- Page 1 -->
+    <div class="page">
+
+        <!-- title -->
+        <div class="title">
+            <h2>
+                {% block title %}
+                    برای رزرو نوبت مراحل زیر را انجام دهید
+                {% endblock %}
+            </h2>
+        </div>
+
+        <!-- main -->
+        <div class="main">
+            <div class="part-1-main">
+                <div class="active">
+                    <p class="font-bold">1. آرایشگاه</p>
+                    <div class="step"></div>
+                </div>
+                <div>
+                    <p class="font-bold">2. زمان</p>
+                    <div class="step"></div>
+                </div>
+                <div>
+                    <p class="font-bold">3. جزئیات</p>
+                    <div class="step"></div>
+                </div>
+                <div>
+                    <p class="font-bold">4. پرداخت</p>
+                    <div class="step"></div>
+                </div>
+                <div>
+                    <p class="font-bold">5. تمام</p>
+                    <div class="step"></div>
+                </div>
+            </div>
+
+            {% block main %}
+
+            {% endblock %}
+        </div>
+
+        <!-- footer -->
+        <div class="footer">
+            <h4>
+                پشتیبانی : 09146903072
+            </h4>
+            <a href="https://trustseal.enamad.ir/?id=452101&Code=Yx8ypo8gEgAes3tUH35kFMRiihVNUyM8">
+                <img referrerpolicy="origin" src="../img/enamad.png" alt="" style="cursor:pointer" code="Yx8ypo8gEgAes3tUH35kFMRiihVNUyM8">
+            </a>
+        </div>
+    </div>
+
+
+    <!-- script -->
+    <script src="{% static 'baraato/js/script.js' %}">
+    </script>
+</body>
+</html>
