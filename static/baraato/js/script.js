@@ -1,24 +1,19 @@
 // Page 1
 
 function displayText() {
-      var selectElement = document.getElementById('mySelect');
-      var selectedValue = selectElement.value;
+      const selectElement = document.getElementById('mySelect');
+      const selectedValue = selectElement.value;
+      console.log(selectedValue)
 
-      var value_1 = document.getElementById('value_1');
-      var value_2 = document.getElementById('value_2');
+      const value =document.getElementById(selectedValue)
+      console.log(value)
 
-      var elements = [];
+      const elements = [];
+      elements.push(value);
 
-      elements.push(value_1);
-      elements.push(value_2);
-
-      for (var i = 0; i < elements.length; i++) {
+      for (var i = 0; i < elements.length-1; i++) {
             elements[i].style.display = 'none';
       }
-
-
-      if (selectedValue >= 1 && selectedValue <= elements.length){
-            elements[selectedValue - 1].style.display = 'list-item';
-      }
+      value.style.display = 'list-item'
 }
 

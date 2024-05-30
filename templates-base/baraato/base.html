@@ -55,14 +55,16 @@
                 پشتیبانی : 09146903072
             </h4>
             <a href="https://trustseal.enamad.ir/?id=452101&Code=Yx8ypo8gEgAes3tUH35kFMRiihVNUyM8">
-                <img referrerpolicy="origin" src="../img/enamad.png" alt="" style="cursor:pointer" code="Yx8ypo8gEgAes3tUH35kFMRiihVNUyM8">
+                <img referrerpolicy="origin" src="{% static 'baraato/img/enamad.png' %}" alt="" style="cursor:pointer" code="Yx8ypo8gEgAes3tUH35kFMRiihVNUyM8">
             </a>
         </div>
     </div>
 
 
     <!-- script -->
-    <script src="{% static 'baraato/js/script.js' %}">
-    </script>
+    <script src="{% static 'baraato/js/script.js' %}"></script>
+    {% block script %}
+
+    {% endblock %}
 </body>
 </html>
