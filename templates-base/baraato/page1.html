@@ -1,0 +1,38 @@
+{% extends 'baraato/base.html' %}
+
+{% block main %}
+	<div class="part-2-main">
+                <div class="title-part-2-main font-bold">لطفاً آرایشگاه موردنظر را از لیست زیر انتخاب کنید</div>
+                <div class="list-part-2-main">
+                    <label class="font-bold">لیست آرایشگاه ها</label>
+                    <label class="lable-list-part-2">
+                        <select id="mySelect" onchange="displayText()">
+                          <option value="0">همه</option>
+                            {% for company in companies %}
+                                <option value={{ company.slug }}>{{ company.name }}</option>
+                                <div>{{ company.name }}</div>
+                            {% endfor %}
+                        </select>
+                        {% for company in companies %}
+                        	<div id="{{ company.slug }}" style="display: none; margin-top: 2%">
+                                <p>{{ company.name}}</p>
+                                <p> وضعیت: {{ company.status }}</p>
+                                <p> آدرس: {{ company.address}}</p>
+                            </div>
+                        {% empty %}
+
+                        {% endfor %}
+
+                    </label>
+                </div>
+                <div class="div">
+                    <div class="divar"></div>
+                    <div class="parent-btn">
+                        <button class="button-green"><a href="#">بعدی</a></button>
+                    </div>
+                </div>
+            </div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}
