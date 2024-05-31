@@ -6,11 +6,10 @@
                 <div class="list-part-2-main">
                     <label class="font-bold">لیست آرایشگاه ها</label>
                     <label class="lable-list-part-2">
-                        <select id="mySelect" onchange="displayText()">
+                         <select id="mySelect" onchange="displayText()">
                           <option value="0">همه</option>
                             {% for company in companies %}
-                                <option value={{ company.slug }}>{{ company.name }}</option>
-                                <div>{{ company.name }}</div>
+                                    <option value={{ company.slug }}>{{ company.name }}</option>
                             {% endfor %}
                         </select>
                         {% for company in companies %}
