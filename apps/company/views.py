@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views import View
 from datetime import date, timedelta
+from django.views.generic import ListView, DetailView
 
 from .models import Company, Category, WorkTime, WorkDate
 
@@ -43,3 +44,26 @@ class CompanyDetailView(View):
                             'work_date': work_date}
 
         return render(request, 'company/detail-company.html', context=context_data)
+
+
+# Baraato.com
+
+class CompanyListView(ListView):
+    model = Company
+    template_name = 'baraato/page1.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['companies'] = Company.objects.all()
+        # kwargs.sesstion[0] = kwargs.
+        return context
+
+
+class CompanyDetail(DetailView):
+    model = Company
+    template_name = 'baraato/page2.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(CompanyDetail, self).get_context_data(**kwargs)
+        context['company'] = Company.objects.filter(slug=self.kwargs['slug'])
+        return context
