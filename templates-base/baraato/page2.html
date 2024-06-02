@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'baraato/base.html' %}
 
-</body>
-</html>
+{# main #}
+{% block main %}
+    	<div class="part-2-main">
+            <div class="text-main">
+                <div class="text">زمان‌های در دسترس برای {{ company.name}}</div>
+                <div class="text">لطفاً برای رزرو یک مورد را انتخاب کنید</div>
+                <div class="text">برای تغییر ماه روی فلش کلیک کنید</div>
+                calender
+                <div class="div">
+                    <div class="divar"></div>
+                    <div class="parent-btn-page2">
+                        <button class="button-green"><a href="{% url 'company:list-company' %}">بازگشت</a></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+
+
+{# js #}
+{% block script %}
+
+{% endblock %}
