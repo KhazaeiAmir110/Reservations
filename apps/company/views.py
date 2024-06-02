@@ -67,7 +67,6 @@ class CompanyListView(ListView):
     def post(self, request, *args, **kwargs):
         data = request.POST
         action = data.get('company_slug')
-        # return HttpResponseRedirect(reversed('company:detail-company-baraato/'))
         url_name = reverse('company:detail-company-baraato', args=[action])
         return HttpResponseRedirect(url_name)
 
@@ -78,5 +77,4 @@ class CompanyDetail(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['company'] = Company.objects.filter(slug=self.kwargs['slug'])
         return context
