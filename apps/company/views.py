@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.urls import reverse
 from django.views import View
 from datetime import date, timedelta
 from django.views.generic import ListView, DetailView
@@ -47,6 +48,12 @@ class CompanyDetailView(View):
 
 
 # Baraato.com
+"""
+    work with forms : https://realpython.com/django-social-post-3/
+    fix bug redirect : https://stackoverflow.com/questions/34465617/disallowedredirect-unsafe-redirect-to-url-with-protocol-django
+    redirect : https://www.scaler.com/topics/django/django-reverse/
+"""
+
 
 class CompanyListView(ListView):
     model = Company
@@ -55,12 +62,14 @@ class CompanyListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['companies'] = Company.objects.all()
-        # kwargs.sesstion[0] = kwargs.
         return context
 
     def post(self, request, *args, **kwargs):
-        if request.method == "post":
-            pass
+        data = request.POST
+        action = data.get('company_slug')
+        # return HttpResponseRedirect(reversed('company:detail-company-baraato/'))
+        url_name = reverse('company:detail-company-baraato', args=[action])
+        return HttpResponseRedirect(url_name)
 
 
 class CompanyDetail(DetailView):
