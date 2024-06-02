@@ -2,12 +2,16 @@
 
 {% block main %}
 	<div class="part-2-main">
-                <div class="title-part-2-main font-bold">لطفاً آرایشگاه موردنظر را از لیست زیر انتخاب کنید</div>
+            {# title #}
+            <div class="title-part-2-main font-bold">لطفاً آرایشگاه موردنظر را از لیست زیر انتخاب کنید</div>
 
+            {# form #}
+            <form method="POST">
+                {% csrf_token %}
                 <div class="list-part-2-main">
                     <label class="font-bold">لیست آرایشگاه ها</label>
                     <label class="lable-list-part-2">
-                         <select id="mySelect" onchange="displayText()">
+                         <select name="company_slug" id="mySelect" onchange="displayText()">
                           <option value="0">همه</option>
                             {% for company in companies %}
                                     <option value={{ company.slug }}>{{ company.name }}</option>
@@ -29,12 +33,11 @@
                 <div class="div">
                     <div class="divar"></div>
                     <div class="parent-btn">
-                        <button id="btn" type="submit" name="" class="button-green">
-                            <a href="#">بعدی</a>
-                        </button>
+                        <button id="btn" type="submit" class="button-green">بعدی</button>
                     </div>
                 </div>
-            </div>
+            </form>
+    </div>
 {% endblock %}
 
 {% block script %}
