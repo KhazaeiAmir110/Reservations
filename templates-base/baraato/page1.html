@@ -3,6 +3,7 @@
 {% block main %}
 	<div class="part-2-main">
                 <div class="title-part-2-main font-bold">لطفاً آرایشگاه موردنظر را از لیست زیر انتخاب کنید</div>
+
                 <div class="list-part-2-main">
                     <label class="font-bold">لیست آرایشگاه ها</label>
                     <label class="lable-list-part-2">
@@ -17,6 +18,7 @@
                                 <p>{{ company.name}}</p>
                                 <p> وضعیت: {{ company.status }}</p>
                                 <p> آدرس: {{ company.address}}</p>
+                                <p><a href="{% url 'company:detail-company-baraato' company.slug %}">link</a></p>
                             </div>
                         {% empty %}
 
@@ -27,7 +29,9 @@
                 <div class="div">
                     <div class="divar"></div>
                     <div class="parent-btn">
-                        <button class="button-green"><a href="#">بعدی</a></button>
+                        <button id="btn" type="submit" name="" class="button-green">
+                            <a href="#">بعدی</a>
+                        </button>
                     </div>
                 </div>
             </div>

@@ -58,12 +58,16 @@ class CompanyListView(ListView):
         # kwargs.sesstion[0] = kwargs.
         return context
 
+    def post(self, request, *args, **kwargs):
+        if request.method == "post":
+            pass
+
 
 class CompanyDetail(DetailView):
     model = Company
     template_name = 'baraato/page2.html'
 
     def get_context_data(self, *args, **kwargs):
-        context = super(CompanyDetail, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['company'] = Company.objects.filter(slug=self.kwargs['slug'])
         return context
