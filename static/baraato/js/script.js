@@ -1,5 +1,5 @@
 // Page 1
-
+const elements = [];
 function displayText() {
       const selectElement = document.getElementById('mySelect');
       const selectedValue = selectElement.value;
@@ -8,7 +8,6 @@ function displayText() {
       const value =document.getElementById(selectedValue)
       console.log(value)
 
-      const elements = [];
       elements.push(value);
 
       for (var i = 0; i < elements.length-1; i++) {
