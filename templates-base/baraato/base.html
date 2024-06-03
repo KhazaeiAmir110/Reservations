@@ -25,24 +25,24 @@
 
         <!-- main -->
         <div class="main">
-            <div class="part-1-main">
+            	<div class="part-1-main">
                 <div class="active">
                     <p class="font-bold">1. آرایشگاه</p>
                     <div class="step"></div>
                 </div>
-                <div>
+                <div class="{% block part_2_time %}{% endblock %}">
                     <p class="font-bold">2. زمان</p>
                     <div class="step"></div>
                 </div>
-                <div>
+                <div class="{% block part_3_description %}{% endblock %}">
                     <p class="font-bold">3. جزئیات</p>
                     <div class="step"></div>
                 </div>
-                <div>
+                <div class="{% block part_4_payment %}{% endblock %}">
                     <p class="font-bold">4. پرداخت</p>
                     <div class="step"></div>
                 </div>
-                <div>
+                <div class="{% block part_5_end %}{% endblock %}">
                     <p class="font-bold">5. تمام</p>
                     <div class="step"></div>
                 </div>
