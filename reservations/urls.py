@@ -24,6 +24,7 @@ urlpatterns = [
 
     # Custom URLS
     path('user/', include('apps.userauths.urls'), name='userauths'),
+    path('baraato/', include('apps.company.urls'), name='company'),
 
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
