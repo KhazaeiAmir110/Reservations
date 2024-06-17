@@ -16,3 +16,7 @@ function displayText() {
       value.style.display = 'list-item'
 }
 
+////////////////////////////////////////////////////////////////////
+
+// Page 2
+jalaliDatepicker.startWatch();
