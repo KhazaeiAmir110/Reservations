@@ -9,6 +9,7 @@
         {% endblock %}
     </title>
     <link rel="stylesheet" href="{% static 'baraato/css/style.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'date-picker/jalalidatepicker.css' %}" />
 </head>
 <body>
     <!-- Page 1 -->
@@ -66,6 +67,7 @@
 
 
     <!-- script -->
+    <script type="text/javascript" src="{% static 'date-picker/jalalidatepicker.js' %}"></script>
     <script src="{% static 'baraato/js/script.js' %}"></script>
     {% block script %}
 
