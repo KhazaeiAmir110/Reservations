@@ -1,8 +1,8 @@
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
-from .models import Company
+from .models import Company, HolidaysDate
 
 
 class CompanyListView(ListView):
@@ -19,3 +19,14 @@ class CompanyListView(ListView):
         action = data.get('company_slug')
         url_name = reverse('company:detail-company-baraato', args=[action])
         return HttpResponseRedirect(url_name)
+
+
+class CompanyDetailView(DetailView):
+    model = Company
+    template_name = 'baraato/page2.html'
+
+    def get_context_data(self,*args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['company'] = Company.objects.get(slug=self.kwargs['slug'])
+        context['holidays'] = HolidaysDate.objects.filter(company=context['company'])
+        return context
