@@ -20,7 +20,7 @@
                         {% for company in companies %}
                         	<div id="{{ company.slug }}" style="display: none; margin-top: 2%">
                                 <p>{{ company.name}}</p>
-                                <p> وضعیت: {{ company.status }}</p>
+                                <p> شماره‌تلفن: {{ company.user.phone }}</p>
                                 <p> آدرس: {{ company.address}}</p>
                                 <p><a href="{% url 'company:detail-company-baraato' company.slug %}">link</a></p>
                             </div>
