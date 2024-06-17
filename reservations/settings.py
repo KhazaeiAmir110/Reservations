@@ -41,11 +41,8 @@ INSTALLED_APPS = [
     'apps.company',
     'apps.addon',
     'apps.userauths',
-    'apps.user_dashboard',
 
     # Third Part Apps
-    # 'crispy_forms',
-    # 'import_export',
     'shortuuid',
     'mathfilters',
     'taggit',

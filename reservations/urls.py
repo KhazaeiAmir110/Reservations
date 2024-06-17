@@ -24,8 +24,6 @@ urlpatterns = [
 
     # Custom URLS
     path('user/', include('apps.userauths.urls'), name='userauths'),
-    path('', include('apps.company.urls'), name='company'),
-    path('profile/', include('apps.user_dashboard.urls'), name='profile')
 
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

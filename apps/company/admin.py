@@ -1,32 +1,31 @@
 from django.contrib import admin
-from .models import Company, Category, WorkDate, WorkTime, Booking
+from .models import Company, HolidaysDate, SansConfig, SansHolidayDateTime, Reservation
 
 
 class CompanyAdmin(admin.ModelAdmin):
     search_fields = ['name', 'user']
-    list_display = ('name', 'user', 'status')
+    list_display = ('name', 'user', 'address')
 
 
-class CategoryAdmin(admin.ModelAdmin):
-    search_fields = ['name']
-    list_display = ('name', 'is_subb')
+class HolidaysDateyAdmin(admin.ModelAdmin):
+    search_fields = ['date']
+    list_display = ('date', 'company')
 
 
-class WorkDateAdmin(admin.ModelAdmin):
-    list_display = ('date', 'company', 'active')
+class SansConfigAdmin(admin.ModelAdmin):
+    list_display = ('start_time', 'end_time', 'company')
 
 
-class WorkTimeAdmin(admin.ModelAdmin):
-    list_display = ('work_date', 'active')
+class SansHolidayDateTimeAdmin(admin.ModelAdmin):
+    list_display = ('date', 'time', 'company')
 
 
-class BookingAdmin(admin.ModelAdmin):
-    search_fields = ['full_name', 'company']
-    list_display = ('full_name', 'company', 'active')
+class ReservationAdmin(admin.ModelAdmin):
+    list_display = ('first_name', 'last_name', 'company')
 
 
 admin.site.register(Company, CompanyAdmin)
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(WorkDate, WorkDateAdmin)
-admin.site.register(WorkTime, WorkTimeAdmin)
-admin.site.register(Booking, BookingAdmin)
+admin.site.register(HolidaysDate, HolidaysDateyAdmin)
+admin.site.register(SansConfig, SansConfigAdmin)
+admin.site.register(SansHolidayDateTime, SansHolidayDateTimeAdmin)
+admin.site.register(Reservation, ReservationAdmin)
