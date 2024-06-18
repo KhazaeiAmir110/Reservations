@@ -20,6 +20,18 @@
                     <input id="miladi_date" />
                 </label>
                 
+                <li>{{ sansConfig.first.start_time }}</li>
+                <li>{{ sansConfig.first.end_time }}</li>
+                <li>{{ sansConfig.first.duration }}</li>
+                <li>{{ sansConfig.first.duration_time }}</li>
+                
+                <div id="time"></div>
+                {% for sans in sansConfig %}
+                	{{ sans.start_time.hour }}
+                    {{ sans.end_time.hour }}
+                {% endfor %}
+                
+                
                 <div class="div">
                     <div class="divar"></div>
                     <div class="parent-btn-page2">
@@ -66,6 +78,14 @@
         console.log(date)
         console.log(date[0])
         miladiInput.value = farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "array")
+        
+        {# Time  #}
+        
      });
+    let time = document.getElementById('time')
+        let list_time = []
+        let start_time = {{ sansConfig.first.start_time.hour }}
+        var end_time = {{ sansConfig.first.end_time.hour }}
+        
 </script>
 {% endblock %}

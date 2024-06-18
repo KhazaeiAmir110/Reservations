@@ -39,6 +39,7 @@ class SansConfig(models.Model):
     duration = models.DurationField()
     duration_time = models.TimeField()
 
+    # TODO : Field OneTowOne to Company
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
 
