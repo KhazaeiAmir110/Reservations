@@ -1,4 +1,5 @@
 {% extends 'baraato/base.html' %}
+{% load static %}
 
 
 {% block part_2_time %}
@@ -14,11 +15,12 @@
                 <div class="text">برای تغییر ماه روی فلش کلیک کنید</div>
 
                 <label>
-                    <input data-jdp>
+                    <input data-jdp placeholder="انتخاب تاریخ" data-jdp-min-date="today">
                 </label>
                 {% for holiday in holidays %}
-                    <li>{{ holiday.date }}</li>
+                    <li>{{ holiday.date.month }}</li>
                 {% endfor %}
+                <p id="jss"></p>
 
                 <div class="div">
                     <div class="divar"></div>
@@ -33,5 +35,43 @@
 
 {# js #}
 {% block script %}
+    <script src="{% static 'date-conversion/farvardin.min.js' %}"></script>
+<script>
 
+    let dic_test = {}
+    let lis = []
+    
+    {#console.log("{{ company }}")#}
+            {% for holiday in holidays %}
+                dic_test.{{ holiday.company.slug }}{{ holiday.id }} = {
+                    'day':{{ holiday.date.day }},
+                    'month':{{ holiday.date.month }},
+                    'year':{{ holiday.date.year }}
+                }
+                {#lis.push(dic_test.{{ holiday.company.slug }}{{ holiday.id }})#}
+                lis.push(farvardin.gregorianToSolar({{holiday.date.year}} , {{holiday.date.month}} , {{holiday.date.day}} , "object"))
+                
+            {% endfor %}
+    
+    console.log(lis)
+    console.log('----------------------------------')
+    console.log(dic_test)
+    let list_day = []
+    for (let i = 0; i < lis.length; i++) {
+        list_day.push(lis[i].day)
+    }
+    {#console.log(list_day)#}
+   
+    jalaliDatepicker.updateOptions({
+        dayRendering:function(dayOptions,input){
+            for (let i = 0; i < list_day.length; i++) {
+                    if (dayOptions.month === lis[i].month && dayOptions.day === lis[i].day)
+                        return{
+                        isValid:false
+                        }
+            }   
+      }
+    });
+    
+</script>
 {% endblock %}
