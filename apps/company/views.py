@@ -2,6 +2,8 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
 
+from json import dumps
+
 from .models import Company, HolidaysDate
 
 
@@ -25,7 +27,7 @@ class CompanyDetailView(DetailView):
     model = Company
     template_name = 'baraato/page2.html'
 
-    def get_context_data(self,*args, **kwargs):
+    def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         context['company'] = Company.objects.get(slug=self.kwargs['slug'])
         context['holidays'] = HolidaysDate.objects.filter(company=context['company'])
