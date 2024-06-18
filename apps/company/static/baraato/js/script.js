@@ -24,7 +24,7 @@ jalaliDatepicker.startWatch({
     autoHide: true,
     dayRendering:function(dayOptions,input){
         return {
-            className : 'nowroz'
+
         }
     }
 });
