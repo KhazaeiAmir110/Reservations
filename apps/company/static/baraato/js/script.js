@@ -23,10 +23,8 @@ jalaliDatepicker.startWatch({
     minDate: "attr",
     autoHide: true,
     dayRendering:function(dayOptions,input){
-    return {
-    // isHollyDay: dayOptions. dayOptions.month===3 && dayOptions.day<=4,
-    // isValid = false, امکان غیر فعال کردن روز
-    // className = "nowruz" امکان افزودن کلاس برای درج استایل به روز
-    }
+        return {
+            className : 'nowroz'
+        }
     }
 });
