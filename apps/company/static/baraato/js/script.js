@@ -22,6 +22,9 @@ function displayText() {
 jalaliDatepicker.startWatch({
     minDate: "attr",
     autoHide: true,
+    // TODO:add time in date picker
+    // time:true,
+    // minTime: "attr",
     dayRendering:function(dayOptions,input){
         return {
 
