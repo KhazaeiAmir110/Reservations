@@ -17,11 +17,7 @@
                 <label>
                     <input data-jdp placeholder="انتخاب تاریخ" data-jdp-min-date="today">
                 </label>
-                {% for holiday in holidays %}
-                    <li>{{ holiday.date.month }}</li>
-                {% endfor %}
-                <p id="jss"></p>
-
+                
                 <div class="div">
                     <div class="divar"></div>
                     <div class="parent-btn-page2">
@@ -35,39 +31,21 @@
 
 {# js #}
 {% block script %}
+    {#  add files  Date conversion #}
     <script src="{% static 'date-conversion/farvardin.min.js' %}"></script>
 <script>
-
-    let dic_test = {}
+    {# push data in list #}
     let lis = []
-    
-    {#console.log("{{ company }}")#}
             {% for holiday in holidays %}
-                dic_test.{{ holiday.company.slug }}{{ holiday.id }} = {
-                    'day':{{ holiday.date.day }},
-                    'month':{{ holiday.date.month }},
-                    'year':{{ holiday.date.year }}
-                }
-                {#lis.push(dic_test.{{ holiday.company.slug }}{{ holiday.id }})#}
                 lis.push(farvardin.gregorianToSolar({{holiday.date.year}} , {{holiday.date.month}} , {{holiday.date.day}} , "object"))
-                
             {% endfor %}
-    
-    console.log(lis)
-    console.log('----------------------------------')
-    console.log(dic_test)
-    let list_day = []
-    for (let i = 0; i < lis.length; i++) {
-        list_day.push(lis[i].day)
-    }
-    {#console.log(list_day)#}
    
     jalaliDatepicker.updateOptions({
         dayRendering:function(dayOptions,input){
-            for (let i = 0; i < list_day.length; i++) {
-                    if (dayOptions.month === lis[i].month && dayOptions.day === lis[i].day)
+            for (let i = 0; i < lis.length; i++) {
+                    if (dayOptions.year === lis[i].year && dayOptions.month === lis[i].month && dayOptions.day === lis[i].day)
                         return{
-                        isValid:false
+                            isValid:false
                         }
             }   
       }
