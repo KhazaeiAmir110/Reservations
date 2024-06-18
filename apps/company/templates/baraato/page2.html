@@ -16,7 +16,8 @@
 
                 <label>
                     {#TODO : Add data-jdp-max-date#}
-                    <input data-jdp placeholder="انتخاب تاریخ" data-jdp-min-date="today">
+                    <input id="test" data-jdp-miladi-input="miladi_date" data-jdp placeholder="انتخاب تاریخ" data-jdp-min-date="today">
+                    <input id="miladi_date" />
                 </label>
                 
                 <div class="div">
@@ -52,5 +53,19 @@
       }
     });
     
+    {# date conversion #}
+    
+    document.querySelector("[data-jdp-miladi-input]").addEventListener("jdp:change", function (e) {
+        let miladiInput = document.getElementById(this.getAttribute("data-jdp-miladi-input"));
+        if (!this.value) {
+            miladiInput.value = "";
+            return;
+        }
+        console.log(miladiInput.value)
+        let date = this.value.split("/");
+        console.log(date)
+        console.log(date[0])
+        miladiInput.value = farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "array")
+     });
 </script>
 {% endblock %}
