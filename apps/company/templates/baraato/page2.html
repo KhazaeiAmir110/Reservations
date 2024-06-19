@@ -20,17 +20,7 @@
                     <input id="miladi_date" />
                 </label>
                 
-                <li>{{ sansConfig.first.start_time }}</li>
-                <li>{{ sansConfig.first.end_time }}</li>
-                <li>{{ sansConfig.first.duration }}</li>
-                <li>{{ sansConfig.first.duration_time }}</li>
-                
-                <div id="time"></div>
-                {% for sans in sansConfig %}
-                	{{ sans.start_time.hour }}
-                    {{ sans.end_time.hour }}
-                {% endfor %}
-                
+                <ol id="time"></ol>
                 
                 <div class="div">
                     <div class="divar"></div>
@@ -66,6 +56,26 @@
       }
     });
     
+    {# Calculate hours #}
+        function getTime(startTime, endTime, duration) {
+            let start = new Date(`1970-01-01T${startTime}`);
+            let end = new Date(`1970-01-01T${endTime}`);
+            let result = [];
+        
+            let durationInMs = duration * 1000 * 60;
+        
+            while (start <= end) {
+                let hours = start.getHours().toString().padStart(2, '0');
+                let minutes = start.getMinutes().toString().padStart(2, '0');
+                let seconds = start.getSeconds().toString().padStart(2, '0');
+                result.push(`${hours}:${minutes}:${seconds}`);
+        
+                start = new Date(start.getTime() + durationInMs);
+            }
+        
+            return result;
+        }
+    
     {# date conversion #}
     
     document.querySelector("[data-jdp-miladi-input]").addEventListener("jdp:change", function (e) {
@@ -74,18 +84,27 @@
             miladiInput.value = "";
             return;
         }
-        console.log(miladiInput.value)
+        
         let date = this.value.split("/");
-        console.log(date)
-        console.log(date[0])
+        
         miladiInput.value = farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "array")
         
         {# Time  #}
+        let timeslots = getTime('{{ sansConfig.first.start_time|time:"H:i:s" }}',
+            '{{ sansConfig.first.end_time|time:"H:i:s" }}',
+            30);
+        
+        let time = document.getElementById('time')
+        for (i = 0; i < timeslots.length; ++i) {
+            let li = document.createElement('li');
+            li.innerText = timeslots[i];
+            time.appendChild(li);
+        }
         
      });
-    let time = document.getElementById('time')
+    
         let list_time = []
-        let start_time = {{ sansConfig.first.start_time.hour }}
+        let start_time = '{{ sansConfig.first.start_time|time:"H:i:s" }}'
         var end_time = {{ sansConfig.first.end_time.hour }}
         
 </script>
