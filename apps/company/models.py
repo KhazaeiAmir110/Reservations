@@ -36,11 +36,9 @@ class HolidaysDate(models.Model):
 class SansConfig(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
-    duration = models.DurationField()
-    duration_time = models.TimeField()
+    duration = models.IntegerField(default=30)
 
-    # TODO : Field OneTowOne to Company
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.OneToOneField(Company, on_delete=models.CASCADE)
 
 
 class SansHolidayDateTime(models.Model):
