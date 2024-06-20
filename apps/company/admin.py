@@ -17,7 +17,7 @@ class SansConfigAdmin(admin.ModelAdmin):
 
 
 class SansHolidayDateTimeAdmin(admin.ModelAdmin):
-    list_display = ('date', 'time', 'company')
+    list_display = ('start_time', 'end_time', 'company')
 
 
 class ReservationAdmin(admin.ModelAdmin):

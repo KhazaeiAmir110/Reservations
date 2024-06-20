@@ -42,10 +42,10 @@ class SansConfig(models.Model):
 
 
 class SansHolidayDateTime(models.Model):
-    date = models.DateField()
-    time = models.TimeField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
 
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.OneToOneField(Company, on_delete=models.CASCADE)
 
 
 class Reservation(models.Model):
