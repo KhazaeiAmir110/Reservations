@@ -60,29 +60,37 @@
     });
     
     {# Calculate hours #}
-        function getTime(startTime, endTime, duration) {
-            let start = new Date(`1970-01-01T${startTime}`);
-            let end = new Date(`1970-01-01T${endTime}`);
-            let result = [];
-        
-            let durationInMs = duration * 1000 * 60;
-        
-            while (start <= end) {
+    function getTime(startTime, endTime, duration, excludeStart, excludeEnd) {
+        let start = new Date(`1970-01-01T${startTime}`);
+        let end = new Date(`1970-01-01T${endTime}`);
+        let excludeStartTime = new Date(`1970-01-01T${excludeStart}`);
+        let excludeEndTime = new Date(`1970-01-01T${excludeEnd}`);
+        let result = [];
+    
+        let durationInMs = duration *60 *  1000;
+    
+        while (start <= end) {
+            if (start < excludeStartTime || start > excludeEndTime) {
                 let hours = start.getHours().toString().padStart(2, '0');
                 let minutes = start.getMinutes().toString().padStart(2, '0');
                 let seconds = start.getSeconds().toString().padStart(2, '0');
                 result.push(`${hours}:${minutes}:${seconds}`);
-        
-                start = new Date(start.getTime() + durationInMs);
             }
-        
-            return result;
-        }
+    
+            start = new Date(start.getTime() + durationInMs);
+    }
+
+    return result;
+}
     
     {# date conversion #}
-    let timeslots = getTime('{{ sansConfig.first.start_time|time:"H:i:s" }}',
-            '{{ sansConfig.first.end_time|time:"H:i:s" }}',
-            30);
+    let timeslots = getTime(
+        '{{ sansConfig.first.start_time|time:"H:i:s" }}',
+        '{{ sansConfig.first.end_time|time:"H:i:s" }}',
+        {{ sansConfig.first.duration }},
+        '{{ sansHolidayDateTime.first.start_time|time:"H:i:s" }}',
+        '{{ sansHolidayDateTime.first.end_time|time:"H:i:s" }}'
+    );
     
     let time = document.getElementById('time')
     document.querySelector("[data-jdp-miladi-input]").addEventListener("jdp:change", function (e) {
