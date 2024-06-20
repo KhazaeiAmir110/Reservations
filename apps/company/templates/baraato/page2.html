@@ -80,7 +80,11 @@
         }
     
     {# date conversion #}
+    let timeslots = getTime('{{ sansConfig.first.start_time|time:"H:i:s" }}',
+            '{{ sansConfig.first.end_time|time:"H:i:s" }}',
+            30);
     
+    let time = document.getElementById('time')
     document.querySelector("[data-jdp-miladi-input]").addEventListener("jdp:change", function (e) {
         let miladiInput = document.getElementById(this.getAttribute("data-jdp-miladi-input"));
         if (!this.value) {
@@ -89,22 +93,10 @@
         }
         
         let date = this.value.split("/");
-        
-        {#document.getElementById('time-new').innerHTML = date#}
-        
         miladiInput.value = farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "array")
         
         {# Time  #}
-        let timeslots = getTime('{{ sansConfig.first.start_time|time:"H:i:s" }}',
-            '{{ sansConfig.first.end_time|time:"H:i:s" }}',
-            30);
-        
-        let time = document.getElementById('time')
-        {#for (let i = 0; i < timeslots.length; ++i) {#}
-        {#    let li = document.createElement('li');#}
-        {#    li.innerText = timeslots[i];#}
-        {#    time.appendChild(li);#}
-        {# } #}
+        time.innerHTML = ''
         for (let i = 0; i < timeslots.length; ++i) {
                 let div = document.createElement('div');
                 let input = document.createElement('input');
@@ -124,10 +116,6 @@
             }
         
      });
-    
-        let list_time = []
-        let start_time = '{{ sansConfig.first.start_time|time:"H:i:s" }}'
-        var end_time = {{ sansConfig.first.end_time.hour }}
         
 </script>
 {% endblock %}
