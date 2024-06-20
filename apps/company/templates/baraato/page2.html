@@ -15,15 +15,14 @@
                 <div class="text">برای تغییر ماه روی فلش کلیک کنید</div>
                 
                 {# date #}
-                <div class="date" id="date">
-                    <label>
+                <div class="date">
+                    <label style="display: flex; flex-direction: column">
                         {#TODO : Add data-jdp-max-date#}
                         <input id="test" data-jdp-miladi-input="miladi_date" data-jdp placeholder="انتخاب تاریخ" data-jdp-min-date="today">
                         <input id="miladi_date" />
                     </label>
-                    
-                    <ol id="time"></ol>
-                    
+                    <br>
+                    <div id="time"></div>
                 </div>
                 
                 <div class="div">
@@ -91,6 +90,8 @@
         
         let date = this.value.split("/");
         
+        {#document.getElementById('time-new').innerHTML = date#}
+        
         miladiInput.value = farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "array")
         
         {# Time  #}
@@ -99,11 +100,28 @@
             30);
         
         let time = document.getElementById('time')
-        for (i = 0; i < timeslots.length; ++i) {
-            let li = document.createElement('li');
-            li.innerText = timeslots[i];
-            time.appendChild(li);
-        }
+        {#for (let i = 0; i < timeslots.length; ++i) {#}
+        {#    let li = document.createElement('li');#}
+        {#    li.innerText = timeslots[i];#}
+        {#    time.appendChild(li);#}
+        {# } #}
+        for (let i = 0; i < timeslots.length; ++i) {
+                let div = document.createElement('div');
+                let input = document.createElement('input');
+                input.className = 'form-check-input';
+                input.type = 'radio';
+                input.name = 'flexRadioDefault';
+                input.id = `flexRadioDefault${i}`;
+
+                let label = document.createElement('label');
+                label.className = 'form-check-label';
+                label.htmlFor = `flexRadioDefault${i}`;
+                label.innerText = timeslots[i];
+
+                div.appendChild(input);
+                div.appendChild(label);
+                time.appendChild(div);
+            }
         
      });
     
