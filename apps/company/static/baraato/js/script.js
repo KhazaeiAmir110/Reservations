@@ -31,3 +31,15 @@ jalaliDatepicker.startWatch({
         }
     }
 });
+
+// update date picker
+jalaliDatepicker.updateOptions({
+        dayRendering:function(dayOptions,input){
+            for (let i = 0; i < lis.length; i++) {
+                    if (dayOptions.year === lis[i].year && dayOptions.month === lis[i].month && dayOptions.day === lis[i].day)
+                        return{
+                            isValid:false
+                        }
+            }
+      }
+    });
