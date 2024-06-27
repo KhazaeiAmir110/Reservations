@@ -41,21 +41,72 @@
     {#  add files  Date conversion #}
     {#https://github.com/senior-x-79/farvardin.js#}
     <script src="{% static 'date-conversion/farvardin.min.js' %}"></script>
-<script>
-    {# push data in list #}
-    let lis = []
-            {% for holiday in holidays %}
-                lis.push(farvardin.gregorianToSolar({{holiday.date.year}} , {{holiday.date.month}} , {{holiday.date.day}} , "object"))
-            {% endfor %}
     
-    {# date conversion #}
-    let timeslots = getTime(
-        '{{ sansConfig.first.start_time|time:"H:i:s" }}',
-        '{{ sansConfig.first.end_time|time:"H:i:s" }}',
-        {{ sansConfig.first.duration }},
-        '{{ sansHolidayDateTime.first.start_time|time:"H:i:s" }}',
-        '{{ sansHolidayDateTime.first.end_time|time:"H:i:s" }}'
-    );
+    {# push data in list #}
+    <script>
+        let lis = []
+                {% for holiday in holidays %}
+                    lis.push(farvardin.gregorianToSolar({{holiday.date.year}} , {{holiday.date.month}} , {{holiday.date.day}} , "object"))
+                {% endfor %}
+    </script>
+
+    {#After choosing the day#}
+    <script>
+        document.querySelector("[data-jdp-miladi-input]").addEventListener("jdp:change", function (e) {
+        let miladiInput = document.getElementById(this.getAttribute("data-jdp-miladi-input"));
+        if (!this.value) {
+            miladiInput.value = "";
+            return;
+        }
+        {# date conversion #}
+        let timeslots = getTime(
+            '{{ sansConfig.first.start_time|time:"H:i:s" }}',
+            '{{ sansConfig.first.end_time|time:"H:i:s" }}',
+            {{ sansConfig.first.duration }},
+            '{{ sansHolidayDateTime.first.start_time|time:"H:i:s" }}',
+            '{{ sansHolidayDateTime.first.end_time|time:"H:i:s" }}'
+        );
         
-</script>
+        let date = this.value.split("/");
+        miladiInput.value = farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "string")
+        
+            
+        let jso = farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "object")
+        console.log(jso.month)
+        {% for reservation in reservations %}
+                console.log('{{ reservation.date | date:"Y,m,d" }}')
+                if (jso.year === {{ reservation.date | date:"Y" }} && 
+                    jso.month === {{ reservation.date | date:"m" }} && 
+                    jso.day === {{ reservation.date | date:"d" }}
+                ) {
+                    timeslots = timeslots.filter((item) => {
+                        console.log(item)
+                        return item !== '{{ reservation.time | time:"H:i:s" }}'
+                    })
+                    
+                }
+            {% endfor %}
+        //Time
+        time.innerHTML = ''
+        for (let i = 0; i < timeslots.length; ++i) {
+                let div = document.createElement('div');
+                let input = document.createElement('input');
+                input.className = 'form-check-input';
+                input.type = 'radio';
+                input.name = 'flexRadioDefault';
+                input.id = `flexRadioDefault${i}`;
+        
+                let label = document.createElement('label');
+                label.className = 'form-check-label';
+                label.htmlFor = `flexRadioDefault${i}`;
+                label.innerText = timeslots[i];
+        
+                div.appendChild(input);
+                div.appendChild(label);
+                time.appendChild(div);
+            }
+    
+    });
+    </script>
+
 {% endblock %}

@@ -72,34 +72,3 @@ function getTime(startTime, endTime, duration, excludeStart, excludeEnd) {
 
 // add data in id=time
 let time = document.getElementById('time')
-document.querySelector("[data-jdp-miladi-input]").addEventListener("jdp:change", function (e) {
-    let miladiInput = document.getElementById(this.getAttribute("data-jdp-miladi-input"));
-    if (!this.value) {
-        miladiInput.value = "";
-        return;
-    }
-
-    let date = this.value.split("/");
-    miladiInput.value = farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "array")
-
-    //Time
-    time.innerHTML = ''
-    for (let i = 0; i < timeslots.length; ++i) {
-            let div = document.createElement('div');
-            let input = document.createElement('input');
-            input.className = 'form-check-input';
-            input.type = 'radio';
-            input.name = 'flexRadioDefault';
-            input.id = `flexRadioDefault${i}`;
-
-            let label = document.createElement('label');
-            label.className = 'form-check-label';
-            label.htmlFor = `flexRadioDefault${i}`;
-            label.innerText = timeslots[i];
-
-            div.appendChild(input);
-            div.appendChild(label);
-            time.appendChild(div);
-        }
-
-});
