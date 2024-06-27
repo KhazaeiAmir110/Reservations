@@ -4,7 +4,7 @@ from django.views.generic import ListView, DetailView
 
 from json import dumps
 
-from .models import Company, HolidaysDate, SansConfig, SansHolidayDateTime
+from .models import Company, HolidaysDate, SansConfig, SansHolidayDateTime, Reservation
 
 
 class CompanyListView(ListView):
@@ -33,4 +33,5 @@ class CompanyDetailView(DetailView):
         context['holidays'] = HolidaysDate.objects.filter(company=context['company'])
         context['sansConfig'] = SansConfig.objects.filter(company=context['company'])
         context['sansHolidayDateTime'] = SansHolidayDateTime.objects.filter(company=context['company'])
+        context['reservations'] = Reservation.objects.filter(company=context['company'])
         return context
