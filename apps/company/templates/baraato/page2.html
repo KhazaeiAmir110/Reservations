@@ -18,8 +18,9 @@
                 <div class="date">
                     <label style="display: flex; flex-direction: column">
                         {#TODO : Add data-jdp-max-date#}
-                        <input id="test" data-jdp-miladi-input="miladi_date" data-jdp placeholder="انتخاب تاریخ" data-jdp-min-date="today">
-                        <input id="miladi_date" />
+                        {#<input id="test" data-jdp-miladi-input="miladi_date" data-jdp placeholder="انتخاب تاریخ" data-jdp-min-date="today">#}
+                        {#<input id="miladi_date" />#}
+                        <input id="test" data-jdp-miladi-input data-jdp placeholder="انتخاب تاریخ" data-jdp-min-date="today">
                     </label>
                     <br>
                     <div id="time"></div>
@@ -68,7 +69,7 @@
         );
         
         let date = this.value.split("/");
-        miladiInput.value = farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "string")
+        {#miladiInput.value = farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "string")#}
         
             
         let jso = farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "object")
