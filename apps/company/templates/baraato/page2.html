@@ -72,17 +72,37 @@
         
             
         let jso = farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "object")
-        console.log(jso.month)
+        
+        {#deleteTimeToday#}
+        function deleteTimeToday(day){
+    let now = new Date();
+
+    let year = now.getFullYear();
+    let month = (now.getMonth() + 1).toString().padStart(2, '0');
+    let today = now.getDate().toString().padStart(2, '0');
+    let formattedDate = `${year}-${month}-${today}`;
+
+    let currentHours = now.getHours().toString().padStart(2, '0');
+    let currentMinutes = now.getMinutes().toString().padStart(2, '0');
+    let currentSeconds = now.getSeconds().toString().padStart(2, '0');
+    let currentTime = `${currentHours}:${currentMinutes}:${currentSeconds}`;
+
+    if (day === formattedDate){
+        timeslots = timeslots.filter(time => time > currentTime);
+    }
+
+}
+        deleteTimeToday(farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "string"))
+        
+        
         {% for reservation in reservations %}
-                console.log('{{ reservation.date | date:"Y,m,d" }}')
                 if (jso.year === {{ reservation.date | date:"Y" }} && 
                     jso.month === {{ reservation.date | date:"m" }} && 
                     jso.day === {{ reservation.date | date:"d" }}
                 ) {
-                    timeslots = timeslots.filter((item) => {
-                        console.log(item)
-                        return item !== '{{ reservation.time | time:"H:i:s" }}'
-                    })
+                    timeslots = timeslots.filter(item => 
+                        item !== '{{ reservation.time | time:"H:i:s" }}'
+                    )
                     
                 }
             {% endfor %}
