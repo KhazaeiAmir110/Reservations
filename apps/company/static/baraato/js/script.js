@@ -72,3 +72,4 @@ function getTime(startTime, endTime, duration, excludeStart, excludeEnd) {
 
 // add data in id=time
 let time = document.getElementById('time')
+
