@@ -76,23 +76,23 @@
         
         {#deleteTimeToday#}
         function deleteTimeToday(day){
-    let now = new Date();
+            let now = new Date();
+        
+            let year = now.getFullYear();
+            let month = (now.getMonth() + 1).toString().padStart(2, '0');
+            let today = now.getDate().toString().padStart(2, '0');
+            let formattedDate = `${year}-${month}-${today}`;
+        
+            let currentHours = now.getHours().toString().padStart(2, '0');
+            let currentMinutes = now.getMinutes().toString().padStart(2, '0');
+            let currentSeconds = now.getSeconds().toString().padStart(2, '0');
+            let currentTime = `${currentHours}:${currentMinutes}:${currentSeconds}`;
+        
+            if (day === formattedDate){
+                timeslots = timeslots.filter(time => time > currentTime);
+            }
 
-    let year = now.getFullYear();
-    let month = (now.getMonth() + 1).toString().padStart(2, '0');
-    let today = now.getDate().toString().padStart(2, '0');
-    let formattedDate = `${year}-${month}-${today}`;
-
-    let currentHours = now.getHours().toString().padStart(2, '0');
-    let currentMinutes = now.getMinutes().toString().padStart(2, '0');
-    let currentSeconds = now.getSeconds().toString().padStart(2, '0');
-    let currentTime = `${currentHours}:${currentMinutes}:${currentSeconds}`;
-
-    if (day === formattedDate){
-        timeslots = timeslots.filter(time => time > currentTime);
-    }
-
-}
+        }
         deleteTimeToday(farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "string"))
         
         
@@ -117,6 +117,7 @@
                 input.type = 'radio';
                 input.name = 'flexRadioDefault';
                 input.id = `flexRadioDefault${i}`;
+                input.value = timeslots[i];
         
                 let label = document.createElement('label');
                 label.className = 'form-check-label';
@@ -127,12 +128,22 @@
                 div.appendChild(label);
                 time.appendChild(div);
             }
+        
+        
+        time.addEventListener('change', function(event) {
+            if (event.target && event.target.matches('input[type="radio"]')) {
+                let selectedTime = event.target.value;
+                let str_miladi = farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "string")
+                console.log(str_miladi)
+                console.log(selectedTime)
+        
+                let doc = document.querySelector('.part-2-main')
+                doc.style.display = 'none'
+        
+            }
+        });
     
     });
-    </script>
-    
-    <script>
-        document.querySelector('')
     </script>
 
 {% endblock %}
