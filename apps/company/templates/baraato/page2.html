@@ -34,6 +34,94 @@
                 </div>
             </div>
         </div>
+        <div id="part-3-main" class="text-main" style="display:none;">
+                <div class="text">اطلاعات رزرو در ادامه لیست شده است. لطفاً دقت کنید که این اطلاعات صحیح هستند. بعد از پرداخت مبلغی عودت داده نخواهد شد.</div>
+                
+                <!-- part 2 -->
+                <!-- Information -->
+                <div>
+                    <h5>اطلاعات رزرو</h5>
+                    <p>=============================================</p>
+                    <div class="text">
+                       <div class="display">
+                        <p>سرویس :  </p>
+                        <p class="font-bold">{{ company.name}}</p>
+                       </div>
+
+                       <div class="display">
+                        <p>تاریخ :</p>
+                        <p class="font-bold" id="date-shamsi"></p>
+                       </div>
+
+                       <div class="display">
+                        <p>ساعت :</p>
+                        <p class="font-bold" id="time-shamsi"></p>
+                       </div>
+
+                       <div class="display">
+                        <p>مبلغ :</p>
+                        <p class="font-bold">50,000 تومان</p>
+                       </div>
+                    </div>
+                    <p>=============================================</p>
+                </div>
+
+                <!-- part 3 -->
+                <div>
+
+                </div>
+                <div class="text">
+                    <p>برای رزرو لطفاً اطلاعات زیر را وارد کنید.</p>
+                    <p> (دقت کنید که برای این اطلاعات سرویس رزرو خواهد شد)</p>
+                </div>
+                <div class="text">
+                     برای رفتن به مرحله بعدی نیاز است تا شماره‌تلفن شما با استفاده از کد تأیید که به همین شماره ارسال می‌شود اعتبارسنجی شود.
+                </div>
+                <div class="text">
+                    در صورت برگشت به مراحل قبلی و انجام ادامه فرایند می‌توانید از همان کد تأیید ارسال شده استفاده کنید.
+                </div>
+
+                <!-- form -->
+            <form class="form">
+                <div>
+                    <label class="text-green" for="fname">نام</label><br>
+                    <label>
+                        <input class="input-form" type="text">
+                    </label>
+                </div>
+                
+
+                <div>
+                    <label class="text-green" for="fname">نام خانوادگی</label><br>
+                    <label>
+                        <input class="input-form" type="text">
+                    </label><br>
+                </div>
+
+                <div>
+                    <label class="text-green" for="umber">تلفن</label><br>
+                    <label>
+                        <input class="input-form" type="number">
+                    </label>
+                </div>
+
+                <div>
+                    <label class="text-green" for="email">ایمیل</label><br>
+                    <label>
+                        <input class="input-form" type="email">
+                    </label>
+                </div>             
+            </form>
+
+                <!-- buttons -->
+                <div class="btns">
+                    <div class="divar"></div>
+                    <div class="parent-btn-page-3">
+                        <button class="button-green"><a href="page2.html">بازگشت</a></button>
+                        <button class="button-green"><a href="page4.html">بعدی</a></button>
+                    </div>
+                </div>
+            </div>
 {% endblock %}
 
 
@@ -132,11 +220,15 @@
             
             time.addEventListener('change', function(event) {
                 if (event.target && event.target.matches('input[type="radio"]')) {
-                    let time = event.target.value;
-                    let data = farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "string")
+                    
+                    document.querySelector('#date-shamsi').innerHTML = document.getElementById('test').value
+                    document.querySelector('#time-shamsi').innerHTML = event.target.value
             
-                    let doc = document.querySelector('.part-2-main')
-                    doc.style.display = 'none'
+                    let doc_none = document.querySelector('.part-2-main')
+                    doc_none.style.display = 'none'
+                    
+                    let doc_inner = document.querySelector('#part-3-main')
+                    doc_inner.style.display = 'inline'
                 }
             });
         
