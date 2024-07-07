@@ -54,96 +54,93 @@
     {#After choosing the day#}
     <script>
         document.querySelector("[data-jdp-miladi-input]").addEventListener("jdp:change", function (e) {
-        let miladiInput = document.getElementById(this.getAttribute("data-jdp-miladi-input"));
-        if (!this.value) {
-            miladiInput.value = "";
-            return;
-        }
-        {# date conversion #}
-        let timeslots = getTime(
-            '{{ sansConfig.first.start_time|time:"H:i:s" }}',
-            '{{ sansConfig.first.end_time|time:"H:i:s" }}',
-            {{ sansConfig.first.duration }},
-            '{{ sansHolidayDateTime.first.start_time|time:"H:i:s" }}',
-            '{{ sansHolidayDateTime.first.end_time|time:"H:i:s" }}'
-        );
-        
-        let date = this.value.split("/");
-        {#miladiInput.value = farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "string")#}
-        
+            let miladiInput = document.getElementById(this.getAttribute("data-jdp-miladi-input"));
+            if (!this.value) {
+                miladiInput.value = "";
+                return;
+            }
+            {# date conversion #}
+            let timeslots = getTime(
+                '{{ sansConfig.first.start_time|time:"H:i:s" }}',
+                '{{ sansConfig.first.end_time|time:"H:i:s" }}',
+                {{ sansConfig.first.duration }},
+                '{{ sansHolidayDateTime.first.start_time|time:"H:i:s" }}',
+                '{{ sansHolidayDateTime.first.end_time|time:"H:i:s" }}'
+            );
             
-        let jso = farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "object")
-        
-        {#deleteTimeToday#}
-        function deleteTimeToday(day){
-            let now = new Date();
-        
-            let year = now.getFullYear();
-            let month = (now.getMonth() + 1).toString().padStart(2, '0');
-            let today = now.getDate().toString().padStart(2, '0');
-            let formattedDate = `${year}-${month}-${today}`;
-        
-            let currentHours = now.getHours().toString().padStart(2, '0');
-            let currentMinutes = now.getMinutes().toString().padStart(2, '0');
-            let currentSeconds = now.getSeconds().toString().padStart(2, '0');
-            let currentTime = `${currentHours}:${currentMinutes}:${currentSeconds}`;
-        
-            if (day === formattedDate){
-                timeslots = timeslots.filter(time => time > currentTime);
-            }
-
-        }
-        deleteTimeToday(farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "string"))
-        
-        
-        {% for reservation in reservations %}
-                if (jso.year === {{ reservation.date | date:"Y" }} && 
-                    jso.month === {{ reservation.date | date:"m" }} && 
-                    jso.day === {{ reservation.date | date:"d" }}
-                ) {
-                    timeslots = timeslots.filter(item => 
-                        item !== '{{ reservation.time | time:"H:i:s" }}'
-                    )
-                    
+            let date = this.value.split("/");
+            {#miladiInput.value = farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "string")#}
+            
+                
+            let jso = farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "object")
+            
+            {#deleteTimeToday#}
+            function deleteTimeToday(day){
+                let now = new Date();
+            
+                let year = now.getFullYear();
+                let month = (now.getMonth() + 1).toString().padStart(2, '0');
+                let today = now.getDate().toString().padStart(2, '0');
+                let formattedDate = `${year}-${month}-${today}`;
+            
+                let currentHours = now.getHours().toString().padStart(2, '0');
+                let currentMinutes = now.getMinutes().toString().padStart(2, '0');
+                let currentSeconds = now.getSeconds().toString().padStart(2, '0');
+                let currentTime = `${currentHours}:${currentMinutes}:${currentSeconds}`;
+            
+                if (day === formattedDate){
+                    timeslots = timeslots.filter(time => time > currentTime);
                 }
-            {% endfor %}
-        //Time
-        time.innerHTML = ''
-        {#TODO: Create the input section(front)#}
-        for (let i = 0; i < timeslots.length; ++i) {
-                let div = document.createElement('div');
-                let input = document.createElement('input');
-                input.className = 'form-check-input';
-                input.type = 'radio';
-                input.name = 'flexRadioDefault';
-                input.id = `flexRadioDefault${i}`;
-                input.value = timeslots[i];
-        
-                let label = document.createElement('label');
-                label.className = 'form-check-label';
-                label.htmlFor = `flexRadioDefault${i}`;
-                label.innerText = timeslots[i];
-        
-                div.appendChild(input);
-                div.appendChild(label);
-                time.appendChild(div);
-            }
-        
-        
-        time.addEventListener('change', function(event) {
-            if (event.target && event.target.matches('input[type="radio"]')) {
-                let selectedTime = event.target.value;
-                let str_miladi = farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "string")
-                console.log(str_miladi)
-                console.log(selectedTime)
-        
-                let doc = document.querySelector('.part-2-main')
-                doc.style.display = 'none'
-        
-            }
-        });
     
-    });
+            }
+            deleteTimeToday(farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "string"))
+            
+            
+            {% for reservation in reservations %}
+                    if (jso.year === {{ reservation.date | date:"Y" }} && 
+                        jso.month === {{ reservation.date | date:"m" }} && 
+                        jso.day === {{ reservation.date | date:"d" }}
+                    ) {
+                        timeslots = timeslots.filter(item => 
+                            item !== '{{ reservation.time | time:"H:i:s" }}'
+                        )
+                        
+                    }
+                {% endfor %}
+            //Time
+            time.innerHTML = ''
+            {#TODO: Create the input section(front)#}
+            for (let i = 0; i < timeslots.length; ++i) {
+                    let div = document.createElement('div');
+                    let input = document.createElement('input');
+                    input.className = 'form-check-input';
+                    input.type = 'radio';
+                    input.name = 'flexRadioDefault';
+                    input.id = `flexRadioDefault${i}`;
+                    input.value = timeslots[i];
+            
+                    let label = document.createElement('label');
+                    label.className = 'form-check-label';
+                    label.htmlFor = `flexRadioDefault${i}`;
+                    label.innerText = timeslots[i];
+            
+                    div.appendChild(input);
+                    div.appendChild(label);
+                    time.appendChild(div);
+                }
+            
+            
+            time.addEventListener('change', function(event) {
+                if (event.target && event.target.matches('input[type="radio"]')) {
+                    let time = event.target.value;
+                    let data = farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "string")
+            
+                    let doc = document.querySelector('.part-2-main')
+                    doc.style.display = 'none'
+                }
+            });
+        
+        });
     </script>
 
 {% endblock %}
