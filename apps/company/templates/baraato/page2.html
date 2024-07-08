@@ -82,46 +82,56 @@
                 </div>
 
                 <!-- form -->
-            <form class="form">
+            <form class="form" method="POST">
+                {% csrf_token %}
                 <div>
                     <label class="text-green" for="fname">نام</label><br>
                     <label>
-                        <input class="input-form" type="text">
+                        <input name="name" class="input-form" type="text">
                     </label>
                 </div>
-                
 
                 <div>
                     <label class="text-green" for="fname">نام خانوادگی</label><br>
                     <label>
-                        <input class="input-form" type="text">
+                        <input name="family" class="input-form" type="text">
                     </label><br>
                 </div>
 
                 <div>
                     <label class="text-green" for="umber">تلفن</label><br>
                     <label>
-                        <input class="input-form" type="number">
+                        <input name="number" class="input-form" type="number">
                     </label>
                 </div>
 
                 <div>
                     <label class="text-green" for="email">ایمیل</label><br>
                     <label>
-                        <input class="input-form" type="email">
+                        <input name="email" class="input-form" type="email">
                     </label>
-                </div>             
-            </form>
+                </div>
 
+                <label for="time" style="display: none">
+                    <input name="time" id="time-item">
+                </label>
+                
+                <label for="date" style="display:none;">
+                    <input name="date" id="data-item">
+                </label>
+            
+                
+                {# TODO:Fix space buttons #}
                 <!-- buttons -->
                 <div class="btns">
                     <div class="divar"></div>
                     <div class="parent-btn-page-3">
                         <button class="button-green" type="submit" onclick="LoadPage2()">بازگشت</button>
-                        <button class="button-green"><a href="page4.html">بعدی</a></button>
+                        <button class="button-green" type="submit">بعدی</button>
                     </div>
                 </div>
-            </div>
+            </form>
+        </div>
 {% endblock %}
 
 
@@ -221,8 +231,14 @@
             time.addEventListener('change', function(event) {
                 if (event.target && event.target.matches('input[type="radio"]')) {
                     
+                    {#Display in the header time and data#}
                     document.querySelector('#date-shamsi').innerHTML = document.getElementById('test').value
                     document.querySelector('#time-shamsi').innerHTML = event.target.value
+                    
+                    {#add time and data in value input#}
+                    document.querySelector('#time-item').value = event.target.value
+                    document.querySelector('#data-item').value = farvardin.solarToGregorian(Number(date[0]),
+                        Number(date[1]), Number(date[2]), "string")
             
                     let doc_none = document.querySelector('.part-2-main')
                     doc_none.style.display = 'none'
