@@ -117,7 +117,7 @@
                 <div class="btns">
                     <div class="divar"></div>
                     <div class="parent-btn-page-3">
-                        <button class="button-green"><a href="page2.html">بازگشت</a></button>
+                        <button class="button-green" type="submit" onclick="LoadPage2()">بازگشت</button>
                         <button class="button-green"><a href="page4.html">بعدی</a></button>
                     </div>
                 </div>
@@ -233,6 +233,17 @@
             });
         
         });
+    </script>
+    
+    {#  LoadPage  #}
+    <script>
+        function LoadPage2() {
+            let doc_none = document.querySelector('.part-2-main')
+            doc_none.style.display = 'inline'
+        
+            let doc_inner = document.querySelector('#part-3-main')
+            doc_inner.style.display = 'none'
+        }
     </script>
 
 {% endblock %}
