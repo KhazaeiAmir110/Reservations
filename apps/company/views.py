@@ -2,8 +2,6 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
 
-from json import dumps
-
 from .models import Company, HolidaysDate, SansConfig, SansHolidayDateTime, Reservation
 
 
@@ -35,3 +33,11 @@ class CompanyDetailView(DetailView):
         context['sansHolidayDateTime'] = SansHolidayDateTime.objects.filter(company=context['company'])
         context['reservations'] = Reservation.objects.filter(company=context['company'])
         return context
+
+    def post(self, request, *args, **kwargs):
+        data = request.POST
+        Reservation.objects.create(first_name=data.get('name'), last_name=data.get('family'),
+                                   phone_number=data.get('number'), email=data.get('email'),
+                                   company=Company.objects.get(slug=self.kwargs['slug']), date=data.get('date'), time=data.get('time'))
+        # url_name = reverse('company:detail-company-baraato', args=[action])
+        # return HttpResponseRedirect(url_name)
