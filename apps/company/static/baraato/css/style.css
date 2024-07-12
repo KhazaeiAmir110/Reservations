@@ -176,6 +176,72 @@
     color: var(--Color-main-green);
 }
 
+/*MODAL*/
+.base_modal{
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease-in-out;
+}
+.modal{
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    padding: 10px 10px;
+    width: 500px;
+}
+.part_1_modal{
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    color: var(--Color-title);
+    font-size: 14px;
+    align-items: center;
+}
+.close-modal{
+    text-shadow: 0 1px 0 #fff;
+    color: var(--Color-title);
+    background: none;
+    box-sizing: border-box;
+    float: left;
+    border: 0;
+    font-size: 21px;
+    font-weight: 700;
+}
+.part_2_modal{
+    padding-top: 15px;
+    padding-right: 15px;
+    font-size: 14px;
+    height: 40vh;
+}
+.input_modal{
+    width: 95% !important;
+}
+.footer_modal{
+    padding: 15px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-modal{
+    padding: 6px 12px !important;
+    font-size: 14px;
+
+}
+.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 /* ----------------------------------------------------------- */
 
 /* Page 4 */
