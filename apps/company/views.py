@@ -2,6 +2,8 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
 
+import random
+
 from .models import Company, HolidaysDate, SansConfig, SansHolidayDateTime, Reservation
 
 
@@ -25,6 +27,8 @@ class CompanyDetailView(DetailView):
     model = Company
     template_name = 'baraato/page2.html'
 
+    rand = random.randint(1000, 9999)
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         context['company'] = Company.objects.get(slug=self.kwargs['slug'])
@@ -32,10 +36,14 @@ class CompanyDetailView(DetailView):
         context['sansConfig'] = SansConfig.objects.filter(company=context['company'])
         context['sansHolidayDateTime'] = SansHolidayDateTime.objects.filter(company=context['company'])
         context['reservations'] = Reservation.objects.filter(company=context['company'])
+        context['code-rand'] = self.rand
         return context
 
     def post(self, request, *args, **kwargs):
         data = request.POST
+        if (data.get('code-rand') is None) or (data.get('code-rand') != self.rand):
+            return HttpResponseRedirect(reverse('company:list-company'))
+
         Reservation.objects.create(first_name=data.get('name'), last_name=data.get('family'),
                                    phone_number=data.get('number'), email=data.get('email'),
                                    company=Company.objects.get(slug=self.kwargs['slug']), date=data.get('date'), time=data.get('time'))
