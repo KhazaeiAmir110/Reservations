@@ -176,6 +176,10 @@
     color: var(--Color-main-green);
 }
 
+.btns{
+    width: 100%;
+}
+
 /*MODAL*/
 .base_modal{
     height: 100vh;
