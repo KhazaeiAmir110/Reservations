@@ -73,3 +73,17 @@ function getTime(startTime, endTime, duration, excludeStart, excludeEnd) {
 // add data in id=time
 let time = document.getElementById('time')
 
+/////////////////////////////////////////////////////////////////////
+// Modal
+const openBtn = document.querySelector('.open-modal');
+const modalContainer = document.querySelector('.base_modal')
+const closeBtn = document.querySelector('.close-modal');
+
+
+openBtn.addEventListener("click",function(){
+    modalContainer.classList.add("show")
+})
+
+closeBtn.addEventListener('click',function(){
+    modalContainer.classList.remove("show");
+})

@@ -82,7 +82,7 @@
                 </div>
 
                 <!-- form -->
-            <form class="form" method="POST">
+                <form class="form" method="POST">
                 {% csrf_token %}
                 <div>
                     <label class="text-green" for="fname">نام</label><br>
@@ -131,6 +131,27 @@
                     </div>
                 </div>
             </form>
+        
+                <!-- modal -->
+                <div class="base_modal">
+                <div class="modal">
+                    <div class="part_1_modal">
+                        <p>کد تأیید</p>
+                        <button type="button" class="close-modal">×</button>
+                    </div>
+                    <hr>
+                    <div class="part_2_modal">
+                        <label>
+                            کد تأیید پیامک شده را وارد کنید
+                            <input class="input-form input_modal">
+                        </label>
+                    </div>
+                    <hr>
+                    <div class="footer_modal">
+                        <button class="button-green btn-modal"><a href="page4.html">تایید کنید</a></button>
+                    </div>
+                </div>
+            </div>
         </div>
 {% endblock %}
 
@@ -147,6 +168,7 @@
                 {% for holiday in holidays %}
                     lis.push(farvardin.gregorianToSolar({{holiday.date.year}} , {{holiday.date.month}} , {{holiday.date.day}} , "object"))
                 {% endfor %}
+    console.log(lis)
     </script>
 
     {#After choosing the day#}
