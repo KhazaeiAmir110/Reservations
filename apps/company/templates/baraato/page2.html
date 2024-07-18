@@ -288,18 +288,13 @@
             let doc_inner = document.querySelector('#part-3-main')
             doc_inner.style.display = 'none'
         }
-
-        console.log({{ code }})
     </script>
 
     <script>
         const listCreateBtn = document.getElementById('id_input')
         listCreateBtn.addEventListener('click', function (e) {
             e.preventDefault()
-            var fd = new FormData(document.getElementById('form'), document.getElementById('id_input'));
-            {#fd.append('csrfmiddlewaretoken', '{{ csrf_token }}')#}
-            {#fd.append('phone_number', document.getElementById('id_number').value)#}
-            debugger;
+            let fd = new FormData(document.getElementById('form'), document.getElementById('id_input'));
             axios.post('/baraato/send/', fd)
                 .then(res => {
                     console.log(res.data.status)

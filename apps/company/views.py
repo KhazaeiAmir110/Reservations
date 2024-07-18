@@ -15,14 +15,15 @@ class CompanyListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['companies'] = Company.objects.all()
+        context.update(companies=Company.objects.all())
         return context
 
     def post(self, request, *args, **kwargs):
-        data = request.POST
-        action = data.get('company_slug')
-        url_name = reverse('company:detail-company-baraato', args=[action])
-        return HttpResponseRedirect(url_name)
+        return HttpResponseRedirect(
+            reverse(
+                'company:detail-company-baraato', args=[request.POST.get('company_slug')]
+            )
+        )
 
 
 class FormData(forms.ModelForm):
@@ -35,19 +36,19 @@ class CompanyDetailView(DetailView):
     model = Company
     template_name = 'baraato/page2.html'
 
-    rand = random.randint(1000, 9999)
-
-    form = FormData()
-
     def get_context_data(self, *args, **kwargs):
+        # TODO: change name of dict keys to lower case.
         context = super().get_context_data(**kwargs)
-        context['company'] = Company.objects.get(slug=self.kwargs['slug'])
-        context['holidays'] = HolidaysDate.objects.filter(company=context['company'])
-        context['sansConfig'] = SansConfig.objects.filter(company=context['company'])
-        context['sansHolidayDateTime'] = SansHolidayDateTime.objects.filter(company=context['company'])
-        context['reservations'] = Reservation.objects.filter(company=context['company'])
-        context['form'] = self.form
-        context['code'] = self.rand
+        context.update(
+            dict(
+                holidays=HolidaysDate.objects.filter(company=context['company']),
+                sansConfig=SansConfig.objects.filter(company=context['company']),
+                sansHolidayDateTime=SansHolidayDateTime.objects.filter(company=context['company']),
+                reservations=Reservation.objects.filter(company=context['company']),
+                form=FormData(),
+                code=random.randint(1000, 9999)
+            )
+        )
         return context
 
     # def post(self, request, *args, **kwargs):
@@ -76,9 +77,8 @@ class PaymentView(ListView):
 
 # send code
 
-
 def send_code(request):
     if request.method == 'POST':
-        phone_number = request.POST.get('phone_number')
+        phone_number = request.POST.get('number')
         return JsonResponse({'status': 'success', 'phone_number': phone_number, 'title': 'Code Sent'})
     return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)

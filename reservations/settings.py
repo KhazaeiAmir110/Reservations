@@ -39,7 +39,6 @@ INSTALLED_APPS = [
 
     # Custom App
     'apps.company',
-    'apps.addon',
     'apps.userauths',
 
     # Third Part Apps
