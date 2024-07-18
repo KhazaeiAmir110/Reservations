@@ -1,8 +1,10 @@
+import random
+
+from django import forms
 from django.http import HttpResponseRedirect
+from django.http import JsonResponse
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
-
-import random
 
 from .models import Company, HolidaysDate, SansConfig, SansHolidayDateTime, Reservation
 
@@ -23,11 +25,19 @@ class CompanyListView(ListView):
         return HttpResponseRedirect(url_name)
 
 
+class FormData(forms.ModelForm):
+    class Meta:
+        model = Reservation
+        fields = '__all__'
+
+
 class CompanyDetailView(DetailView):
     model = Company
     template_name = 'baraato/page2.html'
 
     rand = random.randint(1000, 9999)
+
+    form = FormData()
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -36,21 +46,22 @@ class CompanyDetailView(DetailView):
         context['sansConfig'] = SansConfig.objects.filter(company=context['company'])
         context['sansHolidayDateTime'] = SansHolidayDateTime.objects.filter(company=context['company'])
         context['reservations'] = Reservation.objects.filter(company=context['company'])
+        context['form'] = self.form
         context['code'] = self.rand
         return context
 
-    def post(self, request, *args, **kwargs):
-        data = request.POST
-        if (data.get('code') is None) or (int(data.get('code')) != self.rand):
-            return HttpResponseRedirect(reverse('company:list-company'))
-
-        Reservation.objects.create(first_name=data.get('name'), last_name=data.get('family'),
-                                   phone_number=data.get('number'), email=data.get('email'),
-                                   company=Company.objects.get(slug=self.kwargs['slug']), date=data.get('date'),
-                                   time=data.get('time'))
-
-        url_name = reverse('company:payment', args=[self.kwargs['slug']])
-        return HttpResponseRedirect(url_name)
+    # def post(self, request, *args, **kwargs):
+    #     data = request.POST
+    #     if (data.get('code') is None) or (int(data.get('code')) != self.rand):
+    #         return HttpResponseRedirect(reverse('company:list-company'))
+    #
+    #     Reservation.objects.create(first_name=data.get('name'), last_name=data.get('family'),
+    #                                phone_number=data.get('number'), email=data.get('email'),
+    #                                company=Company.objects.get(slug=self.kwargs['slug']), date=data.get('date'),
+    #                                time=data.get('time'))
+    #
+    #     url_name = reverse('company:payment', args=[self.kwargs['slug']])
+    #     return HttpResponseRedirect(url_name)
 
 
 class PaymentView(ListView):
@@ -61,3 +72,13 @@ class PaymentView(ListView):
         context = super().get_context_data(**kwargs)
         context['company'] = Company.objects.get(slug=self.kwargs['slug'])
         return context
+
+
+# send code
+
+
+def send_code(request):
+    if request.method == 'POST':
+        phone_number = request.POST.get('phone_number')
+        return JsonResponse({'status': 'success', 'phone_number': phone_number, 'title': 'Code Sent'})
+    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)

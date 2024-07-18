@@ -3,156 +3,160 @@
 
 
 {% block part_2_time %}
-	active
+    active
 {% endblock %}
 
 {# main #}
 {% block main %}
-    	<div class="part-2-main">
-            <div class="text-main">
-                <div class="text">زمان‌های در دسترس برای {{ company.name}}</div>
-                <div class="text">لطفاً برای رزرو یک مورد را انتخاب کنید</div>
-                <div class="text">برای تغییر ماه روی فلش کلیک کنید</div>
-                
-                {# date #}
-                <div class="date">
-                    <label style="display: flex; flex-direction: column">
-                        {#TODO : Add data-jdp-max-date#}
-                        {#<input id="test" data-jdp-miladi-input="miladi_date" data-jdp placeholder="انتخاب تاریخ" data-jdp-min-date="today">#}
-                        {#<input id="miladi_date" />#}
-                        <input id="test" data-jdp-miladi-input data-jdp placeholder="انتخاب تاریخ" data-jdp-min-date="today">
-                    </label>
-                    <br>
-                    <div id="time"></div>
-                </div>
-                
-                <div class="div">
-                    <div class="divar"></div>
-                    <div class="parent-btn-page2">
-                        <button class="button-green"><a href="{% url 'company:list-company' %}">بازگشت</a></button>
-                    </div>
+    <div class="part-2-main">
+        <div class="text-main">
+            <div class="text">زمان‌های در دسترس برای {{ company.name }}</div>
+            <div class="text">لطفاً برای رزرو یک مورد را انتخاب کنید</div>
+            <div class="text">برای تغییر ماه روی فلش کلیک کنید</div>
+
+            {# date #}
+            <div class="date">
+                <label style="display: flex; flex-direction: column">
+                    {#TODO : Add data-jdp-max-date#}
+                    {#<input id="test" data-jdp-miladi-input="miladi_date" data-jdp placeholder="انتخاب تاریخ" data-jdp-min-date="today">#}
+                    {#<input id="miladi_date" />#}
+                    <input id="test" data-jdp-miladi-input data-jdp placeholder="انتخاب تاریخ"
+                           data-jdp-min-date="today">
+                </label>
+                <br>
+                <div id="time"></div>
+            </div>
+
+            <div class="div">
+                <div class="divar"></div>
+                <div class="parent-btn-page2">
+                    <button class="button-green"><a href="{% url 'company:list-company' %}">بازگشت</a></button>
                 </div>
             </div>
         </div>
-        <div id="part-3-main" class="text-main" style="display:none;">
-                <div class="text">اطلاعات رزرو در ادامه لیست شده است. لطفاً دقت کنید که این اطلاعات صحیح هستند. بعد از پرداخت مبلغی عودت داده نخواهد شد.</div>
-                
-                <!-- part 2 -->
-                <!-- Information -->
-                <div>
-                    <h5>اطلاعات رزرو</h5>
-                    <p>=============================================</p>
-                    <div class="text">
-                       <div class="display">
-                        <p>سرویس :  </p>
-                        <p class="font-bold">{{ company.name}}</p>
-                       </div>
-
-                       <div class="display">
-                        <p>تاریخ :</p>
-                        <p class="font-bold" id="date-shamsi"></p>
-                       </div>
-
-                       <div class="display">
-                        <p>ساعت :</p>
-                        <p class="font-bold" id="time-shamsi"></p>
-                       </div>
-
-                       <div class="display">
-                        <p>مبلغ :</p>
-                        <p class="font-bold">50,000 تومان</p>
-                       </div>
-                    </div>
-                    <p>=============================================</p>
-                </div>
-
-                <!-- part 3 -->
-                <div>
-
-                </div>
-                <div class="text">
-                    <p>برای رزرو لطفاً اطلاعات زیر را وارد کنید.</p>
-                    <p> (دقت کنید که برای این اطلاعات سرویس رزرو خواهد شد)</p>
-                </div>
-                <div class="text">
-                     برای رفتن به مرحله بعدی نیاز است تا شماره‌تلفن شما با استفاده از کد تأیید که به همین شماره ارسال می‌شود اعتبارسنجی شود.
-                </div>
-                <div class="text">
-                    در صورت برگشت به مراحل قبلی و انجام ادامه فرایند می‌توانید از همان کد تأیید ارسال شده استفاده کنید.
-                </div>
-
-                <!-- form -->
-                <form class="form" method="POST">
-                {% csrf_token %}
-                <div>
-                    <label class="text-green" for="fname">نام</label><br>
-                    <label>
-                        <input name="name" class="input-form" type="text">
-                    </label>
-                </div>
-
-                <div>
-                    <label class="text-green" for="fname">نام خانوادگی</label><br>
-                    <label>
-                        <input name="family" class="input-form" type="text">
-                    </label><br>
-                </div>
-
-                <div>
-                    <label class="text-green" for="umber">تلفن</label><br>
-                    <label>
-                        <input name="number" class="input-form" type="number">
-                    </label>
-                </div>
-
-                <div>
-                    <label class="text-green" for="email">ایمیل</label><br>
-                    <label>
-                        <input name="email" class="input-form" type="email">
-                    </label>
-                </div>
-
-                <label for="time" style="display: none">
-                    <input name="time" id="time-item">
-                </label>
-                
-                <label for="date" style="display:none;">
-                    <input name="date" id="data-item">
-                </label>
-            
-                
-                {# TODO:Fix space buttons #}
-                <!-- buttons -->
-                <div class="btns">
-                    <div class="divar"></div>
-                    <div class="parent-btn-page-3">
-                        <p class="button-green" onclick="LoadPage2()">بازگشت</p>
-                        <p class="button-green open-modal">بعدی</p>
-                    </div>
-                </div>
-                
-                <!-- modal -->
-                <div class="base_modal">
-                    <div class="modal">
-                        <div class="part_1_modal">
-                            <p>کد تأیید</p>
-                            <button type="button" class="close-modal">×</button>
-                        </div>
-                        <hr>
-                        <div class="part_2_modal">
-                            <label>
-                                کد تأیید پیامک شده را وارد کنید
-                                <input name="code" class="input-form input_modal">
-                            </label>
-                        </div>
-                        <hr>
-                        <div class="footer_modal">
-                            <button class="button-green btn-modal" type="submit">تایید کنید</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
+    </div>
+    <div id="part-3-main" class="text-main" style="display:none;">
+        <div class="text">اطلاعات رزرو در ادامه لیست شده است. لطفاً دقت کنید که این اطلاعات صحیح هستند. بعد از پرداخت
+            مبلغی عودت داده نخواهد شد.
         </div>
+
+        <!-- part 2 -->
+        <!-- Information -->
+        <div>
+            <h5>اطلاعات رزرو</h5>
+            <p>=============================================</p>
+            <div class="text">
+                <div class="display">
+                    <p>سرویس : </p>
+                    <p class="font-bold">{{ company.name }}</p>
+                </div>
+
+                <div class="display">
+                    <p>تاریخ :</p>
+                    <p class="font-bold" id="date-shamsi"></p>
+                </div>
+
+                <div class="display">
+                    <p>ساعت :</p>
+                    <p class="font-bold" id="time-shamsi"></p>
+                </div>
+
+                <div class="display">
+                    <p>مبلغ :</p>
+                    <p class="font-bold">50,000 تومان</p>
+                </div>
+            </div>
+            <p>=============================================</p>
+        </div>
+
+        <!-- part 3 -->
+        <div>
+
+        </div>
+        <div class="text">
+            <p>برای رزرو لطفاً اطلاعات زیر را وارد کنید.</p>
+            <p> (دقت کنید که برای این اطلاعات سرویس رزرو خواهد شد)</p>
+        </div>
+        <div class="text">
+            برای رفتن به مرحله بعدی نیاز است تا شماره‌تلفن شما با استفاده از کد تأیید که به همین شماره ارسال می‌شود
+            اعتبارسنجی شود.
+        </div>
+        <div class="text">
+            در صورت برگشت به مراحل قبلی و انجام ادامه فرایند می‌توانید از همان کد تأیید ارسال شده استفاده کنید.
+        </div>
+
+        <!-- form -->
+        <form class="form" method="post" id="form">
+            {% csrf_token %}
+            <div>
+                <label class="text-green" for="fname">نام</label><br>
+                <label>
+                    <input name="name" class="input-form" type="text">
+                </label>
+            </div>
+
+            <div>
+                <label class="text-green" for="fname">نام خانوادگی</label><br>
+                <label>
+                    <input name="family" class="input-form" type="text">
+                </label><br>
+            </div>
+
+            <div>
+                <label class="text-green" for="umber">تلفن</label><br>
+                <label>
+                    <input name="number" class="input-form" type="number" id="id_number">
+                </label>
+            </div>
+
+            <div>
+                <label class="text-green" for="email">ایمیل</label><br>
+                <label>
+                    <input name="email" class="input-form" type="email">
+                </label>
+            </div>
+
+            <label for="time" style="display: none">
+                <input name="time" id="time-item">
+            </label>
+
+            <label for="date" style="display:none;">
+                <input name="date" id="data-item">
+            </label>
+
+
+            {# TODO:Fix space buttons #}
+            <!-- buttons -->
+            <div class="btns">
+                <div class="divar"></div>
+                <div class="parent-btn-page-3">
+                    <p class="button-green" onclick="LoadPage2()">بازگشت</p>
+                    <button id="id_input" type="submit" class="button-green open-modal">بعدی</button>
+                </div>
+            </div>
+        </form>
+        <!-- modal -->
+        <div class="base_modal">
+            <div class="modal">
+                <div class="part_1_modal">
+                    <p>کد تأیید</p>
+                    <button type="button" class="close-modal">×</button>
+                </div>
+                <hr>
+                <div class="part_2_modal">
+                    <label>
+                        کد تأیید پیامک شده را وارد کنید
+                        <input name="code" class="input-form input_modal">
+                    </label>
+                </div>
+                <hr>
+                <div class="footer_modal">
+                    <button class="button-green btn-modal" type="submit">تایید کنید</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
 {% endblock %}
 
 
@@ -161,14 +165,14 @@
     {#  add files  Date conversion #}
     {#https://github.com/senior-x-79/farvardin.js#}
     <script src="{% static 'date-conversion/farvardin.min.js' %}"></script>
-    
+
     {# push data in list #}
     <script>
         let lis = []
-                {% for holiday in holidays %}
-                    lis.push(farvardin.gregorianToSolar({{holiday.date.year}} , {{holiday.date.month}} , {{holiday.date.day}} , "object"))
-                {% endfor %}
-    console.log(lis)
+        {% for holiday in holidays %}
+            lis.push(farvardin.gregorianToSolar({{holiday.date.year}}, {{holiday.date.month}}, {{holiday.date.day}}, "object"))
+        {% endfor %}
+        console.log(lis)
     </script>
 
     {#After choosing the day#}
@@ -187,103 +191,122 @@
                 '{{ sansHolidayDateTime.first.start_time|time:"H:i:s" }}',
                 '{{ sansHolidayDateTime.first.end_time|time:"H:i:s" }}'
             );
-            
+
             let date = this.value.split("/");
             {#miladiInput.value = farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "string")#}
-            
-                
+
+
             let jso = farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "object")
-            
+
             {#deleteTimeToday#}
-            function deleteTimeToday(day){
+
+            function deleteTimeToday(day) {
                 let now = new Date();
-            
+
                 let year = now.getFullYear();
                 let month = (now.getMonth() + 1).toString().padStart(2, '0');
                 let today = now.getDate().toString().padStart(2, '0');
                 let formattedDate = `${year}-${month}-${today}`;
-            
+
                 let currentHours = now.getHours().toString().padStart(2, '0');
                 let currentMinutes = now.getMinutes().toString().padStart(2, '0');
                 let currentSeconds = now.getSeconds().toString().padStart(2, '0');
                 let currentTime = `${currentHours}:${currentMinutes}:${currentSeconds}`;
-            
-                if (day === formattedDate){
+
+                if (day === formattedDate) {
                     timeslots = timeslots.filter(time => time > currentTime);
                 }
-    
+
             }
+
             deleteTimeToday(farvardin.solarToGregorian(Number(date[0]), Number(date[1]), Number(date[2]), "string"))
-            
-            
+
+
             {% for reservation in reservations %}
-                    if (jso.year === {{ reservation.date | date:"Y" }} && 
-                        jso.month === {{ reservation.date | date:"m" }} && 
-                        jso.day === {{ reservation.date | date:"d" }}
-                    ) {
-                        timeslots = timeslots.filter(item => 
-                            item !== '{{ reservation.time | time:"H:i:s" }}'
-                        )
-                        
-                    }
-                {% endfor %}
+                if (jso.year === {{ reservation.date | date:"Y" }} &&
+                    jso.month === {{ reservation.date | date:"m" }} &&
+                    jso.day === {{ reservation.date | date:"d" }}
+                ) {
+                    timeslots = timeslots.filter(item =>
+                        item !== '{{ reservation.time | time:"H:i:s" }}'
+                    )
+
+                }
+            {% endfor %}
             //Time
             time.innerHTML = ''
             {#TODO: Create the input section(front)#}
             for (let i = 0; i < timeslots.length; ++i) {
-                    let div = document.createElement('div');
-                    let input = document.createElement('input');
-                    input.className = 'form-check-input';
-                    input.type = 'radio';
-                    input.name = 'flexRadioDefault';
-                    input.id = `flexRadioDefault${i}`;
-                    input.value = timeslots[i];
-            
-                    let label = document.createElement('label');
-                    label.className = 'form-check-label';
-                    label.htmlFor = `flexRadioDefault${i}`;
-                    label.innerText = timeslots[i];
-            
-                    div.appendChild(input);
-                    div.appendChild(label);
-                    time.appendChild(div);
-                }
-            
-            
-            time.addEventListener('change', function(event) {
+                let div = document.createElement('div');
+                let input = document.createElement('input');
+                input.className = 'form-check-input';
+                input.type = 'radio';
+                input.name = 'flexRadioDefault';
+                input.id = `flexRadioDefault${i}`;
+                input.value = timeslots[i];
+
+                let label = document.createElement('label');
+                label.className = 'form-check-label';
+                label.htmlFor = `flexRadioDefault${i}`;
+                label.innerText = timeslots[i];
+
+                div.appendChild(input);
+                div.appendChild(label);
+                time.appendChild(div);
+            }
+
+
+            time.addEventListener('change', function (event) {
                 if (event.target && event.target.matches('input[type="radio"]')) {
-                    
+
                     {#Display in the header time and data#}
                     document.querySelector('#date-shamsi').innerHTML = document.getElementById('test').value
                     document.querySelector('#time-shamsi').innerHTML = event.target.value
-                    
+
                     {#add time and data in value input#}
                     document.querySelector('#time-item').value = event.target.value
                     document.querySelector('#data-item').value = farvardin.solarToGregorian(Number(date[0]),
                         Number(date[1]), Number(date[2]), "string")
-            
+
                     let doc_none = document.querySelector('.part-2-main')
                     doc_none.style.display = 'none'
-                    
+
                     let doc_inner = document.querySelector('#part-3-main')
                     doc_inner.style.display = 'inline'
                 }
             });
-        
+
         });
     </script>
-    
+
     {#  LoadPage  #}
     <script>
         function LoadPage2() {
             let doc_none = document.querySelector('.part-2-main')
             doc_none.style.display = 'inline'
-        
+
             let doc_inner = document.querySelector('#part-3-main')
             doc_inner.style.display = 'none'
         }
-        
+
         console.log({{ code }})
+    </script>
+
+    <script>
+        const listCreateBtn = document.getElementById('id_input')
+        listCreateBtn.addEventListener('click', function (e) {
+            e.preventDefault()
+            var fd = new FormData(document.getElementById('form'), document.getElementById('id_input'));
+            {#fd.append('csrfmiddlewaretoken', '{{ csrf_token }}')#}
+            {#fd.append('phone_number', document.getElementById('id_number').value)#}
+            debugger;
+            axios.post('/baraato/send/', fd)
+                .then(res => {
+                    console.log(res.data.status)
+                }).catch(err => {
+                console.log(err)
+            })
+        })
     </script>
 
 {% endblock %}
