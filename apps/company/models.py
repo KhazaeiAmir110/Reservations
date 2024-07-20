@@ -33,6 +33,7 @@ class HolidaysDate(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
 
+# TODO: Add amount in model
 class SansConfig(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
