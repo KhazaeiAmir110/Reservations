@@ -2,26 +2,33 @@
 {% load static %}
 
 {% block titre %}
-	
+
 {% endblock %}
 
+{% block part_2_time %}
+    active
+{% endblock %}
+{% block part_3_description %}
+    active
+{% endblock %}
 {% block part_4_payment %}
-	active
+    active
 {% endblock %}
 
 {% block main %}
-	<div class="main">
-            <div class="text-main">
-                <div class="text">مبلغ <b>50,000 تومان</b> + مالیات به‌عنوان هزینه رزرو در نظر گرفته شده است.</div>
-                <div class="text">این مبلغ از هزینه کل سرویس شما توسط <b>آرایشگاه احسان امیری</b> کسر خواهد شد.</div>
-                <div class="text">توجه کنید که در صورت عدم حضور در تاریخ و زمان رزرو شده مبلغی عودت داده نمی‌شود.</div>
+    <div class="main">
+        <div class="text-main">
+            <div class="text">مبلغ <b>50,000 تومان</b> + مالیات به‌عنوان هزینه رزرو در نظر گرفته شده است.</div>
+            <div class="text">این مبلغ از هزینه کل سرویس شما توسط <b>آرایشگاه احسان امیری</b> کسر خواهد شد.</div>
+            <div class="text">توجه کنید که در صورت عدم حضور در تاریخ و زمان رزرو شده مبلغی عودت داده نمی‌شود.</div>
 
                 <!-- zarinpal -->
                 <div class="payment-main">
                     <label class="payment-part">
-                        <input type="radio" class="payment-input" name="payment-method-6638e52f665f0" value="zarin">
+                        <input type="radio" class="payment-input" name="zarin" value="zarin">
                         <span>درگاه پرداخت زرین پال</span>
-                        <img src="https://baraato.com/wp-content/plugins/bookly-addon-pro/frontend/resources/images/zarinpal.png" alt="zarinpal">
+                        <img src="https://baraato.com/wp-content/plugins/bookly-addon-pro/frontend/resources/images/zarinpal.png"
+                             alt="zarinpal">
                     </label>
                 </div>
 
@@ -29,10 +36,12 @@
                 <div class="btns">
                     <div class="divar"></div>
                     <div class="parent-btn-page-3">
-                        <button class="button-green"><a href="page2.html">بازگشت</a></button>
-                        <button class="button-green"><a href="page5.html">بعدی</a></button>
+                        <button class="button-green"><a href="{% url 'company:detail-company-baraato' company.slug %}">بازگشت</a>
+                        </button>
+                        <button class="button-green">بعدی</button>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
+    </div>
 {% endblock %}
