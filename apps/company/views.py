@@ -1,11 +1,12 @@
-import random
-
 from django import forms
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
+# Kevenegar
+from kavenegar import *
 
+from reservations.secret import kavenegar
 from .models import Company, HolidaysDate, SansConfig, SansHolidayDateTime, Reservation
 
 
@@ -46,7 +47,6 @@ class CompanyDetailView(DetailView):
                 sansHolidayDateTime=SansHolidayDateTime.objects.filter(company=context['company']),
                 reservations=Reservation.objects.filter(company=context['company']),
                 form=FormData(),
-                code=random.randint(1000, 9999)
             )
         )
         return context
@@ -76,7 +76,6 @@ class PaymentView(ListView):
 
 
 # send code
-
 def send_code(request):
     if request.method == 'POST':
         # save information user in session
@@ -88,7 +87,13 @@ def send_code(request):
         request.session['date'] = request.POST.get('date'),
 
         # send code to number
-        phone_number = request.POST.get('number')
+        api = KavenegarAPI(kavenegar.API_KEY)
+        params = {
+            'receptor': request.POST.get('number'),
+            'message': f'کد تأیید : {kavenegar.code}\n سیستم رزرواسیون و نوبت دهی براتو'
+        }
 
-        return JsonResponse({'status': 'success', 'phone_number': phone_number, 'title': 'Code Sent'})
+        api.sms_send(params)
+
+        return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
