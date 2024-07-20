@@ -136,7 +136,8 @@
             </div>
         </form>
         <!-- modal -->
-        <div class="base_modal">
+        <form method="POST" class="base_modal">
+            {% csrf_token %}
             <div class="modal">
                 <div class="part_1_modal">
                     <p>کد تأیید</p>
@@ -154,7 +155,7 @@
                     <button class="button-green btn-modal" type="submit">تایید کنید</button>
                 </div>
             </div>
-        </div>
+        </form>
 
     </div>
 {% endblock %}
