@@ -22,6 +22,7 @@ function displayText() {
 // Page 2
 jalaliDatepicker.startWatch({
     minDate: "attr",
+    maxDate: "attr",
     autoHide: true,
     // TODO:add time in date picker
     // time:true,
