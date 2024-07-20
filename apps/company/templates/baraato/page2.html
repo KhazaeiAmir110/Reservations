@@ -68,70 +68,67 @@
 
         <!-- part 3 -->
         <div>
-
-        </div>
-        <div class="text">
-            <p>برای رزرو لطفاً اطلاعات زیر را وارد کنید.</p>
-            <p> (دقت کنید که برای این اطلاعات سرویس رزرو خواهد شد)</p>
-        </div>
-        <div class="text">
-            برای رفتن به مرحله بعدی نیاز است تا شماره‌تلفن شما با استفاده از کد تأیید که به همین شماره ارسال می‌شود
-            اعتبارسنجی شود.
-        </div>
-        <div class="text">
-            در صورت برگشت به مراحل قبلی و انجام ادامه فرایند می‌توانید از همان کد تأیید ارسال شده استفاده کنید.
-        </div>
-
-        <!-- form -->
-        <form class="form" method="post" id="form">
-            {% csrf_token %}
-            <div>
-                <label class="text-green" for="fname">نام</label><br>
-                <label>
-                    <input name="name" class="input-form" type="text">
-                </label>
+            <div class="text">
+                <p>برای رزرو لطفاً اطلاعات زیر را وارد کنید.</p>
+                <p> (دقت کنید که برای این اطلاعات سرویس رزرو خواهد شد)</p>
+            </div>
+            <div class="text">
+                برای رفتن به مرحله بعدی نیاز است تا شماره‌تلفن شما با استفاده از کد تأیید که به همین شماره ارسال می‌شود
+                اعتبارسنجی شود.
+            </div>
+            <div class="text">
+                در صورت برگشت به مراحل قبلی و انجام ادامه فرایند می‌توانید از همان کد تأیید ارسال شده استفاده کنید.
             </div>
 
-            <div>
-                <label class="text-green" for="fname">نام خانوادگی</label><br>
-                <label>
-                    <input name="family" class="input-form" type="text">
-                </label><br>
-            </div>
-
-            <div>
-                <label class="text-green" for="umber">تلفن</label><br>
-                <label>
-                    <input name="number" class="input-form" type="number" id="id_number">
-                </label>
-            </div>
-
-            <div>
-                <label class="text-green" for="email">ایمیل</label><br>
-                <label>
-                    <input name="email" class="input-form" type="email">
-                </label>
-            </div>
-
-            <label for="time" style="display: none">
-                <input name="time" id="time-item">
-            </label>
-
-            <label for="date" style="display:none;">
-                <input name="date" id="data-item">
-            </label>
-
-
-            {# TODO:Fix space buttons #}
-            <!-- buttons -->
-            <div class="btns">
-                <div class="divar"></div>
-                <div class="parent-btn-page-3">
-                    <p class="button-green" onclick="LoadPage2()">بازگشت</p>
-                    <button id="id_input" type="submit" class="button-green open-modal">بعدی</button>
+            <!-- form -->
+            <form class="form" method="post" id="form">
+                {% csrf_token %}
+                <div>
+                    <label class="text-green" for="fname">نام</label><br>
+                    <label>
+                        <input name="name" class="input-form" type="text">
+                    </label>
                 </div>
-            </div>
-        </form>
+
+                <div>
+                    <label class="text-green" for="fname">نام خانوادگی</label><br>
+                    <label>
+                        <input name="family" class="input-form" type="text">
+                    </label><br>
+                </div>
+
+                <div>
+                    <label class="text-green" for="umber">تلفن</label><br>
+                    <label>
+                        <input name="number" class="input-form" type="number" id="id_number">
+                    </label>
+                </div>
+
+                <div>
+                    <label class="text-green" for="email">ایمیل</label><br>
+                    <label>
+                        <input name="email" class="input-form" type="email">
+                    </label>
+                </div>
+
+                <label for="time" style="display: none">
+                    <input name="time" id="time-item">
+                </label>
+
+                <label for="date" style="display:none;">
+                    <input name="date" id="data-item">
+                </label>
+                
+                <!-- buttons -->
+                <div class="btns">
+                    <div class="divar"></div>
+                    <div class="parent-btn-page-3">
+                        <p class="button-green" onclick="LoadPage2()">بازگشت</p>
+                        <button id="id_input" type="submit" class="button-green open-modal">بعدی</button>
+                    </div>
+                </div>
+            </form>
+        </div>
         <!-- modal -->
         <form method="POST" class="base_modal">
             {% csrf_token %}
@@ -170,7 +167,6 @@
         {% for holiday in holidays %}
             lis.push(farvardin.gregorianToSolar({{holiday.date.year}}, {{holiday.date.month}}, {{holiday.date.day}}, "object"))
         {% endfor %}
-        console.log(lis)
     </script>
 
     {#After choosing the day#}

@@ -1,3 +1,4 @@
+from django import forms
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.urls import reverse
@@ -14,15 +15,14 @@ class CompanyListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context.update(companies=Company.objects.all())
+        context['companies'] = Company.objects.all()
         return context
 
     def post(self, request, *args, **kwargs):
-        return HttpResponseRedirect(
-            reverse(
-                'company:detail-company-baraato', args=[request.POST.get('company_slug')]
-            )
-        )
+        data = request.POST
+        action = data.get('company_slug')
+        url_name = reverse('company:detail-company-baraato', args=[action])
+        return HttpResponseRedirect(url_name)
 
 
 class CompanyDetailView(DetailView):
@@ -30,6 +30,7 @@ class CompanyDetailView(DetailView):
     template_name = 'baraato/page2.html'
 
     def get_context_data(self, *args, **kwargs):
+        # TODO: change name of dict keys to lower case.
         context = super().get_context_data(**kwargs)
         context.update(
             dict(
