@@ -1,4 +1,3 @@
-from django import forms
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.urls import reverse
@@ -26,26 +25,18 @@ class CompanyListView(ListView):
         )
 
 
-class FormData(forms.ModelForm):
-    class Meta:
-        model = Reservation
-        fields = '__all__'
-
-
 class CompanyDetailView(DetailView):
     model = Company
     template_name = 'baraato/page2.html'
 
     def get_context_data(self, *args, **kwargs):
-        # TODO: change name of dict keys to lower case.
         context = super().get_context_data(**kwargs)
         context.update(
             dict(
                 holidays=HolidaysDate.objects.filter(company=context['company']),
-                sansConfig=SansConfig.objects.filter(company=context['company']),
-                sansHolidayDateTime=SansHolidayDateTime.objects.filter(company=context['company']),
+                sansconfig=SansConfig.objects.filter(company=context['company']),
+                sansholidaydatetime=SansHolidayDateTime.objects.filter(company=context['company']),
                 reservations=Reservation.objects.filter(company=context['company']),
-                form=FormData(),
             )
         )
         return context

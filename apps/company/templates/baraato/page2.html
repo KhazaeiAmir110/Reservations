@@ -186,11 +186,11 @@
             }
             {# date conversion #}
             let timeslots = getTime(
-                '{{ sansConfig.first.start_time|time:"H:i:s" }}',
-                '{{ sansConfig.first.end_time|time:"H:i:s" }}',
-                {{ sansConfig.first.duration }},
-                '{{ sansHolidayDateTime.first.start_time|time:"H:i:s" }}',
-                '{{ sansHolidayDateTime.first.end_time|time:"H:i:s" }}'
+                '{{ sansconfig.first.start_time|time:"H:i:s" }}',
+                '{{ sansconfig.first.end_time|time:"H:i:s" }}',
+                {{ sansconfig.first.duration }},
+                '{{ sansholidaydatetime.first.start_time|time:"H:i:s" }}',
+                '{{ sansholidaydatetime.first.end_time|time:"H:i:s" }}'
             );
 
             let date = this.value.split("/");
