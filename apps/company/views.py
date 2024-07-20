@@ -79,6 +79,16 @@ class PaymentView(ListView):
 
 def send_code(request):
     if request.method == 'POST':
+        # save information user in session
+        request.session['name'] = request.POST.get('name'),
+        request.session['family'] = request.POST.get('family'),
+        request.session['number'] = request.POST.get('number'),
+        request.session['email'] = request.POST.get('email'),
+        request.session['time'] = request.POST.get('time'),
+        request.session['date'] = request.POST.get('date'),
+
+        # send code to number
         phone_number = request.POST.get('number')
+
         return JsonResponse({'status': 'success', 'phone_number': phone_number, 'title': 'Code Sent'})
     return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
