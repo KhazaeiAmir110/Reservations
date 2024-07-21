@@ -3,7 +3,11 @@ from django.http import JsonResponse
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView
 
+import requests
+import json
+
 from reservations.secret import mediana
+from reservations.secret import zarinpal
 from .models import Company, HolidaysDate, SansConfig, SansHolidayDateTime, Reservation
 
 
@@ -58,6 +62,41 @@ class PaymentView(ListView):
         context.update(company=Company.objects.get(slug=self.kwargs['slug']))
 
         return context
+
+    def post(self, request, *args, **kwargs):
+        datas = request.POST
+        if datas.get('zarin'):
+            data = {
+                "MerchantID": zarinpal.MERCHANT,
+                "Amount": 1000,
+                "Description": zarinpal.description,
+                "Phone": zarinpal.phone,
+                "CallbackURL": zarinpal.CallbackURL,
+            }
+
+            data = json.dumps(data)
+            # set content length by data
+            headers = {
+                'content-type': 'application/json',
+                'content-length': str(len(data))
+            }
+            try:
+                response = requests.post(zarinpal.ZP_API_REQUEST, data=data, headers=headers)
+
+                if response.status_code == 200:
+                    response = response.json()
+                    if response['Status'] == 100:
+                        # return {'status': True, 'url': zarinpal.ZP_API_STARTPAY + str(response['Authority']),
+                        #         'authority': response['Authority']}
+                        return redirect(f'{zarinpal.ZP_API_STARTPAY}{response["Authority"]}')
+                    else:
+                        return {'status': False, 'code': str(response['Status'])}
+                return response
+
+            except requests.exceptions.Timeout:
+                return {'status': False, 'code': 'timeout'}
+            except requests.exceptions.ConnectionError:
+                return {'status': False, 'code': 'connection error'}
 
 
 # send code

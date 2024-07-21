@@ -19,10 +19,12 @@
     <div class="main">
         <div class="text-main">
             <div class="text">مبلغ <b>50,000 تومان</b> + مالیات به‌عنوان هزینه رزرو در نظر گرفته شده است.</div>
-            <div class="text">این مبلغ از هزینه کل سرویس شما توسط <b>آرایشگاه احسان امیری</b> کسر خواهد شد.</div>
+            <div class="text">این مبلغ از هزینه کل سرویس شما توسط <b>{{ company.name }}</b> کسر خواهد شد.</div>
             <div class="text">توجه کنید که در صورت عدم حضور در تاریخ و زمان رزرو شده مبلغی عودت داده نمی‌شود.</div>
 
-                <!-- zarinpal -->
+            <!-- zarinpal -->
+            <form method="post">
+                {% csrf_token %}
                 <div class="payment-main">
                     <label class="payment-part">
                         <input type="radio" class="payment-input" name="zarin" value="zarin">
@@ -38,7 +40,7 @@
                     <div class="parent-btn-page-3">
                         <button class="button-green"><a href="{% url 'company:detail-company-baraato' company.slug %}">بازگشت</a>
                         </button>
-                        <button class="button-green">بعدی</button>
+                        <button type="submit" class="button-green">بعدی</button>
                     </div>
                 </div>
             </form>
