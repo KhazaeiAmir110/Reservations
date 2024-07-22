@@ -1,12 +1,12 @@
 import json
 
 import requests
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.views import View
 from django.views.generic import ListView, DetailView
-from kavenegar import KavenegarAPI
 
 import requests
 import json
@@ -37,7 +37,6 @@ class CompanyDetailView(DetailView):
     template_name = 'baraato/page2.html'
 
     def get_context_data(self, *args, **kwargs):
-        # TODO: change name of dict keys to lower case.
         context = super().get_context_data(**kwargs)
         context.update(
             dict(
@@ -127,3 +126,30 @@ def send_code(request):
 
         return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
+
+
+# zarinpal
+
+class VerifyPaymentView(View):
+    def get(self, request):
+        data = {
+            "MerchantID": zarinpal.MERCHANT,
+            "Amount": zarinpal.amount,
+            "Authority": request.GET.get('Authority')
+        }
+        data = json.dumps(data)
+        headers = {
+            'content-type': 'application/json',
+            'content-length': str(len(data))
+        }
+
+        response = requests.post(zarinpal.ZP_API_VERIFY, data=data, headers=headers)
+
+        if response.status_code == 200:
+            response = response.json()
+            if response['Status'] == 100:
+                return HttpResponse("Payment is done.")
+            elif response['Status'] == 101:
+                return HttpResponse("transaction already")
+
+        return HttpResponse('Invalid Not Payment')
