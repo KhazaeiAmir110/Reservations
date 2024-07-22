@@ -3,7 +3,7 @@ import json
 import requests
 from django.http import HttpResponseRedirect, HttpResponse
 from django.http import JsonResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views import View
 from django.views.generic import ListView, DetailView
@@ -148,7 +148,8 @@ class VerifyPaymentView(View):
         if response.status_code == 200:
             response = response.json()
             if response['Status'] == 100:
-                return HttpResponse("Payment is done.")
+                # send sms Success reserve
+                return render(request, 'baraato/page5.html')
             elif response['Status'] == 101:
                 return HttpResponse("transaction already")
 
