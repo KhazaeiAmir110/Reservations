@@ -58,7 +58,8 @@ class PaymentView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['company'] = Company.objects.get(slug=self.kwargs['slug'])
+        context.update(company=Company.objects.get(slug=self.kwargs['slug']))
+
         return context
 
 
