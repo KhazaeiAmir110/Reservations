@@ -26,6 +26,9 @@
             <form method="post">
                 {% csrf_token %}
                 <div class="payment-main">
+                    {% if request.GET.error %}
+                    	<h5>{{ request.GET.error }}</h5>
+                    {% endif %} 
                     <label class="payment-part">
                         <input type="radio" class="payment-input" name="zarin" value="zarin">
                         <span>درگاه پرداخت زرین پال</span>

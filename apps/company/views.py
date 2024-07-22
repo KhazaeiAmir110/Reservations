@@ -1,7 +1,12 @@
-from django.urls import reverse
-from django.http import JsonResponse
+import json
+
+import requests
 from django.http import HttpResponseRedirect
+from django.http import JsonResponse
+from django.shortcuts import redirect
+from django.urls import reverse
 from django.views.generic import ListView, DetailView
+from kavenegar import KavenegarAPI
 
 import requests
 import json
@@ -17,7 +22,7 @@ class CompanyListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['companies'] = Company.objects.all()
+        context.update(companies=Company.objects.all())
         return context
 
     def post(self, request, *args, **kwargs):
@@ -32,6 +37,7 @@ class CompanyDetailView(DetailView):
     template_name = 'baraato/page2.html'
 
     def get_context_data(self, *args, **kwargs):
+        # TODO: change name of dict keys to lower case.
         context = super().get_context_data(**kwargs)
         context.update(
             dict(
@@ -68,7 +74,7 @@ class PaymentView(ListView):
         if datas.get('zarin'):
             data = {
                 "MerchantID": zarinpal.MERCHANT,
-                "Amount": 1000,
+                "Amount": zarinpal.amount,
                 "Description": zarinpal.description,
                 "Phone": zarinpal.phone,
                 "CallbackURL": zarinpal.CallbackURL,
@@ -86,8 +92,6 @@ class PaymentView(ListView):
                 if response.status_code == 200:
                     response = response.json()
                     if response['Status'] == 100:
-                        # return {'status': True, 'url': zarinpal.ZP_API_STARTPAY + str(response['Authority']),
-                        #         'authority': response['Authority']}
                         return redirect(f'{zarinpal.ZP_API_STARTPAY}{response["Authority"]}')
                     else:
                         return {'status': False, 'code': str(response['Status'])}
@@ -97,6 +101,9 @@ class PaymentView(ListView):
                 return {'status': False, 'code': 'timeout'}
             except requests.exceptions.ConnectionError:
                 return {'status': False, 'code': 'connection error'}
+        else:
+            url = reverse('company:payment', args=[self.kwargs['slug']]) + '?error=ERROR : IS NOT FOUND'
+            return HttpResponseRedirect(url)
 
 
 # send code
