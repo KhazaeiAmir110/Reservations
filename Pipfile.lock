@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "a8b17ff00f5b8feaf4b22aa48f3272ed165328caa4068fd1c1222553822ee50b"
+            "sha256": "08bd1707f42b4ad96cad2cf1e6d19fe3426d5f45ff04ddd06ae22ce5550d2883"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -153,6 +153,15 @@
             "index": "pypi",
             "markers": "python_version >= '3.8'",
             "version": "==5.0.1"
+        },
+        "djangorestframework": {
+            "hashes": [
+                "sha256:2b8871b062ba1aefc2de01f773875441a961fefbf79f5eed1e32b2f096944b20",
+                "sha256:36fe88cd2d6c6bec23dca9804bab2ba5517a8bb9d8f47ebc68981b56840107ad"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.8'",
+            "version": "==3.15.2"
         },
         "idna": {
             "hashes": [

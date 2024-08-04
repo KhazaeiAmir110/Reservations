@@ -11,6 +11,7 @@ psycopg2-binary = "==2.9.5"
 shortuuid = "==1.0.12"
 kavenegar = "1.1.2"
 requests = "2.32.3"
+djangorestframework = "*"
 
 [dev-packages]
 
