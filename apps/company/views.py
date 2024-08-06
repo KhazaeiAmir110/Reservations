@@ -1,11 +1,9 @@
-from django import forms
-from django.http import HttpResponseRedirect
-from django.http import JsonResponse
 from django.urls import reverse
+from django.http import JsonResponse
+from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView
-from kavenegar import KavenegarAPI
 
-from reservations.secret import kavenegar
+from reservations.secret import mediana
 from .models import Company, HolidaysDate, SansConfig, SansHolidayDateTime, Reservation
 
 
@@ -30,7 +28,6 @@ class CompanyDetailView(DetailView):
     template_name = 'baraato/page2.html'
 
     def get_context_data(self, *args, **kwargs):
-        # TODO: change name of dict keys to lower case.
         context = super().get_context_data(**kwargs)
         context.update(
             dict(
@@ -44,7 +41,7 @@ class CompanyDetailView(DetailView):
 
     def post(self, request, *args, **kwargs):
         data = request.POST
-        if (data.get('code') is None) or (int(data.get('code')) != kavenegar.code):
+        if (data.get('code') is None) or (int(data.get('code')) != mediana.code):
             return HttpResponseRedirect(reverse('company:detail-company-baraato',
                                                 args=[kwargs['slug']]))
 
@@ -75,13 +72,12 @@ def send_code(request):
         request.session['date'] = request.POST.get('date'),
 
         # send code to number
-        api = KavenegarAPI(kavenegar.API_KEY)
-        params = {
-            'receptor': request.POST.get('number'),
-            'message': f'کد تأیید : {kavenegar.code}\n سیستم رزرواسیون و نوبت دهی براتو'
-        }
-
-        api.sms_send(params)
+        mediana.api.send(
+            sender=mediana.sender,
+            recipients=[request.POST.get('number'), ],
+            message=f'کد تأیید : {mediana.code}\n سیستم رزرواسیون و نوبت دهی براتو',
+            summary=mediana.summary
+        )
 
         return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
