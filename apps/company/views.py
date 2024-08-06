@@ -25,6 +25,7 @@ class CompanyListView(ListView):
     def post(self, request, *args, **kwargs):
         data = request.POST
         action = data.get('company_slug')
+        request.session['company_slug'] = data.get('company_slug')
         url_name = reverse('company:detail-company-baraato', args=[action])
         return HttpResponseRedirect(url_name)
 
@@ -147,12 +148,13 @@ class VerifyPaymentView(View):
             if response['Status'] == 100:
                 # send sms Success reserve
                 Reservation.objects.create(
-                    first_name=request.session['name'],
-                    last_name=request.session['family'],
-                    phone_number=request.session['number'],
-                    email=request.session['email'],
-                    time=request.session['time'],
-                    date=request.session['date']
+                    first_name=request.session['name'][0],
+                    last_name=request.session['family'][0],
+                    phone_number=request.session['number'][0],
+                    email=request.session['email'][0],
+                    time=request.session['time'][0],
+                    date=request.session['date'][0],
+                    company=Company.objects.get(slug=request.session['company_slug'])
                 )
                 mediana.api.send(
                     sender=mediana.sender,
