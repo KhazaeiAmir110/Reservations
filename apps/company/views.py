@@ -1,15 +1,12 @@
 import json
-
 import requests
-from django.http import HttpResponseRedirect, HttpResponse
+
+from django.views import View
+from django.urls import reverse
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
-from django.urls import reverse
-from django.views import View
 from django.views.generic import ListView, DetailView
-
-import requests
-import json
+from django.http import HttpResponseRedirect, HttpResponse
 
 from reservations.secret import mediana
 from reservations.secret import zarinpal
@@ -149,6 +146,15 @@ class VerifyPaymentView(View):
             response = response.json()
             if response['Status'] == 100:
                 # send sms Success reserve
+                Reservation.objects.create(
+                    first_name=request.session['name'],
+                    last_name=request.session['family'],
+                    phone_number=request.session['number'],
+                    email=request.session['email'],
+                    time=request.session['time'],
+                    date=request.session['date']
+                )
+
                 return render(request, 'baraato/page5.html')
             elif response['Status'] == 101:
                 return HttpResponse("transaction already")
