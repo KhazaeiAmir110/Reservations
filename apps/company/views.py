@@ -154,7 +154,12 @@ class VerifyPaymentView(View):
                     time=request.session['time'],
                     date=request.session['date']
                 )
-
+                mediana.api.send(
+                    sender=mediana.sender,
+                    recipients=[request.session['number'], ],
+                    message="ثبت نام شما با موفقیت انجام شد.",
+                    summary=mediana.summary
+                )
                 return render(request, 'baraato/page5.html')
             elif response['Status'] == 101:
                 return HttpResponse("transaction already")
