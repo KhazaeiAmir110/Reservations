@@ -1,4 +1,6 @@
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.sessions.models import Session
+
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -15,3 +17,10 @@ class UserLoginViewSet(APIView):
             login(request, user)
             return Response({'detail': 'Session login successful.'})
         return Response({'Error': "user is not found"}, status=400)
+
+
+class UserLogoutView(APIView):
+    def post(self, request):
+        logout(request)
+        Session.objects.get(session_key=request.session.session_key).delete()
+        return Response("Logout")
