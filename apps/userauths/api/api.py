@@ -4,6 +4,9 @@ from django.contrib.sessions.models import Session
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from .serializers import UserRegisterSerializer
+from apps.userauths.models import User
+
 
 class UserLoginVApi(APIView):
     def get(self, request):
@@ -24,3 +27,17 @@ class UserLogoutApi(APIView):
         logout(request)
         Session.objects.get(session_key=request.session.session_key).delete()
         return Response("Logout")
+
+
+class UserRegisterApi(APIView):
+    def post(self, request):
+        serializer = UserRegisterSerializer(data=request.POST)
+        if serializer.is_valid():
+            User.objects.create_user(
+                username=serializer.validated_data['username'],
+                email=serializer.validated_data['email'],
+                password=serializer.validated_data['password'],
+                phone=serializer.validated_data['phone']
+            )
+            return Response(serializer.data)
+        return Response(serializer.errors)
