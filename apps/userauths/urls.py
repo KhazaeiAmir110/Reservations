@@ -1,6 +1,6 @@
 from django.urls import path
 
-from apps.userauths.api.api import UserLoginViewSet, UserLogoutView
+from apps.userauths.api.api import UserLoginVApi, UserLogoutApi
 from .views import UserRegisterView, UserLoginView, UserLogoutView
 
 app_name = 'userauths'
@@ -12,6 +12,6 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path('api/login', UserLoginViewSet.as_view(), name='login'),
-    path('api/logout', UserLogoutView.as_view(), name='logout'),
+    path('api/login', UserLoginVApi.as_view(), name='login'),
+    path('api/logout', UserLogoutApi.as_view(), name='logout'),
 ]

@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 
-class UserLoginViewSet(APIView):
+class UserLoginVApi(APIView):
     def get(self, request):
         if request.user.is_authenticated:
             return Response({'YOU': 'Login'})
@@ -19,7 +19,7 @@ class UserLoginViewSet(APIView):
         return Response({'Error': "user is not found"}, status=400)
 
 
-class UserLogoutView(APIView):
+class UserLogoutApi(APIView):
     def post(self, request):
         logout(request)
         Session.objects.get(session_key=request.session.session_key).delete()
