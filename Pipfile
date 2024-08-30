@@ -13,6 +13,7 @@ kavenegar = "1.1.2"
 ippanel = "==2.0.7"
 requests = "2.32.3"
 djangorestframework = "==3.15.2"
+drf-spectacular = "==0.27.2"
 
 [dev-packages]
 
