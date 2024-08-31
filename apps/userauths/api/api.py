@@ -34,6 +34,7 @@ class UserLogoutApi(APIView):
     """
         Logout API for user authentication
     """
+
     def post(self, request):
         logout(request)
         Session.objects.filter(session_key=request.session.session_key).delete()
@@ -48,12 +49,12 @@ class UserRegisterApi(APIView):
 
     def post(self, request):
         serializer = self.serializer_class(data=request.POST)
-        if serializer.is_valid():
-            User.objects.create_user(
-                username=serializer.validated_data['username'],
-                email=serializer.validated_data['email'],
-                password=serializer.validated_data['password'],
-                phone=serializer.validated_data['phone']
-            )
-            return Response(serializer.data)
-        return Response(serializer.errors)
+        serializer.is_valid(raise_exception=True)
+        User.objects.create_user(
+            username=serializer.validated_data['username'],
+            email=serializer.validated_data['email'],
+            password=serializer.validated_data['password'],
+            phone=serializer.validated_data['phone']
+        )
+        return Response(serializer.data)
+
