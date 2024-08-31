@@ -21,13 +21,13 @@ class UserLoginVApi(APIView):
 
     def post(self, request):
         serializer = self.serializer_class(data=request.POST)
-        if serializer.is_valid():
-            user = authenticate(username=request.data['username'], password=request.data['password'])
-            if user is not None:
-                login(request, user)
-                return Response({'detail': 'Session login successful.'})
-            return Response({'Error': "user is not found"}, status=400)
-        return Response({'Error': "The information entered is incorrect"}, status=400)
+        serializer.is_valid(raise_exception=True)
+        user = authenticate(username=serializer.validated_data['username'],
+                            password=serializer.validated_data['password'])
+        if user is not None:
+            login(request, user)
+            return Response({'detail': 'Session login successful.'})
+        return Response({'Error': "user is not found"}, status=400)
 
 
 class UserLogoutApi(APIView):
