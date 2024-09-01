@@ -140,10 +140,10 @@ REST_FRAMEWORK = {
 }
 # drf-spectacular
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Your Project API',
-    'DESCRIPTION': 'Your project description',
+    'TITLE': 'Project Braato',
+    'DESCRIPTION': 'API Test Braato Service',
     'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
+    'SERVE_INCLUDE_SCHEMA': True,
 }
 
 # zarinpal
