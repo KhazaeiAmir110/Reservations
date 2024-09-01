@@ -20,7 +20,7 @@ class UserLoginVApi(APIView):
         return Response({'YOU': 'NO Login'})
 
     def post(self, request):
-        serializer = self.serializer_class(data=request.POST)
+        serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = authenticate(username=serializer.validated_data['username'],
                             password=serializer.validated_data['password'])
@@ -48,7 +48,7 @@ class UserRegisterApi(APIView):
     serializer_class = UserRegisterSerializer
 
     def post(self, request):
-        serializer = self.serializer_class(data=request.POST)
+        serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         User.objects.create_user(
             username=serializer.validated_data['username'],
