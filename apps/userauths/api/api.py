@@ -1,25 +1,24 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.sessions.models import Session
-
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.viewsets import GenericViewSet
 
-from .serializers import UserRegisterSerializer, UserLoginSerializer
 from apps.userauths.models import User
+from .serializers import UserRegisterSerializer, UserLoginSerializer
 
 
-class UserLoginVApi(APIView):
+class UserLoginVApi(GenericViewSet):
     """
         Login API for user authentication
     """
     serializer_class = UserLoginSerializer
 
-    def get(self, request):
+    def list(self, request):
         if request.user.is_authenticated:
             return Response({'YOU': 'Login'})
         return Response({'YOU': 'NO Login'})
 
-    def post(self, request):
+    def create(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = authenticate(username=serializer.validated_data['username'],
@@ -30,24 +29,25 @@ class UserLoginVApi(APIView):
         return Response({'Error': "user is not found"}, status=400)
 
 
-class UserLogoutApi(APIView):
+class UserLogoutApi(GenericViewSet):
     """
         Logout API for user authentication
     """
+    serializer_class = UserLoginSerializer
 
-    def post(self, request):
+    def create(self, request):
         logout(request)
         Session.objects.filter(session_key=request.session.session_key).delete()
         return Response("Logout")
 
 
-class UserRegisterApi(APIView):
+class UserRegisterApi(GenericViewSet):
     """
         Register API for user registration
     """
     serializer_class = UserRegisterSerializer
 
-    def post(self, request):
+    def create(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         User.objects.create_user(
@@ -57,4 +57,3 @@ class UserRegisterApi(APIView):
             phone=serializer.validated_data['phone']
         )
         return Response(serializer.data)
-

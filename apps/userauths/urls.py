@@ -1,4 +1,5 @@
 from django.urls import path
+from rest_framework.routers import DefaultRouter
 
 from apps.userauths.api.api import UserLoginVApi, UserLogoutApi, UserRegisterApi
 from .views import UserRegisterView, UserLoginView, UserLogoutView
@@ -11,8 +12,9 @@ urlpatterns = [
     path('logout/', UserLogoutView.as_view(), name='logout'),
 ]
 
-urlpatterns += [
-    path('api/login', UserLoginVApi.as_view(), name='login'),
-    path('api/logout', UserLogoutApi.as_view(), name='logout'),
-    path('api/register', UserRegisterApi.as_view(), name='register'),
-]
+router = DefaultRouter()
+router.register(r'api/login', UserLoginVApi, basename='login')
+router.register(r'api/logout', UserLogoutApi, basename='logout')
+router.register(r'api/register', UserRegisterApi, basename='register')
+
+urlpatterns += router.urls
