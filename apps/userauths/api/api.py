@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from apps.userauths.models import User
-from .serializers import UserRegisterSerializer, UserLoginSerializer
+from apps.userauths.serializers import UserRegisterSerializer, UserLoginSerializer
 
 
 class UserLoginVApi(GenericViewSet):
@@ -12,6 +12,8 @@ class UserLoginVApi(GenericViewSet):
         Login API for user authentication
     """
     serializer_class = UserLoginSerializer
+    authentication_classes = []
+    permission_classes = []
 
     def list(self, request):
         if request.user.is_authenticated:
@@ -34,6 +36,8 @@ class UserLogoutApi(GenericViewSet):
         Logout API for user authentication
     """
     serializer_class = UserLoginSerializer
+    authentication_classes = []
+    permission_classes = []
 
     def create(self, request):
         logout(request)
@@ -46,6 +50,8 @@ class UserRegisterApi(GenericViewSet):
         Register API for user registration
     """
     serializer_class = UserRegisterSerializer
+    authentication_classes = []
+    permission_classes = []
 
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
