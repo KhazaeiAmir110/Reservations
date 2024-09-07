@@ -17,6 +17,6 @@ urlpatterns = [
 
 # back_office
 router = DefaultRouter()
-router.register(r'api/list', CompanyBackOfficeViewSet, basename='list_company')
+router.register(r'api/company', CompanyBackOfficeViewSet, basename='company')
 
 urlpatterns += router.urls
