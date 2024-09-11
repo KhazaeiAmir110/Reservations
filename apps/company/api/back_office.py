@@ -11,6 +11,7 @@ from apps.company.serializers import (
 class CompanyBackOfficeViewSet(mixins.ListModelMixin,
                                mixins.RetrieveModelMixin,
                                mixins.CreateModelMixin,
+                               mixins.DestroyModelMixin,
                                GenericViewSet):
     """
         API endpoint that allows companies to be viewed
