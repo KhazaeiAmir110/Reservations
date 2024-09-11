@@ -5,7 +5,7 @@ from rest_framework.viewsets import GenericViewSet
 from apps.company.models import Company, Reservation
 from apps.company.serializers import (
     CompanyBackOfficeSerializer, ReservationBackOfficeSerializer, CreateCompanyBackOfficeSerializer,
-    UpdateCompanyBackOfficeSerializer,
+    UpdateCompanyBackOfficeSerializer, UpdateReservationBackOfficeSerializer
 )
 
 
@@ -47,8 +47,14 @@ class ReservationBackOfficeViewSet(mixins.ListModelMixin,
         API endpoint that allows reservations to be viewed
     """
     queryset = Reservation.objects.all()
-    serializer_class = ReservationBackOfficeSerializer
+    serializer_class = ()
     permission_classes = [IsAuthenticated, ]
 
     def get_queryset(self):
         return self.queryset.filter(company__user=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == 'update':
+            return UpdateReservationBackOfficeSerializer
+        else:
+            return ReservationBackOfficeSerializer

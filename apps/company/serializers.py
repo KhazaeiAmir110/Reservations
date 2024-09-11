@@ -31,3 +31,11 @@ class ReservationBackOfficeSerializer(serializers.ModelSerializer):
         fields = [
             'first_name', 'last_name', 'phone_number', 'email', 'company', 'date', 'time'
         ]
+
+
+class UpdateReservationBackOfficeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reservation
+        fields = [
+            'first_name', 'last_name', 'phone_number', 'email', 'date', 'time'
+        ]
