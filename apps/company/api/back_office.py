@@ -4,7 +4,8 @@ from rest_framework.viewsets import GenericViewSet
 
 from apps.company.models import Company, Reservation
 from apps.company.serializers import (
-    CompanyBackOfficeSerializer, ReservationBackOfficeSerializer, CreateCompanyBackOfficeSerializer
+    CompanyBackOfficeSerializer, ReservationBackOfficeSerializer, CreateCompanyBackOfficeSerializer,
+    UpdateCompanyBackOfficeSerializer,
 )
 
 
@@ -12,6 +13,7 @@ class CompanyBackOfficeViewSet(mixins.ListModelMixin,
                                mixins.RetrieveModelMixin,
                                mixins.CreateModelMixin,
                                mixins.DestroyModelMixin,
+                               mixins.UpdateModelMixin,
                                GenericViewSet):
     """
         API endpoint that allows companies to be viewed
@@ -26,6 +28,8 @@ class CompanyBackOfficeViewSet(mixins.ListModelMixin,
     def get_serializer_class(self):
         if self.action == 'create':
             return CreateCompanyBackOfficeSerializer
+        elif self.action == 'update':
+            return UpdateCompanyBackOfficeSerializer
         else:
             return CompanyBackOfficeSerializer
 

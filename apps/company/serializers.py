@@ -17,6 +17,14 @@ class CreateCompanyBackOfficeSerializer(serializers.ModelSerializer):
         ]
 
 
+class UpdateCompanyBackOfficeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = [
+            'name', 'description', 'address'
+        ]
+
+
 class ReservationBackOfficeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
