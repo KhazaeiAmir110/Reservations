@@ -39,6 +39,9 @@ class CompanyBackOfficeViewSet(mixins.ListModelMixin,
 
 class ReservationBackOfficeViewSet(mixins.ListModelMixin,
                                    mixins.RetrieveModelMixin,
+                                   mixins.CreateModelMixin,
+                                   mixins.DestroyModelMixin,
+                                   mixins.UpdateModelMixin,
                                    GenericViewSet):
     """
         API endpoint that allows reservations to be viewed
