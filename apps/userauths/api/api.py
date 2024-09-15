@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.sessions.models import Session
+from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
@@ -15,20 +16,18 @@ class UserLoginVApi(GenericViewSet):
     authentication_classes = []
     permission_classes = []
 
-    def list(self, request):
-        if request.user.is_authenticated:
-            return Response({'YOU': 'Login'})
-        return Response({'YOU': 'NO Login'})
-
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = authenticate(username=serializer.validated_data['username'],
-                            password=serializer.validated_data['password'])
+        user = authenticate(
+            username=serializer.validated_data['username'],
+            password=serializer.validated_data['password']
+        )
         if user is not None:
             login(request, user)
-            return Response({'detail': 'Session login successful.'})
-        return Response({'Error': "user is not found"}, status=400)
+            return Response({'detail': 'Session login successful.'}, status=200)
+
+        raise AuthenticationFailed()
 
 
 class UserLogoutApi(GenericViewSet):
@@ -42,7 +41,7 @@ class UserLogoutApi(GenericViewSet):
     def create(self, request):
         logout(request)
         Session.objects.filter(session_key=request.session.session_key).delete()
-        return Response("Logout")
+        return Response({})
 
 
 class UserRegisterApi(GenericViewSet):
@@ -62,4 +61,4 @@ class UserRegisterApi(GenericViewSet):
             password=serializer.validated_data['password'],
             phone=serializer.validated_data['phone']
         )
-        return Response(serializer.data)
+        return Response({})
