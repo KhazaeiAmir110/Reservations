@@ -1,6 +1,8 @@
-from django.utils.text import slugify
-from apps.userauths.models import User
 from django.db import models
+from django.utils.text import slugify
+
+from apps.userauths.models import User
+from reservations.core.structs import EnumBase, EnumMember
 
 
 class Company(models.Model):
@@ -33,11 +35,11 @@ class HolidaysDate(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
 
-# TODO: Add amount in model
 class SansConfig(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
     duration = models.IntegerField(default=30)
+    amount = models.CharField(max_length=10, default=0)
 
     company = models.OneToOneField(Company, on_delete=models.CASCADE)
 
@@ -63,3 +65,16 @@ class Reservation(models.Model):
 
     def __str__(self):
         return f"{self.first_name} - {self.last_name} - {self.company}"
+
+
+class Payment(models.Model):
+    class StatusEnum(EnumBase):
+        SENT = EnumMember(0, 'Sent')
+        PENDING = EnumMember(1, 'Pending')
+        PAID = EnumMember(2, 'Paid')
+        NOT_PAID = EnumMember(3, 'Not Paid')
+
+    reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE)
+    status = models.PositiveIntegerField(
+        default=StatusEnum.SENT, choices=StatusEnum.to_tuple()
+    )

@@ -1,5 +1,8 @@
 from django.contrib import admin
-from .models import Company, HolidaysDate, SansConfig, SansHolidayDateTime, Reservation
+
+from .models import (
+    Company, HolidaysDate, SansConfig, SansHolidayDateTime, Reservation, Payment
+)
 
 
 class CompanyAdmin(admin.ModelAdmin):
@@ -24,8 +27,13 @@ class ReservationAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'company')
 
 
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = ('reservation', 'status')
+
+
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(HolidaysDate, HolidaysDateyAdmin)
 admin.site.register(SansConfig, SansConfigAdmin)
 admin.site.register(SansHolidayDateTime, SansHolidayDateTimeAdmin)
 admin.site.register(Reservation, ReservationAdmin)
+admin.site.register(Payment, PaymentAdmin)
