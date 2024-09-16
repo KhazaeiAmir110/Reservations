@@ -1,47 +1,48 @@
 from rest_framework import serializers
 
 from apps.company.models import Company, Reservation, Payment
+from apps.userauths.serializers import UserSerializer
 
 
 class CompanyBackOfficeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Company
-        fields = '__all__'
+    user = UserSerializer()
 
-
-class CreateCompanyBackOfficeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
         fields = [
-            'name', 'description', 'address'
+            'name', 'description', 'address', 'slug', 'user'
         ]
-
-
-class UpdateCompanyBackOfficeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Company
-        fields = [
-            'name', 'description', 'address'
+        read_only_fields = [
+            'user', 'slug'
         ]
 
 
 class ReservationBackOfficeSerializer(serializers.ModelSerializer):
+    company = serializers.CharField(source='company.name')
+
     class Meta:
         model = Reservation
         fields = [
             'first_name', 'last_name', 'phone_number', 'email', 'company', 'date', 'time'
         ]
+        read_only_fields = [
+            'first_name', 'last_name', 'phone_number', 'email',
+        ]
 
 
-class UpdateReservationBackOfficeSerializer(serializers.ModelSerializer):
+class ReservationForPaymentSerializer(serializers.ModelSerializer):
+    company = serializers.CharField(source='company.name')
+
     class Meta:
         model = Reservation
         fields = [
-            'first_name', 'last_name', 'phone_number', 'email', 'date', 'time'
+            'company', 'date', 'time'
         ]
 
 
 class PaymentBackOfficeSerializer(serializers.ModelSerializer):
+    reservation = ReservationForPaymentSerializer()
+
     class Meta:
         model = Payment
         fields = [
