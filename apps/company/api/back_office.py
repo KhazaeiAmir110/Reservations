@@ -1,7 +1,9 @@
 from rest_framework import mixins
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
+from django_filters.rest_framework import DjangoFilterBackend
 
+from reservations.core.pagination import CustomPageNumberPagination
 from apps.company.models import Company, Reservation
 from apps.company.serializers import (
     CompanyBackOfficeSerializer, ReservationBackOfficeSerializer, CreateCompanyBackOfficeSerializer,
@@ -21,6 +23,10 @@ class CompanyBackOfficeViewSet(mixins.ListModelMixin,
     queryset = Company.objects.all()
     serializer_class = ()
     permission_classes = [IsAuthenticated, ]
+    pagination_class = CustomPageNumberPagination
+    ordering = ('name',)
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ('name', 'address', 'user',)
 
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
@@ -49,6 +55,10 @@ class ReservationBackOfficeViewSet(mixins.ListModelMixin,
     queryset = Reservation.objects.all()
     serializer_class = ()
     permission_classes = [IsAuthenticated, ]
+    pagination_class = CustomPageNumberPagination
+    ordering = ('date', 'time',)
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ('date', 'time', 'company',)
 
     def get_queryset(self):
         return self.queryset.filter(company__user=self.request.user)
