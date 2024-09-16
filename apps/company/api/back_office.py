@@ -1,14 +1,13 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import mixins
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
-from django_filters.rest_framework import DjangoFilterBackend
 
-from reservations.core.pagination import CustomPageNumberPagination
 from apps.company.models import Company, Reservation, Payment
 from apps.company.serializers import (
-    CompanyBackOfficeSerializer, ReservationBackOfficeSerializer, CreateCompanyBackOfficeSerializer,
-    UpdateCompanyBackOfficeSerializer, UpdateReservationBackOfficeSerializer, PaymentBackOfficeSerializer
+    CompanyBackOfficeSerializer, ReservationBackOfficeSerializer, PaymentBackOfficeSerializer
 )
+from reservations.core.pagination import CustomPageNumberPagination
 
 
 class CompanyBackOfficeViewSet(mixins.ListModelMixin,
@@ -32,12 +31,7 @@ class CompanyBackOfficeViewSet(mixins.ListModelMixin,
         return self.queryset.filter(user=self.request.user)
 
     def get_serializer_class(self):
-        if self.action == 'create':
-            return CreateCompanyBackOfficeSerializer
-        elif self.action == 'update':
-            return UpdateCompanyBackOfficeSerializer
-        else:
-            return CompanyBackOfficeSerializer
+        return CompanyBackOfficeSerializer
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -64,10 +58,7 @@ class ReservationBackOfficeViewSet(mixins.ListModelMixin,
         return self.queryset.filter(company__user=self.request.user)
 
     def get_serializer_class(self):
-        if self.action == 'update':
-            return UpdateReservationBackOfficeSerializer
-        else:
-            return ReservationBackOfficeSerializer
+        return ReservationBackOfficeSerializer
 
 
 class PaymentBackOfficeViewSet(mixins.ListModelMixin,
