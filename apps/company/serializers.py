@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.company.models import Company, Reservation
+from apps.company.models import Company, Reservation, Payment
 
 
 class CompanyBackOfficeSerializer(serializers.ModelSerializer):
@@ -38,4 +38,12 @@ class UpdateReservationBackOfficeSerializer(serializers.ModelSerializer):
         model = Reservation
         fields = [
             'first_name', 'last_name', 'phone_number', 'email', 'date', 'time'
+        ]
+
+
+class PaymentBackOfficeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = [
+            'reservation', 'status'
         ]

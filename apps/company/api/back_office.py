@@ -4,10 +4,10 @@ from rest_framework.viewsets import GenericViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 
 from reservations.core.pagination import CustomPageNumberPagination
-from apps.company.models import Company, Reservation
+from apps.company.models import Company, Reservation, Payment
 from apps.company.serializers import (
     CompanyBackOfficeSerializer, ReservationBackOfficeSerializer, CreateCompanyBackOfficeSerializer,
-    UpdateCompanyBackOfficeSerializer, UpdateReservationBackOfficeSerializer
+    UpdateCompanyBackOfficeSerializer, UpdateReservationBackOfficeSerializer, PaymentBackOfficeSerializer
 )
 
 
@@ -68,3 +68,19 @@ class ReservationBackOfficeViewSet(mixins.ListModelMixin,
             return UpdateReservationBackOfficeSerializer
         else:
             return ReservationBackOfficeSerializer
+
+
+class PaymentBackOfficeViewSet(mixins.ListModelMixin,
+                               mixins.RetrieveModelMixin,
+                               GenericViewSet):
+    """
+        API endpoint that allows payments to be viewed
+    """
+    queryset = Payment.objects.all()
+    serializer_class = PaymentBackOfficeSerializer
+    permission_classes = [IsAuthenticated, ]
+    pagination_class = CustomPageNumberPagination
+    filter_backends = [DjangoFilterBackend]
+
+    def get_queryset(self):
+        return self.queryset.filter(reservation__company__user=self.request.user)
