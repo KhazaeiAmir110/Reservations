@@ -23,7 +23,7 @@ class UserLoginVApi(GenericViewSet):
             username=serializer.validated_data['username'],
             password=serializer.validated_data['password']
         )
-        if user is not None:
+        if user is not None and user.is_active:
             login(request, user)
             return Response({'detail': 'Session login successful.'}, status=200)
 
