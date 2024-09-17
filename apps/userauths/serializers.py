@@ -16,26 +16,27 @@ def validate_email(attrs):
         raise serializers.ValidationError('is not a valid email !!!')
 
 
-class UserRegisterSerializer(serializers.ModelSerializer):
+def validate_phone(attrs):
+    if (attrs is None) or (attrs is str) or (len(str(attrs)) < 11):
+        raise serializers.ValidationError('is not a valid phone number !!!')
+    else:
+        return attrs
+
+
+class UserRegisterSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=100, validators=[validate_username])
+    password = serializers.CharField(max_length=100, write_only=True)
+    email = serializers.EmailField(validators=[validate_email])
+    phone = serializers.IntegerField(validators=[validate_phone])
+
     class Meta:
         model = User
         fields = ['username', 'email', 'password', 'phone']
-        extra_kwargs = {
-            'password': {
-                'write_only': True
-            },
-            'username': {
-                'validators': [validate_username]
-            },
-            'email': {
-                'validators': [validate_email]
-            }
-        }
 
 
 class UserLoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=100)
-    password = serializers.CharField(max_length=100)
+    password = serializers.CharField(max_length=100, write_only=True)
 
     class Meta:
         model = User
@@ -48,3 +49,11 @@ class UserSerializer(serializers.ModelSerializer):
         fields = [
             'full_name', 'phone'
         ]
+        extra_kwargs = {
+            'full_name': {
+                'read_only': True
+            },
+            'phone': {
+                'read_only': True
+            }
+        }
