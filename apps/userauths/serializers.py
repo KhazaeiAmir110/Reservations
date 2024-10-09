@@ -41,3 +41,12 @@ class UserLoginSerializer(serializers.Serializer):
     class Meta:
         model = User
         fields = ['username', 'password']
+
+
+# Page 1
+class UserDashboardHeaderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'username', 'image'
+        ]
