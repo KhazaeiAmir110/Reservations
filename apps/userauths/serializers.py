@@ -17,7 +17,7 @@ def validate_email(attrs):
 
 
 def validate_phone(attrs):
-    if (attrs is None) or (attrs is str) or (len(str(attrs)) < 11):
+    if (attrs is None) or (attrs is str):
         raise serializers.ValidationError('is not a valid phone number !!!')
     else:
         return attrs
