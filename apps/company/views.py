@@ -52,7 +52,7 @@ class CompanyDetailView(DetailView):
             return HttpResponseRedirect(reverse('company:detail-company-baraato',
                                                 args=[kwargs['slug']]))
 
-        url_name = reverse('company:payment', args=[self.kwargs['slug']])
+        url_name = reverse('company:payment_view', args=[self.kwargs['slug']])
         return HttpResponseRedirect(url_name)
 
 
@@ -99,7 +99,7 @@ class PaymentView(ListView):
             except requests.exceptions.ConnectionError:
                 return {'status': False, 'code': 'connection error'}
         else:
-            url = reverse('company:payment', args=[self.kwargs['slug']]) + '?error=ERROR : IS NOT FOUND'
+            url = reverse('company:payment_view', args=[self.kwargs['slug']]) + '?error=ERROR : IS NOT FOUND'
             return HttpResponseRedirect(url)
 
 
