@@ -5,11 +5,13 @@ from rest_framework.viewsets import GenericViewSet
 
 from apps.company.models import Company, Reservation, Payment
 from apps.company.serializers import (
-    CompanyBackOfficeSerializer, ReservationBackOfficeSerializer, PaymentBackOfficeSerializer
+    CompanyBackOfficeSerializer, ReservationBackOfficeSerializer, PaymentBackOfficeSerializer,
+    CompanyDashboardSerializer
 )
 from reservations.core.pagination import CustomPageNumberPagination
 
 
+# Company
 class CompanyBackOfficeViewSet(mixins.ListModelMixin,
                                mixins.RetrieveModelMixin,
                                mixins.CreateModelMixin,
@@ -35,6 +37,18 @@ class CompanyBackOfficeViewSet(mixins.ListModelMixin,
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class CompanyDashboardApi(mixins.ListModelMixin, GenericViewSet):
+    """
+        Api information Company for page 1
+    """
+
+    queryset = Company.objects.all()
+    serializer_class = CompanyDashboardSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
 
 
 class ReservationBackOfficeViewSet(mixins.ListModelMixin,
