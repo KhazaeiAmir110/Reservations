@@ -7,7 +7,9 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from apps.userauths.models import User
-from apps.userauths.serializers import UserRegisterSerializer, UserLoginSerializer, UserDashboardHeaderSerializer
+from apps.userauths.serializers import (
+    UserRegisterSerializer, UserLoginSerializer, UserDashboardHeaderSerializer, UserDashboardSerializer
+)
 
 
 # Authentication user
@@ -75,6 +77,18 @@ class UserDashboardHeaderApi(mixins.ListModelMixin, GenericViewSet):
 
     queryset = User.objects.all()
     serializer_class = UserDashboardHeaderSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(username=self.request.user.username)
+
+
+class UserDashboardApi(mixins.ListModelMixin, GenericViewSet):
+    """
+        Api information User for page 1
+    """
+
+    queryset = User.objects.all()
+    serializer_class = UserDashboardSerializer
 
     def get_queryset(self):
         return self.queryset.filter(username=self.request.user.username)

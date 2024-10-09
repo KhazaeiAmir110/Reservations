@@ -1,7 +1,9 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
 
-from apps.userauths.api.api import UserLoginVApi, UserLogoutApi, UserRegisterApi, UserDashboardHeaderApi
+from apps.userauths.api.api import (
+    UserLoginVApi, UserLogoutApi, UserRegisterApi, UserDashboardHeaderApi, UserDashboardApi
+)
 from .views import UserRegisterView, UserLoginView, UserLogoutView
 
 app_name = 'userauths'
@@ -18,5 +20,6 @@ router.register(r'api/logout', UserLogoutApi, basename='logout')
 router.register(r'api/register', UserRegisterApi, basename='register')
 
 router.register(r'api/user_header', UserDashboardHeaderApi, basename='user_header')
+router.register(r'api/user_dashboard', UserDashboardApi, basename='user_dashboard')
 
 urlpatterns += router.urls
