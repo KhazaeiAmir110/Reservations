@@ -4,16 +4,10 @@ from apps.company.models import Company, Reservation, Payment
 
 
 class CompanyBackOfficeSerializer(serializers.ModelSerializer):
-    user_name = serializers.CharField(source='user.full_name', read_only=True)
-    user_phone = serializers.CharField(source='user.phone', read_only=True)
-
     class Meta:
         model = Company
         fields = [
-            'name', 'description', 'address', 'slug', 'user_name', 'user_phone',
-        ]
-        read_only_fields = [
-            'slug'
+            'name', 'description', 'address'
         ]
 
 

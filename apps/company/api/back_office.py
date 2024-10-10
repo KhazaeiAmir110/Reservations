@@ -25,8 +25,6 @@ class CompanyBackOfficeViewSet(mixins.ListModelMixin,
     permission_classes = [IsAuthenticated, ]
     pagination_class = CustomPageNumberPagination
     ordering = ('name',)
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ('name', 'address', 'user',)
 
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
