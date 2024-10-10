@@ -1,0 +1,35 @@
+networks:
+  network_django:
+    name: web_site_default
+    external: true
+
+services:
+
+  db:
+    image: postgres:13.1
+    container_name: django_db
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    networks:
+      - network_django
+    restart: always
+
+
+  web:
+    image: reservation/mesbah_django:1.0
+    container_name: django_web
+    volumes:
+      - .:/project
+    env_file:
+      - variables.env
+    environment:
+      - DEBUG=true
+      - TEMPLATE_DEBUG=true
+      - PYTHONUNBUFFERED=true
+      - IS_MIGRATION=False
+    networks:
+      - network_django
+    expose:
+      - 8000
+    restart: always
+    command: pipenv run python manage.py runserver 0.0.0.0:8000
