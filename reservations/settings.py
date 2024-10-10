@@ -36,8 +36,6 @@ INSTALLED_APPS = [
 
     # Third Part Apps
     'shortuuid',
-    'mathfilters',
-    'taggit',
     'rest_framework',
     'drf_spectacular',
     "corsheaders",
