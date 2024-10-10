@@ -17,14 +17,6 @@ class CompanyBackOfficeSerializer(serializers.ModelSerializer):
         ]
 
 
-class CompanyDashboardSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Company
-        fields = [
-            'name', 'description', 'address'
-        ]
-
-
 class ReservationBackOfficeSerializer(serializers.ModelSerializer):
     company = serializers.CharField(source='company.name')
 

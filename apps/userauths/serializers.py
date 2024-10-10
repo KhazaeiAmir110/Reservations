@@ -48,13 +48,5 @@ class UserDashboardHeaderSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'username', 'image'
-        ]
-
-
-class UserDashboardSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = [
-            'first_name', 'last_name', 'phone', 'email'
+            'username', 'image', 'email'
         ]

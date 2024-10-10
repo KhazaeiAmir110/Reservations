@@ -1,6 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.sessions.models import Session
-
 from rest_framework import mixins
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.response import Response
@@ -8,7 +7,7 @@ from rest_framework.viewsets import GenericViewSet
 
 from apps.userauths.models import User
 from apps.userauths.serializers import (
-    UserRegisterSerializer, UserLoginSerializer, UserDashboardHeaderSerializer, UserDashboardSerializer
+    UserRegisterSerializer, UserLoginSerializer, UserDashboardHeaderSerializer
 )
 
 
@@ -77,18 +76,6 @@ class UserDashboardHeaderApi(mixins.ListModelMixin, GenericViewSet):
 
     queryset = User.objects.all()
     serializer_class = UserDashboardHeaderSerializer
-
-    def get_queryset(self):
-        return self.queryset.filter(username=self.request.user.username)
-
-
-class UserDashboardApi(mixins.ListModelMixin, GenericViewSet):
-    """
-        Api information User for page 1
-    """
-
-    queryset = User.objects.all()
-    serializer_class = UserDashboardSerializer
 
     def get_queryset(self):
         return self.queryset.filter(username=self.request.user.username)
