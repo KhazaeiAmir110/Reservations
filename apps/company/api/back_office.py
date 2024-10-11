@@ -1,9 +1,11 @@
+from django.db.models import Sum
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import mixins
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from apps.company.models import Company, Reservation, Payment
+from apps.company.models import Company, Reservation, Payment, SansConfig
 from apps.company.serializers import (
     CompanyBackOfficeSerializer, ReservationBackOfficeSerializer, PaymentBackOfficeSerializer,
 )
@@ -80,3 +82,28 @@ class PaymentBackOfficeViewSet(mixins.ListModelMixin,
 
     def get_serializer_class(self):
         return PaymentBackOfficeSerializer
+
+
+class PaymentTotalBackofficeViewSet(mixins.ListModelMixin, GenericViewSet):
+    queryset = Payment.objects.all()
+    serializer_class = PaymentBackOfficeSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ('status', )
+
+    def list(self, request, *args, **kwargs):
+        status = request.query_params.get('status', None)
+
+        payments = self.get_queryset()
+        if status:
+            payments = payments.filter(status=status)
+
+        total_amount = SansConfig.objects.filter(
+            company__in=payments.values_list('reservation__company', flat=True)
+        ).aggregate(total=Sum('amount'))['total']
+
+        serializer = self.get_serializer(payments, many=True)
+
+        return Response({
+            'payments': serializer.data,
+            'total_amount': total_amount
+        })
