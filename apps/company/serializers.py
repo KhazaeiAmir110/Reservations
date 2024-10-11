@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.company.models import Company, Reservation, Payment
+from apps.company.models import Company, Reservation, Payment, SansConfig
 
 
 class CompanyBackOfficeSerializer(serializers.ModelSerializer):
@@ -24,13 +24,27 @@ class ReservationBackOfficeSerializer(serializers.ModelSerializer):
         ]
 
 
+class SansConfigSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SansConfig
+        fields = ['amount']
+
+
 class PaymentBackOfficeSerializer(serializers.ModelSerializer):
     company = serializers.CharField(source='reservation.company.name')
     date = serializers.DateField(source='reservation.date')
     time = serializers.TimeField(source='reservation.time')
+    amount = serializers.SerializerMethodField()
 
     class Meta:
         model = Payment
         fields = [
-            'company', 'date', 'time', 'status'
+            'company', 'date', 'time', 'status', 'amount'
         ]
+
+    def get_amount(self, obj):
+        try:
+            sans_config = SansConfig.objects.get(company=obj.reservation.company)
+            return sans_config.amount
+        except SansConfig.DoesNotExist:
+            return None
