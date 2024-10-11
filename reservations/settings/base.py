@@ -17,8 +17,6 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 RESERVATION_DIR = Path(__file__).resolve().parent.parent.parent
 
-BASE_URL = 'http://localhost:8000/'
-
 
 def env_setting(key, default=None):
     import os
@@ -38,7 +36,6 @@ DJANGO_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django.contrib.sites"
 ]
 
 THIRD_PARTY_APPS = [
