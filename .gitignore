@@ -1,4 +1,4 @@
 *.pyc
 /db.sqlite3
 /reservations/secret/
-/reservations/local.py
+/reservations/settings/local.py
