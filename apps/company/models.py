@@ -6,22 +6,28 @@ from reservations.core.structs import EnumBase, EnumMember
 
 
 class Company(models.Model):
+    class StatusEnum(EnumBase):
+        REVIEW = EnumMember(0, 'Review')
+        REJECT = EnumMember(1, 'Rejected')
+        CONFIRMED = EnumMember(2, 'Confirmed')
+
     name = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField()
     address = models.CharField(max_length=200)
+    image = models.ImageField()
     slug = models.SlugField(max_length=100, unique=True)
+    status = models.PositiveIntegerField(
+        default=StatusEnum.REVIEW, choices=StatusEnum.to_tuple()
+    )
 
     def __str__(self):
-        return self.name
+        return f"{self.name}-{self.user}"
 
     def save(self, *args, **kwargs):
         if self.slug == "" or self.slug is None:
             self.slug = slugify(self.name) + '-' + str(self.user)
         super(Company, self).save(*args, **kwargs)
-
-    def company_count(self):
-        return Company.objects.all()
 
     class Meta:
         verbose_name_plural = "Companies"
@@ -34,6 +40,9 @@ class HolidaysDate(models.Model):
     date = models.DateField()
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.company}-{self.date}"
+
 
 class SansConfig(models.Model):
     start_time = models.TimeField()
@@ -43,12 +52,18 @@ class SansConfig(models.Model):
 
     company = models.OneToOneField(Company, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.duration}-{self.amount}"
+
 
 class SansHolidayDateTime(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
 
     company = models.OneToOneField(Company, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.start_time}-{self.end_time}"
 
 
 class Reservation(models.Model):
@@ -78,3 +93,7 @@ class Payment(models.Model):
     status = models.PositiveIntegerField(
         default=StatusEnum.SENT, choices=StatusEnum.to_tuple()
     )
+    code = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f"{self.reservation.date}-{self.status}"
