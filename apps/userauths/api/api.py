@@ -4,6 +4,7 @@ from rest_framework import mixins
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
+from django.utils.translation import gettext_lazy as _
 
 from apps.userauths.models import User
 from apps.userauths.serializers import (
@@ -29,9 +30,9 @@ class UserLoginVApi(GenericViewSet):
         )
         if user is not None and user.is_active:
             login(request, user)
-            return Response({'detail': 'Session login successful.'}, status=200)
+            return Response({'detail': _('Session login successful.')}, status=200)
 
-        raise AuthenticationFailed()
+        raise AuthenticationFailed(detail=_("Incorrect authentication credentials."))
 
 
 class UserLogoutApi(GenericViewSet):
@@ -58,14 +59,17 @@ class UserRegisterApi(GenericViewSet):
 
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        User.objects.create_user(
-            username=serializer.validated_data['username'],
-            email=serializer.validated_data['email'],
-            password=serializer.validated_data['password'],
-            phone=serializer.validated_data['phone']
-        )
-        return Response({})
+        if serializer.is_valid(raise_exception=True):
+            try:
+                User.objects.create(
+                    username=serializer.validated_data['username'],
+                    email=serializer.validated_data['email'],
+                    password=serializer.validated_data['password'],
+                    phone=serializer.validated_data['phone']
+                )
+            except Exception:
+                raise AuthenticationFailed(detail=_("Incorrect authentication credentials in register."))
+        return Response({'detail': _("Register Successful")})
 
 
 # Page 1

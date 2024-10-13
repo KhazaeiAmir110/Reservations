@@ -4,6 +4,7 @@ from rest_framework import mixins
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
+from django.utils.translation import gettext_lazy as _
 
 from apps.company.models import Company, Reservation, Payment, SansConfig
 from apps.company.serializers import (
@@ -26,7 +27,7 @@ class CompanyBackOfficeViewSet(mixins.ListModelMixin,
     serializer_class = ()
     permission_classes = [IsAuthenticated, ]
     pagination_class = CustomPageNumberPagination
-    ordering = ('name',)
+    ordering = (_('name'),)
 
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
@@ -51,9 +52,9 @@ class ReservationBackOfficeViewSet(mixins.ListModelMixin,
     serializer_class = ()
     permission_classes = [IsAuthenticated, ]
     pagination_class = CustomPageNumberPagination
-    ordering = ('date', 'time',)
+    ordering = (_('date'), _('time'),)
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ('date', 'time', 'company',)
+    filterset_fields = (_('date'), _('time'), _('company'),)
 
     def get_queryset(self):
         return self.queryset.filter(company__user=self.request.user)
@@ -88,7 +89,7 @@ class PaymentTotalBackofficeViewSet(mixins.ListModelMixin, GenericViewSet):
     queryset = Payment.objects.all()
     serializer_class = PaymentBackOfficeSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ('status', )
+    filterset_fields = (_('status'), )
 
     def list(self, request, *args, **kwargs):
         status = request.query_params.get('status', None)
