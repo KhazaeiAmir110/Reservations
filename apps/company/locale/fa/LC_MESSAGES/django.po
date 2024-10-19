@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-13 19:16+0330\n"
+"POT-Creation-Date: 2024-10-19 11:23+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,22 +17,49 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-#: api/back_office.py:30
-msgid "name"
-msgstr "نام"
 
-#: api/back_office.py:55 api/back_office.py:57
-msgid "date"
-msgstr "تاریخ"
-
-#: api/back_office.py:55 api/back_office.py:57
-msgid "time"
-msgstr "ساعت"
-
-#: api/back_office.py:57
-msgid "company"
-msgstr "کسب و کار"
-
-#: api/back_office.py:92
+#: api/back_office.py:105
 msgid "status"
 msgstr "وضعیت"
+
+#: models.py:11
+msgid "Review"
+msgstr "درحال بررسی"
+
+#: models.py:12
+msgid "Rejected"
+msgstr "ردشده"
+
+#: models.py:13
+msgid "Confirmed"
+msgstr "تایید شده"
+
+#: models.py:34
+#, fuzzy
+#| msgid "company"
+msgid "Companies"
+msgstr "کسب و کارها"
+
+#: models.py:35
+#, fuzzy
+#| msgid "company"
+msgid "Company"
+msgstr "کسب و کار"
+
+#~ msgid "date"
+#~ msgstr "تاریخ"
+
+#~ msgid "time"
+#~ msgstr "ساعت"
+
+#~ msgid "company"
+#~ msgstr "کسب و کار"
+
+#~ msgid "name"
+#~ msgstr "اسم"
+
+#~ msgid "address"
+#~ msgstr "آدرس"
+
+#~ msgid "user"
+#~ msgstr "کاربر"
