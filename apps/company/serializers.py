@@ -7,7 +7,7 @@ class CompanyBackOfficeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
         fields = [
-            'name', 'description', 'address'
+            'name', 'description', 'address', 'image'
         ]
 
 

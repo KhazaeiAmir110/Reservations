@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.utils.translation import gettext_lazy as _
 
 from apps.userauths.models import User
 from reservations.core.structs import EnumBase, EnumMember
@@ -7,9 +8,9 @@ from reservations.core.structs import EnumBase, EnumMember
 
 class Company(models.Model):
     class StatusEnum(EnumBase):
-        REVIEW = EnumMember(0, 'Review')
-        REJECT = EnumMember(1, 'Rejected')
-        CONFIRMED = EnumMember(2, 'Confirmed')
+        REVIEW = EnumMember(0, _('Review'))
+        REJECT = EnumMember(1, _('Rejected'))
+        CONFIRMED = EnumMember(2, _('Confirmed'))
 
     name = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -30,8 +31,8 @@ class Company(models.Model):
         super(Company, self).save(*args, **kwargs)
 
     class Meta:
-        verbose_name_plural = "Companies"
-        verbose_name = "Company"
+        verbose_name_plural = _("Companies")
+        verbose_name = _("Company")
         ordering = ['name']
         constraints = []
 
