@@ -61,7 +61,7 @@ class UserRegisterApi(GenericViewSet):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
             try:
-                User.objects.create(
+                User.objects.create_user(
                     username=serializer.validated_data['username'],
                     email=serializer.validated_data['email'],
                     password=serializer.validated_data['password'],
