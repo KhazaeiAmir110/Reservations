@@ -114,7 +114,7 @@ class PaymentTotalBackofficeViewSet(mixins.ListModelMixin, GenericViewSet):
     queryset = Payment.objects.all()
     serializer_class = PaymentBackOfficeSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = (_('status'),)
+    filterset_fields = ('status',)
 
     def list(self, request, *args, **kwargs):
         status = request.query_params.get('status', None)
