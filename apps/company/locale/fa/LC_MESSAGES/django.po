@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-19 11:23+0330\n"
+"POT-Creation-Date: 2024-10-20 19:33+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,48 +18,59 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: api/back_office.py:105
-msgid "status"
-msgstr "وضعیت"
-
-#: models.py:11
+#: models.py:12 models.py:73
 msgid "Review"
 msgstr "درحال بررسی"
 
-#: models.py:12
+#: models.py:13 models.py:74
 msgid "Rejected"
 msgstr "ردشده"
 
-#: models.py:13
+#: models.py:14 models.py:75
 msgid "Confirmed"
 msgstr "تایید شده"
 
-#: models.py:34
+#: models.py:35
 #, fuzzy
 #| msgid "company"
 msgid "Companies"
 msgstr "کسب و کارها"
 
-#: models.py:35
+#: models.py:36
 #, fuzzy
 #| msgid "company"
 msgid "Company"
 msgstr "کسب و کار"
 
-#~ msgid "date"
-#~ msgstr "تاریخ"
+#: models.py:93
+msgid "Reservations cannot be made on holidays."
+msgstr "در روزهای تعطیل نمی توان رزرو کرد."
 
-#~ msgid "time"
-#~ msgstr "ساعت"
+#: models.py:96
+msgid "There is already a reservation for this date and time."
+msgstr "قبلا این تاریخ و ساعت رزرو شده است."
 
-#~ msgid "company"
-#~ msgstr "کسب و کار"
+#: models.py:102
+#, python-format
+msgid "The reservation time must be between %(start)s and %(end)s"
+msgstr "زمان رزرو باید بین ساعت %(start)s و %(end)s باشد."
 
-#~ msgid "name"
-#~ msgstr "اسم"
+#: models.py:107
+msgid "No configuration found for the company."
+msgstr "هیچ زمانی برای این کسب و کار ثبت نشده است."
 
-#~ msgid "address"
-#~ msgstr "آدرس"
+#: models.py:119
+msgid "Sent"
+msgstr "ارسال شد"
 
-#~ msgid "user"
-#~ msgstr "کاربر"
+#: models.py:120
+msgid "Pending"
+msgstr "در انتظار"
+
+#: models.py:121
+msgid "Paid"
+msgstr "پرداخت شد"
+
+#: models.py:122
+msgid "Not Paid"
+msgstr "پرداخت نشد"
