@@ -12,16 +12,26 @@ class CompanyBackOfficeSerializer(serializers.ModelSerializer):
 
 
 class ReservationBackOfficeSerializer(serializers.ModelSerializer):
-    company = serializers.CharField(source='company.name')
+    company = serializers.CharField(source='company.name', read_only=True)
 
     class Meta:
         model = Reservation
         fields = [
             'first_name', 'last_name', 'phone_number', 'email', 'company', 'date', 'time'
         ]
-        read_only_fields = [
-            'first_name', 'last_name', 'phone_number', 'email',
-        ]
+
+
+class ListReservationBackofficeSerializer(serializers.ModelSerializer):
+    company = serializers.CharField(source='company.name')
+    full_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Reservation
+        fields = ['full_name', 'phone_number', 'email', 'company', 'date', 'time']
+        read_only_fields = ['full_name', 'phone_number', 'email', 'company', 'date', 'time']
+
+    def get_full_name(self, obj):
+        return f"{obj.first_name} {obj.last_name}"
 
 
 class SansConfigSerializer(serializers.ModelSerializer):
