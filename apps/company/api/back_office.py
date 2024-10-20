@@ -98,12 +98,18 @@ class PaymentBackOfficeViewSet(mixins.ListModelMixin,
     serializer_class = ()
     permission_classes = [IsAuthenticated, ]
     pagination_class = CustomPageNumberPagination
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = (
+
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = [
         'reservation__date', 'reservation__time', 'reservation__company', 'status',
-    )
+    ]
+    search_fields = []
+    ordering = ('reservation__date', 'reservation__time', )
 
     def get_queryset(self):
+        if self.request.user.is_superuser:
+            self.search_fields = ['reservation__company__name', ]
+            return self.queryset
         return self.queryset.filter(reservation__company__user=self.request.user)
 
     def get_serializer_class(self):

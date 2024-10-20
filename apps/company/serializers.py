@@ -34,12 +34,6 @@ class ListReservationBackofficeSerializer(serializers.ModelSerializer):
         return f"{obj.first_name} {obj.last_name}"
 
 
-class SansConfigSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SansConfig
-        fields = ['amount']
-
-
 class PaymentBackOfficeSerializer(serializers.ModelSerializer):
     company = serializers.CharField(source='reservation.company.name')
     date = serializers.DateField(source='reservation.date')
