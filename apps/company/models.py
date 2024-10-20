@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
 
 from apps.userauths.models import User
 from reservations.core.structs import EnumBase, EnumMember
@@ -68,6 +69,11 @@ class SansHolidayDateTime(models.Model):
 
 
 class Reservation(models.Model):
+    class StatusEnum(EnumBase):
+        REVIEW = EnumMember(0, _('Review'))
+        REJECT = EnumMember(1, _('Rejected'))
+        CONFIRMED = EnumMember(2, _('Confirmed'))
+
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
 
@@ -75,12 +81,37 @@ class Reservation(models.Model):
     email = models.EmailField()
 
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    status = models.PositiveIntegerField(
+        default=StatusEnum.REVIEW, choices=StatusEnum.to_tuple()
+    )
 
     date = models.DateField()
     time = models.TimeField()
 
+    def clean(self):
+        if HolidaysDate.objects.filter(company=self.company, date=self.date).exists():
+            raise ValidationError(_('Reservations cannot be made on holidays.'))
+
+        if Reservation.objects.filter(company=self.company, date=self.date, time=self.time).exists():
+            raise ValidationError(_('There is already a reservation for this date and time.'))
+
+        try:
+            sans_config = self.company.sansconfig
+            if not (sans_config.start_time <= self.time <= sans_config.end_time):
+                raise ValidationError(
+                    _('The reservation time must be between %(start)s and %(end)s'),
+                    params={'start': sans_config.start_time, 'end': sans_config.end_time},
+                )
+
+        except SansConfig.DoesNotExist:
+            raise ValidationError(_('No configuration found for the company.'))
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super(Reservation, self).save(*args, **kwargs)
+
     def __str__(self):
-        return f"{self.first_name} - {self.last_name} - {self.company}"
+        return f"{self.first_name} {self.last_name} - {self.company}"
 
 
 class Payment(models.Model):
