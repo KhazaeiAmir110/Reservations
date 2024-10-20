@@ -159,6 +159,10 @@ REST_FRAMEWORK = {
 
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
+
+# Session Delete
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 7
+
 CORS_ORIGIN_ALLOW_ALL = True
 # drf-spectacular
 SPECTACULAR_SETTINGS = {
