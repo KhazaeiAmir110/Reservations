@@ -116,12 +116,12 @@ class Reservation(models.Model):
 
 class Payment(models.Model):
     class StatusEnum(EnumBase):
-        SENT = EnumMember(0, 'Sent')
-        PENDING = EnumMember(1, 'Pending')
-        PAID = EnumMember(2, 'Paid')
-        NOT_PAID = EnumMember(3, 'Not Paid')
+        SENT = EnumMember(0, _('Sent'))
+        PENDING = EnumMember(1, _('Pending'))
+        PAID = EnumMember(2, _('Paid'))
+        NOT_PAID = EnumMember(3, _('Not Paid'))
 
-    reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE)
+    reservation = models.OneToOneField(Reservation, on_delete=models.CASCADE)
     status = models.PositiveIntegerField(
         default=StatusEnum.SENT, choices=StatusEnum.to_tuple()
     )
