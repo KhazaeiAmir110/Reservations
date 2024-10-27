@@ -1,27 +1,10 @@
-networks:
-  network_django:
-    name: web_site_default
-    external: true
 
 services:
-
-  db:
-    image: postgres:13.1
-    container_name: django_db
-    environment:
-      - POSTGRES_HOST_AUTH_METHOD=trust
-    networks:
-      - network_django
-    restart: always
-
-
   web:
-    image: reservation/mesbah_django:1.0
-    container_name: django_web
-    volumes:
-      - .:/project
-    env_file:
-      - variables.env
+    build:
+      context: compose/production/django/.
+    container_name: django_web_reservations
+    command: pipenv run python manage.py runserver 0.0.0.0:8080
     environment:
       - DEBUG=true
       - TEMPLATE_DEBUG=true
@@ -29,7 +12,33 @@ services:
       - IS_MIGRATION=False
     networks:
       - network_django
-    expose:
-      - 8000
+    volumes:
+      - .:/project
     restart: always
-    command: pipenv run python manage.py runserver 0.0.0.0:8000
+
+
+
+  # database
+  db:
+    image: postgres:latest
+    container_name: db_reservations
+    ports:
+      - "5433:5432"
+    volumes:
+      - reservations-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=reservations
+      - POSTGRES_USER=reservations
+      - POSTGRES_PASSWORD=reservations
+    networks:
+      - network_django
+
+    restart: always
+
+
+volumes:
+  reservations-data:
+networks:
+  network_django:
+    name: network_reservations
+    external: true
