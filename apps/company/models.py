@@ -17,7 +17,7 @@ class Company(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField()
     address = models.CharField(max_length=200)
-    image = models.ImageField()
+    image = models.ImageField(null=True, blank=True)
     slug = models.SlugField(max_length=100, unique=True)
     status = models.PositiveIntegerField(
         default=StatusEnum.REVIEW, choices=StatusEnum.to_tuple()
