@@ -52,3 +52,20 @@ class PaymentBackOfficeSerializer(serializers.ModelSerializer):
             return sans_config.amount
         except SansConfig.DoesNotExist:
             return None
+
+
+class PaymentTotalBackofficeSerializer(serializers.ModelSerializer):
+    amount = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Payment
+        fields = [
+             'status', 'amount'
+        ]
+
+    def get_amount(self, obj):
+        try:
+            sans_config = SansConfig.objects.get(company=obj.reservation.company)
+            return sans_config.amount
+        except SansConfig.DoesNotExist:
+            return None
