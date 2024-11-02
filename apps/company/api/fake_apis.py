@@ -36,7 +36,7 @@ class ReservationBackOfficeTestViewSet(mixins.ListModelMixin,
 
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['date', 'time', 'company', ]
-    search_fields = ['full_name', 'phone_number']
+    search_fields = ['first_name', 'last_name', 'phone_number', 'company']
     ordering = ('date', 'time',)
 
 
@@ -49,9 +49,8 @@ class PaymentBackOfficeTestViewSet(mixins.ListModelMixin,
     serializer_class = PaymentBackOfficeSerializer
     pagination_class = CustomPageNumberPagination
 
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = [
         'reservation__date', 'reservation__time', 'reservation__company', 'status',
     ]
-    search_fields = []
     ordering = ('reservation__date', 'reservation__time',)
