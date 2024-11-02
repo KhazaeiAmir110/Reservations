@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+
 from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -31,8 +32,9 @@ THIRD_PARTY_APPS = [
     'shortuuid',
     'rest_framework',
     'drf_spectacular',
-    "corsheaders",
+    'corsheaders',
     'django_filters',
+    'drf_standardized_errors',
 ]
 
 LOCAL_APPS = [
@@ -158,6 +160,8 @@ REST_FRAMEWORK = {
     ],
 
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'EXCEPTION_HANDLER': 'drf_standardized_errors.handler.exception_handler',
+
 }
 
 # Session Setting
@@ -165,8 +169,8 @@ SESSION_COOKIE_AGE = 60 * 60 * 24 * 7
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_SAVE_EVERY_REQUEST = False
 
-
 CORS_ORIGIN_ALLOW_ALL = True
+
 # drf-spectacular
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Project Braato',

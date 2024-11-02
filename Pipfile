@@ -17,6 +17,7 @@ django-cors-headers = "==4.4.0"
 asgiref = "==3.8.1"
 idna = "==3.10.0"
 inflection = "==0.5.1"
+drf-standardized-errors = "==0.14.1"
 
 [dev-packages]
 
