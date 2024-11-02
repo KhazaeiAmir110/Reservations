@@ -1,5 +1,4 @@
 from django.db.models import Sum
-from django.utils.translation import gettext_lazy as _
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import mixins, filters
 from rest_framework.permissions import IsAuthenticated
@@ -9,7 +8,7 @@ from rest_framework.viewsets import GenericViewSet
 from apps.company.models import Company, Reservation, Payment, SansConfig
 from apps.company.serializers import (
     CompanyBackOfficeSerializer, ReservationBackOfficeSerializer, PaymentBackOfficeSerializer,
-    ListReservationBackofficeSerializer
+    ListReservationBackofficeSerializer, PaymentTotalBackofficeSerializer
 )
 from reservations.core.pagination import CustomPageNumberPagination
 
@@ -104,7 +103,7 @@ class PaymentBackOfficeViewSet(mixins.ListModelMixin,
         'reservation__date', 'reservation__time', 'reservation__company', 'status',
     ]
     search_fields = []
-    ordering = ('reservation__date', 'reservation__time', )
+    ordering = ('reservation__date', 'reservation__time',)
 
     def get_queryset(self):
         if self.request.user.is_superuser:
@@ -118,16 +117,44 @@ class PaymentBackOfficeViewSet(mixins.ListModelMixin,
 
 class PaymentTotalBackofficeViewSet(mixins.ListModelMixin, GenericViewSet):
     queryset = Payment.objects.all()
-    serializer_class = PaymentBackOfficeSerializer
+    serializer_class = PaymentTotalBackofficeSerializer
     filter_backends = [DjangoFilterBackend]
+    permission_classes = [IsAuthenticated, ]
     filterset_fields = ('status',)
 
-    def list(self, request, *args, **kwargs):
-        status = request.query_params.get('status', None)
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return self.queryset
+        return self.queryset.filter(reservation__company__user=self.request.user)
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        total_amount = SansConfig.objects.filter(
+            company__in=queryset.values_list('reservation__company', flat=True)
+        ).aggregate(total=Sum('amount'))['total']
+
+        return Response({'total_amount': total_amount})
+
+
+# Detail Total Payment
+class DetailPaymentTotalBackofficeViewSet(mixins.ListModelMixin, GenericViewSet):
+    queryset = Payment.objects.all()
+    serializer_class = PaymentBackOfficeSerializer
+    filter_backends = [DjangoFilterBackend]
+    permission_classes = [IsAuthenticated, ]
+    filterset_fields = ('status',)
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return self.queryset
+        return self.queryset.filter(reservation__company__user=self.request.user)
+
+    def list(self, request, *args, **kwargs):
         payments = self.get_queryset()
-        if status:
-            payments = payments.filter(status=status)
+
+        if request.query_params.get('status'):
+            payments = payments.filter(status=request.query_params.get('status'))
 
         total_amount = SansConfig.objects.filter(
             company__in=payments.values_list('reservation__company', flat=True)
@@ -136,6 +163,6 @@ class PaymentTotalBackofficeViewSet(mixins.ListModelMixin, GenericViewSet):
         serializer = self.get_serializer(payments, many=True)
 
         return Response({
-            'payments': serializer.data,
+            'data': serializer.data,
             'total_amount': total_amount
         })
