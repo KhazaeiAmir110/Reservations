@@ -36,7 +36,7 @@ class ReservationBackOfficeTestViewSet(mixins.ListModelMixin,
 
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['date', 'time', 'company', ]
-    search_fields = ['first_name', 'last_name', 'phone_number', 'company']
+    search_fields = ['first_name', 'last_name', 'phone_number', 'company__name']
     ordering = ('date', 'time',)
 
 
