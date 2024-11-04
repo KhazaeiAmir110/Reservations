@@ -74,19 +74,19 @@ class Reservation(models.Model):
         REJECT = EnumMember(1, _('Rejected'))
         CONFIRMED = EnumMember(2, _('Confirmed'))
 
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100, verbose_name=_("First name"))
+    last_name = models.CharField(max_length=100, verbose_name=_("Last name"))
 
-    phone_number = models.CharField(max_length=11)
-    email = models.EmailField()
+    phone_number = models.CharField(max_length=11, verbose_name=_("Phone number"))
+    email = models.EmailField(verbose_name=_("Email"))
 
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     status = models.PositiveIntegerField(
-        default=StatusEnum.REVIEW, choices=StatusEnum.to_tuple()
+        default=StatusEnum.REVIEW, choices=StatusEnum.to_tuple(), verbose_name=_("Status")
     )
 
-    date = models.DateField()
-    time = models.TimeField()
+    date = models.DateField(verbose_name=_("Date"))
+    time = models.TimeField(verbose_name=_("Time"))
 
     def clean(self):
         if HolidaysDate.objects.filter(company=self.company, date=self.date).exists():

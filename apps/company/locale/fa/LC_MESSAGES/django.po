@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-20 19:33+0330\n"
+"POT-Creation-Date: 2024-11-04 19:19+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,6 +41,34 @@ msgstr "کسب و کارها"
 #| msgid "company"
 msgid "Company"
 msgstr "کسب و کار"
+
+#: models.py:77
+msgid "First name"
+msgstr "نام"
+
+#: models.py:78
+msgid "Last name"
+msgstr "نام خانوادگی"
+
+#: models.py:80
+msgid "Phone number"
+msgstr "شماره همراه"
+
+#: models.py:81
+msgid "Email"
+msgstr "ایمیل"
+
+#: models.py:85
+msgid "Status"
+msgstr "وضعیت"
+
+#: models.py:88
+msgid "Date"
+msgstr "تاریخ"
+
+#: models.py:89
+msgid "Time"
+msgstr "زمان"
 
 #: models.py:93
 msgid "Reservations cannot be made on holidays."
