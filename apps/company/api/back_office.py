@@ -8,7 +8,7 @@ from rest_framework.viewsets import GenericViewSet
 from apps.company.models import Company, Reservation, Payment, SansConfig
 from apps.company.serializers import (
     CompanyBackOfficeSerializer, ReservationBackOfficeSerializer, PaymentBackOfficeSerializer,
-    ListReservationBackofficeSerializer, PaymentTotalBackofficeSerializer
+    ListReservationBackOfficeSerializer, PaymentTotalBackofficeSerializer
 )
 from reservations.core.pagination import CustomPageNumberPagination
 
@@ -83,7 +83,7 @@ class ReservationBackOfficeViewSet(mixins.ListModelMixin,
 
     def get_serializer_class(self):
         if self.action == 'list':
-            return ListReservationBackofficeSerializer
+            return ListReservationBackOfficeSerializer
         return ReservationBackOfficeSerializer
 
 
