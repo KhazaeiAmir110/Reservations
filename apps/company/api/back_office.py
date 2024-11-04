@@ -118,9 +118,11 @@ class PaymentBackOfficeViewSet(mixins.ListModelMixin,
 class PaymentTotalBackofficeViewSet(mixins.ListModelMixin, GenericViewSet):
     queryset = Payment.objects.all()
     serializer_class = PaymentTotalBackofficeSerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = (DjangoFilterBackend,)
     permission_classes = [IsAuthenticated, ]
-    filterset_fields = ('status',)
+    filterset_fields = [
+        'reservation__date', 'reservation__time', 'reservation__company', 'status',
+    ]
 
     def get_queryset(self):
         if self.request.user.is_superuser:
