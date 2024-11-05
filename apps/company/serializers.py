@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.utils.translation import gettext_lazy as _
 
 from apps.company.models import Company, Reservation, Payment, SansConfig
 
@@ -10,6 +11,13 @@ class CompanyBackOfficeSerializer(serializers.ModelSerializer):
             'name', 'description', 'address', 'image'
         ]
 
+        extra_kwargs = {
+            'name': {'label': _('Name')},
+            'description': {'label': _('Description')},
+            'address': {'label': _('Address')},
+            'image': {'label': _('Image')}
+        }
+
 
 class ReservationBackOfficeSerializer(serializers.ModelSerializer):
     company = serializers.CharField(source='company.name', read_only=True)
@@ -20,6 +28,16 @@ class ReservationBackOfficeSerializer(serializers.ModelSerializer):
             'first_name', 'last_name', 'phone_number', 'email', 'company', 'date', 'time'
         ]
 
+        extra_kwargs = {
+            'first_name': {'label': _('First Name')},
+            'last_name': {'label': _('Last Name')},
+            'phone_number': {'label': _("Phone Number")},
+            'email': {'label': _("Email")},
+            'company': {'label': _("Company")},
+            'date': {'label': _("Date")},
+            'time': {'label': _("Time")},
+        }
+
 
 class ListReservationBackofficeSerializer(serializers.ModelSerializer):
     company = serializers.CharField(source='company.name')
@@ -29,6 +47,15 @@ class ListReservationBackofficeSerializer(serializers.ModelSerializer):
         model = Reservation
         fields = ['full_name', 'phone_number', 'email', 'company', 'date', 'time']
         read_only_fields = ['full_name', 'phone_number', 'email', 'company', 'date', 'time']
+
+        extra_kwargs = {
+            'full_name': {'label': _('Full Name')},
+            'phone_number': {'label': _("Phone Number")},
+            'email': {'label': _("Email")},
+            'company': {'label': _("Company")},
+            'date': {'label': _("Date")},
+            'time': {'label': _("Time")},
+        }
 
     def get_full_name(self, obj):
         return f"{obj.first_name} {obj.last_name}"
@@ -45,6 +72,14 @@ class PaymentBackOfficeSerializer(serializers.ModelSerializer):
         fields = [
             'company', 'date', 'time', 'status', 'amount'
         ]
+
+        extra_kwargs = {
+            'company': {'label': _('Company')},
+            'date': {'label': _('Date')},
+            'time': {'label': _('Time')},
+            'status': {'label': _('Status')},
+            'amount': {'label': _('Amount')}
+        }
 
     def get_amount(self, obj):
         try:
