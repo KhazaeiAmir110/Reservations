@@ -50,7 +50,7 @@ class SansConfig(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
     duration = models.IntegerField(default=30)
-    amount = models.IntegerField(max_length=10, default=0)
+    amount = models.IntegerField(default=0)
 
     company = models.OneToOneField(Company, on_delete=models.CASCADE)
 

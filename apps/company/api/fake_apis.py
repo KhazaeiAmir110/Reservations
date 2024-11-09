@@ -5,7 +5,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from apps.company.models import Company, Reservation, Payment
 from apps.company.serializers import (
     CompanyBackOfficeSerializer, PaymentBackOfficeSerializer,
-    ListReservationBackofficeSerializer
+    ListReservationBackOfficeSerializer
 )
 from reservations.core.pagination import CustomPageNumberPagination
 
@@ -31,7 +31,7 @@ class ReservationBackOfficeTestViewSet(mixins.ListModelMixin,
         API Test For Reservation Back Office.
     """
     queryset = Reservation.objects.filter(status=Reservation.StatusEnum.CONFIRMED)
-    serializer_class = ListReservationBackofficeSerializer
+    serializer_class = ListReservationBackOfficeSerializer
     pagination_class = CustomPageNumberPagination
 
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
