@@ -1,5 +1,3 @@
-from cProfile import label
-
 from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
 
@@ -12,6 +10,13 @@ class CompanyBackOfficeSerializer(serializers.ModelSerializer):
         fields = [
             'name', 'description', 'address', 'image'
         ]
+
+        extra_kwargs = {
+            'name': {'label': _('Name')},
+            'description': {'label': _('Description')},
+            'address': {'label': _('Address')},
+            'image': {'label': _('Image')}
+        }
 
 
 class ReservationBackOfficeSerializer(serializers.ModelSerializer):
@@ -67,6 +72,14 @@ class PaymentBackOfficeSerializer(serializers.ModelSerializer):
         fields = [
             'company', 'date', 'time', 'status', 'amount'
         ]
+
+        extra_kwargs = {
+            'company': {'label': _('Company')},
+            'date': {'label': _('Date')},
+            'time': {'label': _('Time')},
+            'status': {'label': _('Status')},
+            'amount': {'label': _('Amount')}
+        }
 
     def get_amount(self, obj):
         try:
