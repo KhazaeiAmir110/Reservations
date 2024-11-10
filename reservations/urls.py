@@ -26,6 +26,8 @@ urlpatterns = i18n_patterns(
     # Custom URLS
     path('user/', include('apps.userauths.urls'), name='userauths'),
     path('baraato/', include('apps.company.urls'), name='company'),
+
+    path('test/', include('apps.company.urls.fake_urls'), name='fake'),
 )
 
 # drf-spectacular
