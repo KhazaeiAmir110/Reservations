@@ -90,6 +90,9 @@ class ReservationBackOfficeViewSet(mixins.ListModelMixin,
 
 # List Filter
 class ListItemsFilterReservationsBackofficeViewSet(mixins.ListModelMixin, GenericViewSet):
+    """
+        Api for list filter reservations
+    """
     queryset = Company.objects.all()
     serializer_class = ListItemsFilterReservationsBackofficeSerializer
     permission_classes = [IsAuthenticated, ]

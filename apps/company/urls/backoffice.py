@@ -10,6 +10,8 @@ router.register(r'api/company', CompanyBackOfficeViewSet, basename='company')
 router.register(r'api/reservation', ReservationBackOfficeViewSet, basename='reservation')
 router.register(r'api/payment', PaymentBackOfficeViewSet, basename='payment')
 router.register(r'api/total', PaymentTotalBackofficeViewSet, basename='total-payment')
-router.register(r'api/list-filter', ListItemsFilterReservationsBackofficeViewSet, basename='filters')
+
+router.register(r'api/filter/list-companies', ListItemsFilterReservationsBackofficeViewSet,
+                basename='filter-list-companies')
 
 urlpatterns = router.urls
