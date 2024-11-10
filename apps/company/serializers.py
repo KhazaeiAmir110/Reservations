@@ -61,6 +61,19 @@ class ListReservationBackOfficeSerializer(serializers.ModelSerializer):
         return f"{obj.first_name} {obj.last_name}"
 
 
+# List Filters
+class ListItemsFilterReservationsBackofficeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = [
+            'id', 'name',
+        ]
+
+        extra_kwargs = {
+            'name': {'label': _('Name')},
+        }
+
+
 class PaymentBackOfficeSerializer(serializers.ModelSerializer):
     company = serializers.CharField(source='reservation.company.name')
     date = serializers.DateField(source='reservation.date')
