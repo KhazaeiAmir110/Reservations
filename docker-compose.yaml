@@ -2,14 +2,10 @@
 services:
   web:
     build:
-      context: compose/production/django/.
+      context: .
+      dockerfile: Dockerfile
     container_name: django_web_reservations
-    command: pipenv run python manage.py runserver 0.0.0.0:8080
-    environment:
-      - DEBUG=true
-      - TEMPLATE_DEBUG=true
-      - PYTHONUNBUFFERED=true
-      - IS_MIGRATION=False
+    command: python manage.py runserver 0.0.0.0:8080
     networks:
       - network_django
     volumes:
@@ -23,7 +19,7 @@ services:
     image: postgres:latest
     container_name: db_reservations
     ports:
-      - "5433:5432"
+      - "5435:5432"
     volumes:
       - reservations-data:/var/lib/postgresql/data
     environment:
