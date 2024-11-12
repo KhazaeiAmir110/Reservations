@@ -6,7 +6,7 @@ class User(AbstractUser):
     username = models.CharField(max_length=100, unique=True)
     email = models.EmailField(max_length=100, unique=True)
     phone = models.CharField(max_length=11, unique=True)
-    image = models.ImageField(null=True)
+    image = models.ImageField(null=True, blank=True)
     is_active = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'username'
