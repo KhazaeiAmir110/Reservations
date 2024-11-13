@@ -1,10 +1,10 @@
 from rest_framework.routers import DefaultRouter
 
 from apps.company.api.back_office import (
-    CompanyBackOfficeViewSet, ReservationBackOfficeViewSet, PaymentBackOfficeViewSet, PaymentTotalBackofficeViewSet,
+    ReservationBackOfficeViewSet, PaymentBackOfficeViewSet, PaymentTotalBackofficeViewSet,
     ListItemsFilterReservationsBackofficeViewSet
 )
-
+from apps.company.apis.company import CompanyBackOfficeViewSet
 router = DefaultRouter()
 router.register(r'api/company', CompanyBackOfficeViewSet, basename='company')
 router.register(r'api/reservation', ReservationBackOfficeViewSet, basename='reservation')

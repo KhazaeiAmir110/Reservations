@@ -4,21 +4,6 @@ from django.utils.translation import gettext_lazy as _
 from apps.company.models import Company, Reservation, Payment, SansConfig
 
 
-class CompanyBackOfficeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Company
-        fields = [
-            'name', 'description', 'address', 'image'
-        ]
-
-        extra_kwargs = {
-            'name': {'label': _('Name')},
-            'description': {'label': _('Description')},
-            'address': {'label': _('Address')},
-            'image': {'label': _('Image')}
-        }
-
-
 class ReservationBackOfficeSerializer(serializers.ModelSerializer):
     company = serializers.CharField(source='company.name', read_only=True)
 

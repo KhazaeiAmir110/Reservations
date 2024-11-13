@@ -6,51 +6,12 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from apps.company.models import Company, Reservation, Payment, SansConfig
-from apps.company.serializers import (
-    CompanyBackOfficeSerializer, ReservationBackOfficeSerializer, PaymentBackOfficeSerializer,
+from apps.company.serializer import (
+    ReservationBackOfficeSerializer, PaymentBackOfficeSerializer,
     ListReservationBackOfficeSerializer, PaymentTotalBackofficeSerializer,
     ListItemsFilterReservationsBackofficeSerializer
 )
 from reservations.core.pagination import CustomPageNumberPagination
-
-
-# Company
-class CompanyBackOfficeViewSet(mixins.ListModelMixin,
-                               mixins.RetrieveModelMixin,
-                               mixins.CreateModelMixin,
-                               mixins.DestroyModelMixin,
-                               mixins.UpdateModelMixin,
-                               GenericViewSet):
-    """
-        API endpoint that allows companies to be viewed
-    """
-    queryset = Company.objects.all()
-    serializer_class = ()
-    permission_classes = [IsAuthenticated, ]
-    pagination_class = CustomPageNumberPagination
-
-    filter_backends = []
-    filterset_fields = [filters.OrderingFilter,]
-    search_fields = []
-    ordering = ('name',)
-
-    def get_queryset(self):
-        if self.request.user.is_superuser:
-            self.filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-            self.filterset_fields = ['name', 'status']
-            self.search_fields = ['name', 'address']
-            return self.queryset
-
-        return self.queryset.filter(
-            user=self.request.user,
-            status=Company.StatusEnum.CONFIRMED,
-        )
-
-    def get_serializer_class(self):
-        return CompanyBackOfficeSerializer
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
 
 
 class ReservationBackOfficeViewSet(mixins.ListModelMixin,
@@ -67,7 +28,7 @@ class ReservationBackOfficeViewSet(mixins.ListModelMixin,
     permission_classes = [IsAuthenticated, ]
     pagination_class = CustomPageNumberPagination
 
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter,]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter, ]
     filterset_fields = ['date', 'time', 'company', ]
     search_fields = ['full_name', 'phone_number']
     ordering = ('date', 'time',)
@@ -121,7 +82,7 @@ class PaymentBackOfficeViewSet(mixins.ListModelMixin,
     permission_classes = [IsAuthenticated, ]
     pagination_class = CustomPageNumberPagination
 
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter,]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter, ]
     filterset_fields = [
         'reservation__date', 'reservation__time', 'reservation__company', 'status',
     ]
