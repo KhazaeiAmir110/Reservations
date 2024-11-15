@@ -3,10 +3,11 @@ from rest_framework import mixins, filters
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
-from apps.company.models import Company, HolidaysDate
+from apps.company.models import Company, HolidaysDate, SansConfig
 from apps.company.serializers.company import (
     CreateORRetrieveCompanyBackofficeSerializer, ListORRetrieveCompanyBackofficeSerializer,
-    ListCompanySummaryBackofficeSerializer, HolidaysDateBaseSerializer, CreateORUpdateHolidaysDateSerializer
+    ListCompanySummaryBackofficeSerializer, HolidaysDateBaseSerializer, CreateORUpdateHolidaysDateSerializer,
+    SansConfigBaseBackofficeSerializer, CreateORUpdateSansConfigBackofficeSerializer
 )
 from core.pagination import CustomPageNumberFewerPagination
 
@@ -82,7 +83,7 @@ class HolidaysDateBackofficeViewSet(mixins.ListModelMixin,
         API endpoint that allows HolidaysDate to be viewed
     """
     queryset = HolidaysDate.objects.all()
-    serializer_class = HolidaysDateBaseSerializer
+    serializer_class = []
     permission_classes = [IsAuthenticated, ]
     pagination_class = CustomPageNumberFewerPagination
 
@@ -99,3 +100,31 @@ class HolidaysDateBackofficeViewSet(mixins.ListModelMixin,
         if self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
             return CreateORUpdateHolidaysDateSerializer
         return HolidaysDateBaseSerializer
+
+
+class SansConfigBackofficeViewSet(mixins.ListModelMixin,
+                                  mixins.RetrieveModelMixin,
+                                  mixins.CreateModelMixin,
+                                  mixins.DestroyModelMixin,
+                                  mixins.UpdateModelMixin,
+                                  GenericViewSet):
+    """
+        API endpoint that allows SansConfig to be viewed
+    """
+    queryset = SansConfig.objects.all()
+    serializer_class = []
+    permission_classes = [IsAuthenticated, ]
+    pagination_class = CustomPageNumberFewerPagination
+
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['company']
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return self.queryset
+        return self.queryset.filter(company__user=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
+            return CreateORUpdateSansConfigBackofficeSerializer
+        return SansConfigBaseBackofficeSerializer
