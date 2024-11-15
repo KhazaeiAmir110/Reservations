@@ -50,9 +50,17 @@ class ListCompanySummaryBackofficeSerializer(serializers.ModelSerializer):
         }
 
 
-class HolidaysDateSerializer(serializers.ModelSerializer):
+class HolidaysDateBaseSerializer(serializers.ModelSerializer):
     company = serializers.CharField(source='company.name')
 
+    class Meta:
+        model = HolidaysDate
+        fields = [
+            'date', 'company'
+        ]
+
+
+class CreateORUpdateHolidaysDateSerializer(serializers.ModelSerializer):
     class Meta:
         model = HolidaysDate
         fields = [
