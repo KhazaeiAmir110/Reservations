@@ -1,12 +1,10 @@
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
-from apps.company.models import Company, Reservation
+from apps.company.models import Reservation
 
 
-class ReservationBackOfficeSerializer(serializers.ModelSerializer):
-    company = serializers.CharField(source='company.name', read_only=True)
-
+class CreateORUpdateReservationBackofficeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
         fields = [
@@ -24,7 +22,7 @@ class ReservationBackOfficeSerializer(serializers.ModelSerializer):
         }
 
 
-class ListReservationBackOfficeSerializer(serializers.ModelSerializer):
+class ListORRetrieveReservationBackofficeSerializer(serializers.ModelSerializer):
     company = serializers.CharField(source='company.name')
     full_name = serializers.SerializerMethodField()
 
@@ -44,16 +42,3 @@ class ListReservationBackOfficeSerializer(serializers.ModelSerializer):
 
     def get_full_name(self, obj):
         return f"{obj.first_name} {obj.last_name}"
-
-
-# List Filters
-class ListItemsFilterReservationsBackofficeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Company
-        fields = [
-            'id', 'name',
-        ]
-
-        extra_kwargs = {
-            'name': {'label': _('Name')},
-        }

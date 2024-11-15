@@ -3,15 +3,14 @@ from rest_framework import mixins, filters
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
-from apps.company.models import Company, Reservation
+from apps.company.models import Reservation
 from apps.company.serializers.reservations import (
-    ReservationBackOfficeSerializer, ListReservationBackOfficeSerializer,
-    ListItemsFilterReservationsBackofficeSerializer
+    CreateORUpdateReservationBackofficeSerializer, ListORRetrieveReservationBackofficeSerializer,
 )
-from reservations.core.pagination import CustomPageNumberPagination
+from reservations.core.pagination import CustomPageNumberAveragePagination
 
 
-class ReservationBackOfficeViewSet(mixins.ListModelMixin,
+class ReservationBackofficeViewSet(mixins.ListModelMixin,
                                    mixins.RetrieveModelMixin,
                                    mixins.CreateModelMixin,
                                    mixins.DestroyModelMixin,
@@ -23,7 +22,7 @@ class ReservationBackOfficeViewSet(mixins.ListModelMixin,
     queryset = Reservation.objects.all()
     serializer_class = ()
     permission_classes = [IsAuthenticated, ]
-    pagination_class = CustomPageNumberPagination
+    pagination_class = CustomPageNumberAveragePagination
 
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter, ]
     filterset_fields = ['date', 'time', 'company', ]
@@ -41,28 +40,6 @@ class ReservationBackOfficeViewSet(mixins.ListModelMixin,
         )
 
     def get_serializer_class(self):
-        if self.action == 'list':
-            return ListReservationBackOfficeSerializer
-        return ReservationBackOfficeSerializer
-
-
-# List Filter
-class ListItemsFilterReservationsBackofficeViewSet(mixins.ListModelMixin, GenericViewSet):
-    """
-        Api for list filter reservations
-    """
-    queryset = Company.objects.all()
-    serializer_class = ListItemsFilterReservationsBackofficeSerializer
-    permission_classes = [IsAuthenticated, ]
-
-    filter_backends = [filters.OrderingFilter, ]
-    ordering = ('id',)
-
-    def get_queryset(self):
-        if self.request.user.is_superuser:
-            return self.queryset
-
-        return self.queryset.filter(
-            user=self.request.user,
-            status=Company.StatusEnum.CONFIRMED,
-        )
+        if self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
+            return CreateORUpdateReservationBackofficeSerializer
+        return ListORRetrieveReservationBackofficeSerializer
