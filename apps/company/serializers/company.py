@@ -1,7 +1,7 @@
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
-from apps.company.models import Company
+from apps.company.models import Company, HolidaysDate
 
 
 class CreateORRetrieveCompanyBackofficeSerializer(serializers.ModelSerializer):
@@ -48,3 +48,13 @@ class ListCompanySummaryBackofficeSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'name': {'label': _('Name')},
         }
+
+
+class HolidaysDateSerializer(serializers.ModelSerializer):
+    company = serializers.CharField(source='company.name')
+
+    class Meta:
+        model = HolidaysDate
+        fields = [
+            'date', 'company'
+        ]
