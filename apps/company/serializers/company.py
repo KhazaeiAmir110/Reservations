@@ -1,7 +1,7 @@
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
-from apps.company.models import Company, HolidaysDate
+from apps.company.models import Company, HolidaysDate, SansConfig
 
 
 class CreateORRetrieveCompanyBackofficeSerializer(serializers.ModelSerializer):
@@ -76,3 +76,24 @@ class CreateORUpdateHolidaysDateSerializer(serializers.ModelSerializer):
             'date': {'label': _('Date')},
             'company': {'label': _('Company')},
         }
+
+
+class SansConfigBaseBackofficeSerializer(serializers.ModelSerializer):
+    company = serializers.CharField(source='company.name')
+
+    class Meta:
+        model = SansConfig
+        fields = [
+            'start_time', 'end_time', 'duration', 'amount', 'company'
+        ]
+        read_only_fields = [
+            'start_time', 'end_time', 'duration', 'amount', 'company'
+        ]
+
+
+class CreateORUpdateSansConfigBackofficeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SansConfig
+        fields = [
+            'start_time', 'end_time', 'duration', 'amount', 'company'
+        ]
