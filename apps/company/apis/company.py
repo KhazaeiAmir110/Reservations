@@ -7,7 +7,7 @@ from apps.company.models import Company
 from apps.company.serializers.company import (
     CreateORRetrieveCompanyBackofficeSerializer, ListORDestroyCompanyBackofficeSerializer
 )
-from core.pagination import CustomPageNumberPagination
+from core.pagination import CustomPageNumberFewerPagination
 
 
 class CompanyBackOfficeViewSet(mixins.ListModelMixin,
@@ -22,7 +22,7 @@ class CompanyBackOfficeViewSet(mixins.ListModelMixin,
     queryset = Company.objects.all()
     serializer_class = []
     permission_classes = [IsAuthenticated, ]
-    pagination_class = CustomPageNumberPagination
+    pagination_class = CustomPageNumberFewerPagination
 
     filter_backends = []
     filterset_fields = [filters.OrderingFilter, ]
