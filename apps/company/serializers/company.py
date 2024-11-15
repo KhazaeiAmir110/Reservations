@@ -90,6 +90,14 @@ class SansConfigBaseBackofficeSerializer(serializers.ModelSerializer):
             'start_time', 'end_time', 'duration', 'amount', 'company'
         ]
 
+        extra_kwargs = {
+            'start_time': {'label': _('Start time')},
+            'end_time': {'label': _('End time')},
+            'duration': {'label': _('Duration')},
+            'amount': {'label': _('Amount')},
+            'company': {'label': _('Company')},
+        }
+
 
 class CreateORUpdateSansConfigBackofficeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -97,3 +105,11 @@ class CreateORUpdateSansConfigBackofficeSerializer(serializers.ModelSerializer):
         fields = [
             'start_time', 'end_time', 'duration', 'amount', 'company'
         ]
+
+        extra_kwargs = {
+            'start_time': {'label': _('Start time')},
+            'end_time': {'label': _('End time')},
+            'duration': {'label': _('Duration')},
+            'amount': {'label': _('Amount')},
+            'company': {'label': _('Company')},
+        }
