@@ -23,11 +23,12 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, Spec
 
 urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
+
     # Custom URLS
     path('user/', include('apps.userauths.urls'), name='userauths'),
     path('backoffice/', include('apps.company.urls'), name='company'),
-
-    # path('test/', include('apps.company.urls.fake_urls'), name='fake'),
+    path('v1/', include('apps.company.urls.v1'), name='v1'),
+    path('test/', include('apps.company.urls.fake_urls'), name='fake'),
 )
 
 # drf-spectacular

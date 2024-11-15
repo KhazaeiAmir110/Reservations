@@ -3,11 +3,11 @@ from rest_framework.viewsets import GenericViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 
 from apps.company.models import Company, Reservation, Payment
-from apps.company.serializers import (
+from apps.company.serializers.v1 import (
     CompanyBackOfficeSerializer, PaymentBackOfficeSerializer,
     ListReservationBackOfficeSerializer
 )
-from reservations.core.pagination import CustomPageNumberPagination
+from reservations.core.pagination import CustomPageNumberAveragePagination
 
 
 class CompanyBackOfficeTestViewSet(mixins.ListModelMixin,
@@ -18,7 +18,7 @@ class CompanyBackOfficeTestViewSet(mixins.ListModelMixin,
     """
     queryset = Company.objects.filter(status=Company.StatusEnum.CONFIRMED, )
     serializer_class = CompanyBackOfficeSerializer
-    pagination_class = CustomPageNumberPagination
+    pagination_class = CustomPageNumberAveragePagination
 
     filter_backends = [filters.OrderingFilter, ]
     ordering = ('name',)
@@ -32,7 +32,7 @@ class ReservationBackOfficeTestViewSet(mixins.ListModelMixin,
     """
     queryset = Reservation.objects.filter(status=Reservation.StatusEnum.CONFIRMED)
     serializer_class = ListReservationBackOfficeSerializer
-    pagination_class = CustomPageNumberPagination
+    pagination_class = CustomPageNumberAveragePagination
 
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['date', 'time', 'company', ]
@@ -47,7 +47,7 @@ class PaymentBackOfficeTestViewSet(mixins.ListModelMixin,
     """
     queryset = Payment.objects.all()
     serializer_class = PaymentBackOfficeSerializer
-    pagination_class = CustomPageNumberPagination
+    pagination_class = CustomPageNumberAveragePagination
 
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = [
