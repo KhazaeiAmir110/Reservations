@@ -27,8 +27,8 @@ class CompanyBackofficeViewSet(mixins.ListModelMixin,
     permission_classes = [IsAuthenticated, ]
     pagination_class = CustomPageNumberFewerPagination
 
-    filter_backends = [filters.OrderingFilter, ]
-    filterset_fields = []
+    filter_backends = [filters.OrderingFilter, DjangoFilterBackend]
+    filterset_fields = ['status']
     search_fields = []
     ordering = ['name', 'status']
 
@@ -39,10 +39,7 @@ class CompanyBackofficeViewSet(mixins.ListModelMixin,
             self.search_fields = ['name', 'address']
             return self.queryset
 
-        return self.queryset.filter(
-            user=self.request.user,
-            status=Company.StatusEnum.CONFIRMED,
-        )
+        return self.queryset.filter(user=self.request.user,)
 
     def get_serializer_class(self):
         if self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
@@ -95,7 +92,10 @@ class HolidaysDateBackofficeViewSet(mixins.ListModelMixin,
     def get_queryset(self):
         if self.request.user.is_superuser:
             return self.queryset
-        return self.queryset.filter(company__user=self.request.user)
+        return self.queryset.filter(
+            company__user=self.request.user,
+            company__status=Company.StatusEnum.CONFIRMED
+        )
 
     def get_serializer_class(self):
         if self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
@@ -124,7 +124,10 @@ class SansConfigBackofficeViewSet(mixins.ListModelMixin,
         if self.request.user.is_superuser:
             self.filter_backends = ['company__user']
             return self.queryset
-        return self.queryset.filter(company__user=self.request.user)
+        return self.queryset.filter(
+            company__user=self.request.user,
+            company__status=Company.StatusEnum.CONFIRMED
+        )
 
     def get_serializer_class(self):
         if self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
@@ -153,7 +156,10 @@ class SansHolidayDateTimeBackofficeViewSet(mixins.ListModelMixin,
         if self.request.user.is_superuser:
             self.filter_backends = ['company__user']
             return self.queryset
-        return self.queryset.filter(company__user=self.request.user)
+        return self.queryset.filter(
+            company__user=self.request.user,
+            company__status=Company.StatusEnum.CONFIRMED
+        )
 
     def get_serializer_class(self):
         if self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
