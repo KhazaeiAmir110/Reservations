@@ -15,7 +15,7 @@ class Company(models.Model):
 
     name = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
     address = models.CharField(max_length=200)
     image = models.ImageField(null=True, blank=True)
     slug = models.SlugField(max_length=100, unique=True)

@@ -6,13 +6,13 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from apps.company.models import Payment, SansConfig
-from apps.company.serializer import (
-    PaymentBackOfficeSerializer, PaymentTotalBackofficeSerializer,
+from apps.company.serializers.payments import (
+    PaymentBackofficeSerializer, PaymentTotalBackofficeSerializer
 )
-from reservations.core.pagination import CustomPageNumberPagination
+from reservations.core.pagination import CustomPageNumberMorePagination
 
 
-class PaymentBackOfficeViewSet(mixins.ListModelMixin,
+class PaymentBackofficeViewSet(mixins.ListModelMixin,
                                mixins.RetrieveModelMixin,
                                GenericViewSet):
     """
@@ -21,23 +21,22 @@ class PaymentBackOfficeViewSet(mixins.ListModelMixin,
     queryset = Payment.objects.all()
     serializer_class = ()
     permission_classes = [IsAuthenticated, ]
-    pagination_class = CustomPageNumberPagination
+    pagination_class = CustomPageNumberMorePagination
 
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter, ]
     filterset_fields = [
         'reservation__date', 'reservation__time', 'reservation__company', 'status',
     ]
-    search_fields = []
+    search_fields = ['reservation__company__name']
     ordering = ('reservation__date', 'reservation__time',)
 
     def get_queryset(self):
         if self.request.user.is_superuser:
-            self.search_fields = ['reservation__company__name', ]
             return self.queryset
         return self.queryset.filter(reservation__company__user=self.request.user)
 
     def get_serializer_class(self):
-        return PaymentBackOfficeSerializer
+        return PaymentBackofficeSerializer
 
 
 class PaymentTotalBackofficeViewSet(mixins.ListModelMixin, GenericViewSet):
@@ -55,19 +54,17 @@ class PaymentTotalBackofficeViewSet(mixins.ListModelMixin, GenericViewSet):
         return self.queryset.filter(reservation__company__user=self.request.user)
 
     def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
+        filtered_queryset = self.filter_queryset(self.get_queryset())
+        serialized_data = self.serializer_class(filtered_queryset, many=True).data
 
-        total_amount = SansConfig.objects.filter(
-            company__in=queryset.values_list('reservation__company', flat=True)
-        ).aggregate(total=Sum('amount'))['total']
+        total_amount = sum(i['amount'] for i in serialized_data)
 
         return Response({'total_amount': total_amount})
 
 
-# Detail Total Payment
 class DetailPaymentTotalBackofficeViewSet(mixins.ListModelMixin, GenericViewSet):
     queryset = Payment.objects.all()
-    serializer_class = PaymentBackOfficeSerializer
+    serializer_class = PaymentTotalBackofficeSerializer
     filter_backends = [DjangoFilterBackend]
     permission_classes = [IsAuthenticated, ]
     filterset_fields = ('status',)
@@ -78,18 +75,13 @@ class DetailPaymentTotalBackofficeViewSet(mixins.ListModelMixin, GenericViewSet)
         return self.queryset.filter(reservation__company__user=self.request.user)
 
     def list(self, request, *args, **kwargs):
-        payments = self.get_queryset()
+        filtered_queryset = self.filter_queryset(self.get_queryset())
+        serialized_data = self.serializer_class(filtered_queryset, many=True).data
 
-        if request.query_params.get('status'):
-            payments = payments.filter(status=request.query_params.get('status'))
-
-        total_amount = SansConfig.objects.filter(
-            company__in=payments.values_list('reservation__company', flat=True)
-        ).aggregate(total=Sum('amount'))['total']
-
-        serializer = self.get_serializer(payments, many=True)
+        total_amount = sum(i['amount'] for i in serialized_data)
 
         return Response({
-            'data': serializer.data,
-            'total_amount': total_amount
+            'results': self.serializer_class(filtered_queryset, many=True).data,
+            'total_amount': total_amount,
+
         })
