@@ -1,6 +1,6 @@
 *.pyc
 /db.sqlite3
-/reservations/secret/
 /reservations/settings/local.py
 /.idea/codeStyles/codeStyleConfig.xml
 /.idea/
+/.env

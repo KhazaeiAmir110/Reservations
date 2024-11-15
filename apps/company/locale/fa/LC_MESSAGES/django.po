@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-04 22:48+0330\n"
+"POT-Creation-Date: 2024-11-15 23:10+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,7 +36,11 @@ msgstr "تایید شده"
 msgid "Companies"
 msgstr "کسب و کارها"
 
-#: models.py:36 serializers.py:31 serializers.py:50
+#: models.py:36 serializers/company.py:64 serializers/company.py:77
+#: serializers/company.py:98 serializers/company.py:114
+#: serializers/payments.py:20 serializers/reservations.py:19
+#: serializers/reservations.py:38 serializers/v1.py:36 serializers/v1.py:55
+#: serializers/v1.py:77
 #, fuzzy
 #| msgid "company"
 msgid "Company"
@@ -54,19 +58,26 @@ msgstr "نام خانوادگی"
 msgid "Phone number"
 msgstr "شماره همراه"
 
-#: models.py:81 serializers.py:30 serializers.py:49
+#: models.py:81 serializers/reservations.py:18 serializers/reservations.py:37
+#: serializers/v1.py:35 serializers/v1.py:54
 msgid "Email"
 msgstr "ایمیل"
 
-#: models.py:85
+#: models.py:85 serializers/company.py:34 serializers/payments.py:23
+#: serializers/v1.py:80
 msgid "Status"
 msgstr "وضعیت"
 
-#: models.py:88 serializers.py:32 serializers.py:51
+#: models.py:88 serializers/company.py:63 serializers/company.py:76
+#: serializers/payments.py:21 serializers/reservations.py:20
+#: serializers/reservations.py:39 serializers/v1.py:37 serializers/v1.py:56
+#: serializers/v1.py:78
 msgid "Date"
 msgstr "تاریخ"
 
-#: models.py:89 serializers.py:33 serializers.py:52
+#: models.py:89 serializers/payments.py:22 serializers/reservations.py:21
+#: serializers/reservations.py:40 serializers/v1.py:38 serializers/v1.py:57
+#: serializers/v1.py:79
 msgid "Time"
 msgstr "زمان"
 
@@ -103,12 +114,51 @@ msgstr "پرداخت شد"
 msgid "Not Paid"
 msgstr "پرداخت نشد"
 
-#: serializers.py:29 serializers.py:48
+#: serializers/company.py:15 serializers/company.py:30
+#: serializers/company.py:49 serializers/v1.py:15
+#, fuzzy
+#| msgid "Full Name"
+msgid "Name"
+msgstr "اسم کامل"
+
+#: serializers/company.py:16 serializers/company.py:31 serializers/v1.py:16
+msgid "Description"
+msgstr "توضیحات"
+
+#: serializers/company.py:17 serializers/company.py:32 serializers/v1.py:17
+msgid "Address"
+msgstr "آدرس"
+
+#: serializers/company.py:18 serializers/company.py:33 serializers/v1.py:18
+msgid "Image"
+msgstr "عکس"
+
+#: serializers/company.py:94 serializers/company.py:110
+msgid "Start time"
+msgstr "ساعت شروع"
+
+#: serializers/company.py:95 serializers/company.py:111
+msgid "End time"
+msgstr "ساعت پایان"
+
+#: serializers/company.py:96 serializers/company.py:112
+#, fuzzy
+#| msgid "Description"
+msgid "Duration"
+msgstr "توضیحات"
+
+#: serializers/company.py:97 serializers/company.py:113
+#: serializers/payments.py:24 serializers/v1.py:81
+msgid "Amount"
+msgstr "هزینه"
+
+#: serializers/reservations.py:17 serializers/reservations.py:36
+#: serializers/v1.py:34 serializers/v1.py:53
 #, fuzzy
 #| msgid "Phone number"
 msgid "Phone Number"
 msgstr "شماره همراه"
 
-#: serializers.py:47
+#: serializers/reservations.py:35 serializers/v1.py:52
 msgid "Full Name"
 msgstr "اسم کامل"

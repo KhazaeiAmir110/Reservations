@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
 
-from apps.company.api.fake_apis import (
+from apps.company.apis.v1.fake_apis import (
     CompanyBackOfficeTestViewSet, ReservationBackOfficeTestViewSet, PaymentBackOfficeTestViewSet
 )
 

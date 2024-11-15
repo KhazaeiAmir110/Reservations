@@ -19,7 +19,6 @@
       <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
       <excludeFolder url="file://$MODULE_DIR$/.idea/httpRequests" />
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
-      <excludeFolder url="file://$MODULE_DIR$/reservations/secret" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.10 (reservations-Ig-iQ-8L)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
