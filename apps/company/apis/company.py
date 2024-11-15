@@ -3,11 +3,12 @@ from rest_framework import mixins, filters
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
-from apps.company.models import Company, HolidaysDate, SansConfig
+from apps.company.models import Company, HolidaysDate, SansConfig, SansHolidayDateTime
 from apps.company.serializers.company import (
     CreateORRetrieveCompanyBackofficeSerializer, ListORRetrieveCompanyBackofficeSerializer,
     ListCompanySummaryBackofficeSerializer, HolidaysDateBaseSerializer, CreateORUpdateHolidaysDateSerializer,
-    SansConfigBaseBackofficeSerializer, CreateORUpdateSansConfigBackofficeSerializer
+    SansConfigBaseBackofficeSerializer, CreateORUpdateSansConfigBackofficeSerializer,
+    SansHolidayDateTimeBaseBackofficeSerializer, CreateORUpdateSansHolidayDateTimeBackofficeSerializer
 )
 from core.pagination import CustomPageNumberFewerPagination
 
@@ -129,3 +130,32 @@ class SansConfigBackofficeViewSet(mixins.ListModelMixin,
         if self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
             return CreateORUpdateSansConfigBackofficeSerializer
         return SansConfigBaseBackofficeSerializer
+
+
+class SansHolidayDateTimeBackofficeViewSet(mixins.ListModelMixin,
+                                           mixins.RetrieveModelMixin,
+                                           mixins.CreateModelMixin,
+                                           mixins.DestroyModelMixin,
+                                           mixins.UpdateModelMixin,
+                                           GenericViewSet):
+    """
+        API endpoint that allows SansHolidayDateTime to be viewed
+    """
+    queryset = SansHolidayDateTime.objects.all()
+    serializer_class = []
+    permission_classes = [IsAuthenticated, ]
+    pagination_class = CustomPageNumberFewerPagination
+
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = []
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            self.filter_backends = ['company__user']
+            return self.queryset
+        return self.queryset.filter(company__user=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
+            return CreateORUpdateSansHolidayDateTimeBackofficeSerializer
+        return SansHolidayDateTimeBaseBackofficeSerializer
