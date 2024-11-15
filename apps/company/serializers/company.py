@@ -59,6 +59,11 @@ class HolidaysDateBaseSerializer(serializers.ModelSerializer):
             'date', 'company'
         ]
 
+        extra_kwargs = {
+            'date': {'label': _('Date')},
+            'company': {'label': _('Company')},
+        }
+
 
 class CreateORUpdateHolidaysDateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -66,3 +71,8 @@ class CreateORUpdateHolidaysDateSerializer(serializers.ModelSerializer):
         fields = [
             'date', 'company'
         ]
+
+        extra_kwargs = {
+            'date': {'label': _('Date')},
+            'company': {'label': _('Company')},
+        }

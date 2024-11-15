@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-15 21:33+0330\n"
+"POT-Creation-Date: 2024-11-15 22:14+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,7 +36,8 @@ msgstr "تایید شده"
 msgid "Companies"
 msgstr "کسب و کارها"
 
-#: models.py:36 serializers/payments.py:20 serializers/reservations.py:19
+#: models.py:36 serializers/company.py:64 serializers/company.py:77
+#: serializers/payments.py:20 serializers/reservations.py:19
 #: serializers/reservations.py:38 serializers/v1.py:36 serializers/v1.py:55
 #: serializers/v1.py:77
 #, fuzzy
@@ -66,7 +67,8 @@ msgstr "ایمیل"
 msgid "Status"
 msgstr "وضعیت"
 
-#: models.py:88 serializers/payments.py:21 serializers/reservations.py:20
+#: models.py:88 serializers/company.py:63 serializers/company.py:76
+#: serializers/payments.py:21 serializers/reservations.py:20
 #: serializers/reservations.py:39 serializers/v1.py:37 serializers/v1.py:56
 #: serializers/v1.py:78
 msgid "Date"
