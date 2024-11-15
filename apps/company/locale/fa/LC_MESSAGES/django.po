@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-15 23:10+0330\n"
+"POT-Creation-Date: 2024-11-15 23:25+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,6 +38,7 @@ msgstr "کسب و کارها"
 
 #: models.py:36 serializers/company.py:64 serializers/company.py:77
 #: serializers/company.py:98 serializers/company.py:114
+#: serializers/company.py:133 serializers/company.py:147
 #: serializers/payments.py:20 serializers/reservations.py:19
 #: serializers/reservations.py:38 serializers/v1.py:36 serializers/v1.py:55
 #: serializers/v1.py:77
@@ -134,10 +135,12 @@ msgid "Image"
 msgstr "عکس"
 
 #: serializers/company.py:94 serializers/company.py:110
+#: serializers/company.py:131 serializers/company.py:145
 msgid "Start time"
 msgstr "ساعت شروع"
 
 #: serializers/company.py:95 serializers/company.py:111
+#: serializers/company.py:132 serializers/company.py:146
 msgid "End time"
 msgstr "ساعت پایان"
 

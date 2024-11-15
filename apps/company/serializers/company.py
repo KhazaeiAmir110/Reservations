@@ -127,6 +127,12 @@ class SansHolidayDateTimeBaseBackofficeSerializer(serializers.ModelSerializer):
             'start_time', 'end_time', 'company'
         ]
 
+        extra_kwargs = {
+            'start_time': {'label': _('Start time')},
+            'end_time': {'label': _('End time')},
+            'company': {'label': _('Company')},
+        }
+
 
 class CreateORUpdateSansHolidayDateTimeBackofficeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -134,3 +140,9 @@ class CreateORUpdateSansHolidayDateTimeBackofficeSerializer(serializers.ModelSer
         fields = [
             'start_time', 'end_time', 'company'
         ]
+
+        extra_kwargs = {
+            'start_time': {'label': _('Start time')},
+            'end_time': {'label': _('End time')},
+            'company': {'label': _('Company')},
+        }
