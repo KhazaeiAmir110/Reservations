@@ -117,10 +117,11 @@ class SansConfigBackofficeViewSet(mixins.ListModelMixin,
     pagination_class = CustomPageNumberFewerPagination
 
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['company']
+    filterset_fields = []
 
     def get_queryset(self):
         if self.request.user.is_superuser:
+            self.filter_backends = ['company__user']
             return self.queryset
         return self.queryset.filter(company__user=self.request.user)
 
