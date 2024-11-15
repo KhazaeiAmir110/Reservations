@@ -6,7 +6,7 @@ from rest_framework.viewsets import GenericViewSet
 from apps.company.models import Company, HolidaysDate
 from apps.company.serializers.company import (
     CreateORRetrieveCompanyBackofficeSerializer, ListORRetrieveCompanyBackofficeSerializer,
-    ListCompanySummaryBackofficeSerializer, HolidaysDateSerializer
+    ListCompanySummaryBackofficeSerializer, HolidaysDateBaseSerializer, CreateORUpdateHolidaysDateSerializer
 )
 from core.pagination import CustomPageNumberFewerPagination
 
@@ -43,7 +43,7 @@ class CompanyBackofficeViewSet(mixins.ListModelMixin,
         )
 
     def get_serializer_class(self):
-        if self.action == 'create' or self.action == 'update':
+        if self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
             return CreateORRetrieveCompanyBackofficeSerializer
         return ListORRetrieveCompanyBackofficeSerializer
 
@@ -82,15 +82,20 @@ class HolidaysDateBackofficeViewSet(mixins.ListModelMixin,
         API endpoint that allows HolidaysDate to be viewed
     """
     queryset = HolidaysDate.objects.all()
-    serializer_class = HolidaysDateSerializer
+    serializer_class = HolidaysDateBaseSerializer
     permission_classes = [IsAuthenticated, ]
     pagination_class = CustomPageNumberFewerPagination
 
     filter_backends = [filters.OrderingFilter, DjangoFilterBackend]
-    filterset_fields = ['date']
+    filterset_fields = ['date', 'company']
     ordering = ['date']
 
     def get_queryset(self):
         if self.request.user.is_superuser:
             return self.queryset
         return self.queryset.filter(company__user=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
+            return CreateORUpdateHolidaysDateSerializer
+        return HolidaysDateBaseSerializer
