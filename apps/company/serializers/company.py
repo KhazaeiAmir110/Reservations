@@ -36,3 +36,15 @@ class ListORDestroyCompanyBackofficeSerializer(serializers.ModelSerializer):
         read_only_fields = [
             'name', 'description', 'address', 'image', 'status'
         ]
+
+
+class ListCompanySummaryBackofficeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = [
+            'id', 'name',
+        ]
+
+        extra_kwargs = {
+            'name': {'label': _('Name')},
+        }

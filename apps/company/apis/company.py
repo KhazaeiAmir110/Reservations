@@ -5,12 +5,13 @@ from rest_framework.viewsets import GenericViewSet
 
 from apps.company.models import Company
 from apps.company.serializers.company import (
-    CreateORRetrieveCompanyBackofficeSerializer, ListORDestroyCompanyBackofficeSerializer
+    CreateORRetrieveCompanyBackofficeSerializer, ListORDestroyCompanyBackofficeSerializer,
+    ListCompanySummaryBackofficeSerializer
 )
 from core.pagination import CustomPageNumberFewerPagination
 
 
-class CompanyBackOfficeViewSet(mixins.ListModelMixin,
+class CompanyBackofficeViewSet(mixins.ListModelMixin,
                                mixins.RetrieveModelMixin,
                                mixins.CreateModelMixin,
                                mixins.DestroyModelMixin,
@@ -48,3 +49,24 @@ class CompanyBackOfficeViewSet(mixins.ListModelMixin,
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class ListCompanySummaryBackofficeViewSet(mixins.ListModelMixin, GenericViewSet):
+    """
+        Api for list filter company
+    """
+    queryset = Company.objects.all()
+    serializer_class = ListCompanySummaryBackofficeSerializer
+    permission_classes = [IsAuthenticated, ]
+
+    filter_backends = [filters.OrderingFilter, ]
+    ordering = ('id',)
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return self.queryset
+
+        return self.queryset.filter(
+            user=self.request.user,
+            status=Company.StatusEnum.CONFIRMED,
+        )
