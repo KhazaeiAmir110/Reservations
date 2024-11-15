@@ -5,7 +5,7 @@ from rest_framework.viewsets import GenericViewSet
 
 from apps.company.models import Company
 from apps.company.serializers.company import (
-    CreateORRetrieveCompanyBackofficeSerializer, ListORDestroyCompanyBackofficeSerializer,
+    CreateORRetrieveCompanyBackofficeSerializer, ListORRetrieveCompanyBackofficeSerializer,
     ListCompanySummaryBackofficeSerializer
 )
 from core.pagination import CustomPageNumberFewerPagination
@@ -45,7 +45,7 @@ class CompanyBackofficeViewSet(mixins.ListModelMixin,
     def get_serializer_class(self):
         if self.action == 'create' or self.action == 'update':
             return CreateORRetrieveCompanyBackofficeSerializer
-        return ListORDestroyCompanyBackofficeSerializer
+        return ListORRetrieveCompanyBackofficeSerializer
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

@@ -19,7 +19,7 @@ class CreateORRetrieveCompanyBackofficeSerializer(serializers.ModelSerializer):
         }
 
 
-class ListORDestroyCompanyBackofficeSerializer(serializers.ModelSerializer):
+class ListORRetrieveCompanyBackofficeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
         fields = [
