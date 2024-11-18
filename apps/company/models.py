@@ -1,3 +1,5 @@
+import re
+
 from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
@@ -28,8 +30,14 @@ class Company(models.Model):
 
     def save(self, *args, **kwargs):
         if self.slug == "" or self.slug is None:
-            self.slug = slugify(self.name) + '-' + str(self.user)
+            self.slug = self.create_slug(self.name)
         super(Company, self).save(*args, **kwargs)
+
+    def create_slug(self, name):
+        name = name.strip().lower()
+        name = re.sub(r"[^\w\s]", '_', name)
+        name = re.sub(r"\s+", '_', name)
+        return name
 
     class Meta:
         verbose_name_plural = _("Companies")

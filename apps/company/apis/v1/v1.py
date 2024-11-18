@@ -6,15 +6,13 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from apps.company.models import Company, Reservation, Payment, SansConfig
-from apps.company.serializers import (
+from apps.company.serializers.v1 import (
     CompanyBackOfficeSerializer, ReservationBackOfficeSerializer, PaymentBackOfficeSerializer,
     ListReservationBackOfficeSerializer, PaymentTotalBackofficeSerializer,
-    ListItemsFilterReservationsBackofficeSerializer
 )
-from reservations.core.pagination import CustomPageNumberPagination
+from reservations.core.pagination import CustomPageNumberAveragePagination
 
 
-# Company
 class CompanyBackOfficeViewSet(mixins.ListModelMixin,
                                mixins.RetrieveModelMixin,
                                mixins.CreateModelMixin,
@@ -27,10 +25,10 @@ class CompanyBackOfficeViewSet(mixins.ListModelMixin,
     queryset = Company.objects.all()
     serializer_class = ()
     permission_classes = [IsAuthenticated, ]
-    pagination_class = CustomPageNumberPagination
+    pagination_class = CustomPageNumberAveragePagination
 
     filter_backends = []
-    filterset_fields = [filters.OrderingFilter,]
+    filterset_fields = [filters.OrderingFilter, ]
     search_fields = []
     ordering = ('name',)
 
@@ -65,9 +63,9 @@ class ReservationBackOfficeViewSet(mixins.ListModelMixin,
     queryset = Reservation.objects.all()
     serializer_class = ()
     permission_classes = [IsAuthenticated, ]
-    pagination_class = CustomPageNumberPagination
+    pagination_class = CustomPageNumberAveragePagination
 
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter,]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter, ]
     filterset_fields = ['date', 'time', 'company', ]
     search_fields = ['first_name', 'last_name', 'phone_number']
     ordering = ('date', 'time',)
@@ -88,28 +86,6 @@ class ReservationBackOfficeViewSet(mixins.ListModelMixin,
         return ReservationBackOfficeSerializer
 
 
-# List Filter
-class ListItemsFilterReservationsBackofficeViewSet(mixins.ListModelMixin, GenericViewSet):
-    """
-        Api for list filter reservations
-    """
-    queryset = Company.objects.all()
-    serializer_class = ListItemsFilterReservationsBackofficeSerializer
-    permission_classes = [IsAuthenticated, ]
-
-    filter_backends = [filters.OrderingFilter, ]
-    ordering = ('id',)
-
-    def get_queryset(self):
-        if self.request.user.is_superuser:
-            return self.queryset
-
-        return self.queryset.filter(
-            user=self.request.user,
-            status=Company.StatusEnum.CONFIRMED,
-        )
-
-
 class PaymentBackOfficeViewSet(mixins.ListModelMixin,
                                mixins.RetrieveModelMixin,
                                GenericViewSet):
@@ -119,9 +95,9 @@ class PaymentBackOfficeViewSet(mixins.ListModelMixin,
     queryset = Payment.objects.all()
     serializer_class = ()
     permission_classes = [IsAuthenticated, ]
-    pagination_class = CustomPageNumberPagination
+    pagination_class = CustomPageNumberAveragePagination
 
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter,]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter, ]
     filterset_fields = [
         'reservation__date', 'reservation__time', 'reservation__company', 'status',
     ]
