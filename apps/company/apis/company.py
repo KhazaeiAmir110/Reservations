@@ -10,7 +10,7 @@ from apps.company.serializers.company import (
     SansConfigBaseBackofficeSerializer, CreateORUpdateSansConfigBackofficeSerializer,
     SansHolidayDateTimeBaseBackofficeSerializer, CreateORUpdateSansHolidayDateTimeBackofficeSerializer
 )
-from core.pagination import CustomPageNumberFewerPagination
+from reservations.core.pagination import CustomPageNumberFewerPagination
 
 
 class CompanyBackofficeViewSet(mixins.ListModelMixin,
